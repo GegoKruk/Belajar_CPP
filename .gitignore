@@ -1,0 +1,10 @@
+# File hasil compile
+*.exe
+*.obj
+*.txt
+
+# Folder setting editor
+.vscode/
+
+# Abaikan semua file .log
+*.log
