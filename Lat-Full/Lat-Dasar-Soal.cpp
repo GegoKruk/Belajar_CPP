@@ -167,20 +167,66 @@ using namespace std;
         cout << "Dengan Begitu Anda Dinyatakan" << status << endl;
     } 
 
+// 6. Soal
+    /*
+        void numberGuesser(){
+            int secret = 42;
+            int guess;
+            int tries = 0;
+            
+            while (true) {
+                cout << "Guess (1-100): ";
+                cin >> guess;
+                tries++;
+                
+                // Implementasi:
+                // - Kalau guess < 1 atau > 100: continue (invalid)
+                // - Kalau guess == secret: break (found!)
+                // - Kalau guess terlalu kecil/besar: kasih hint
+                // - Max 5 tries
+            }
+        }
+    */
+    void numberGuesser(){
+        system("CLS");
+        int secret = 42;
+        int guess;
+        int tries = 5;
+        
+        while (true){
+            cout << "Tebak angka (1-100): ";
+            cin >> guess;
+            
 
+            if (guess <1 || guess > 100){
+                cout << "\nTerjadi Kesalahan! Input diluar ketentuan..." << endl;
+                continue;
+            } else if (guess < secret){
+                cout << "\nTebakan angka anda lebih kecil!" << endl;
+            } else if (guess > secret){
+                cout << "\nTebakan angka anda lebih besar!" << endl;
+            } else if (guess == secret){
+                cout << "\nTebakan angka benar!" << endl;
+                break;
+            } else if (tries == 0){
+                cout << "\nMaaf sisa percobaan anda telah selesai" << endl;
+            }
 
+            tries--;
+        }
+    }
 
 
 
 
 
     int main(){
-        tokoBuahDidi();
-        programMembuatSim();
-        kalkulatorSederhana();
-        detikKeMenitDetik();
-        skorUjianDanStatus();
-
+        // tokoBuahDidi();
+        // programMembuatSim();
+        // kalkulatorSederhana();
+        // detikKeMenitDetik();
+        // skorUjianDanStatus();
+        numberGuesser();
 
         return 0;
     }
