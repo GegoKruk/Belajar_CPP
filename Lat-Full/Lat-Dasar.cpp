@@ -403,7 +403,7 @@ using namespace std;
 
     }
 
-// D. Variabel
+// E. Variabel
     /*
         1. Pengertian
             Variabel adalah tempat menyimpan suatu data, bisa di mmasukkan suatu nilai (value) dan bisa di gunakan berulang-ulang
@@ -422,7 +422,7 @@ using namespace std;
         cout << "Umur : " << umur << endl;
     }
 
-// E. Input & Output
+// F. Input & Output
     /*
         1. Pengertian
             a. Input 
@@ -467,7 +467,7 @@ using namespace std;
         cout << "Nama Lengkap: " << namaLengkap << endl;
     }
 
-// F. Tipe Data
+// G. Tipe Data
     /*
         1. Pengertian
             Tipe data adalah kategori nilai yang bisa disimpan kedalam variabel. 
@@ -520,7 +520,7 @@ using namespace std;
         cout << "Double  => " << "Desimal Presisi     : " << presisi << endl;
     }
 
-// G. Escape Sequence
+// H. Escape Sequence
     /*
         1. Pengertian
             Escape Sequence adalah suatu fitur yang dapat digunakan untuk memanipulasi string di C++
@@ -549,7 +549,7 @@ using namespace std;
         cout << "6. Aku bisa mengeluarkan suara lho wkwk \a" << endl;
     }
 
-// H. Operator Aritmatika
+// I. Operator Aritmatika
     /*
         1. Pengertian
             Operator Aritmatika merupakan sebuah operator yang bisa digaunakan untuk menghitung suatu nilai, seperti matematika 
@@ -589,7 +589,7 @@ using namespace std;
         cout << "Modulus     => 10 % 5 = " << modulus << endl;
     }
 
-// I. Operator Penugasan
+// J. Operator Penugasan
     /*
         1. Pengertian
             Operator Penugasan merupakan sebuah operator yang bisa digaunakan untuk menyimpan
@@ -633,7 +633,7 @@ using namespace std;
         
     }
 
-// J. Operator Increment & Decrement
+// K. Operator Increment & Decrement
     /*
         1. Pengertian
             Operator Increment digunakan untuk menaikkan 1 nilai 
@@ -680,7 +680,7 @@ using namespace std;
         cout << endl << "\t Intinya jika simbol di depan maka increment/decrement langsung dilakukan dan jika dibelakang maka akan dilakukan diakhir. Hal ini berpengaruh dan harus teliti serta hati-hati" << endl;
     }
 
-// K. Operator Perbandingan 
+// L. Operator Perbandingan 
     /*
         1. Pengertian
             Operator perbandingan adalah operator yang digunakan untuk membandingakan dua nilai. Hasil perbandingan akan berupa boolean. 
@@ -712,7 +712,7 @@ using namespace std;
 
     }
 
-// L. Operator Logika
+// M. Operator Logika
     /*
         1. 
             Operator logika adalah operator yng berisi Not, And, dan Or. Ketiganya memiliki sifat yang berberda-beda
@@ -784,7 +784,7 @@ using namespace std;
             }
     }
 
-// M. Operator Ternary
+// N. Operator Ternary
     /*
         1. Pengertian
             Operator Ternery adalaah operator penyingkat if-else, biar lebih simple dan mudah tapi harus bijak menggunakannya.
@@ -808,7 +808,244 @@ using namespace std;
         (input > 10) ? cout << "Sip nilai anda lebih dari 10" << endl : cout << "Tolong masukkan Nilai Lebih dari 10 dong!" << endl; 
     }
 
-// N. Kontrol Percabangan 
+// O. Operator Bitwise
+    /*
+        1. Pengertian
+            Operator Bitwise adalah operator yang bekerja di level BIT (binary digit).
+            Berbeda dengan operator aritmatika yang bekerja dengan angka desimal,
+            bitwise bekerja dengan representasi binary dari angka.
+            
+            Contoh Binary:
+                5 (desimal) = 0101 (binary)
+                3 (desimal) = 0011 (binary)
+
+        2. Jenis-Jenis Operator Bitwise
+            
+            Operator	Nama	        Fungsi	                        Contoh
+            --------------------------------------------------------------------------------
+            &	        AND	            1 jika kedua bit 1	            5 & 3 = 1
+            |	        OR	            1 jika salah satu bit 1	        5 | 3 = 7
+            ^	        XOR	            1 jika bit berbeda	            5 ^ 3 = 6
+            ~	        NOT	            Balik semua bit	                ~5 = -6
+            <<	        Left Shift	    Geser bit ke kiri	            5 << 1 = 10
+            >>	        Right Shift	    Geser bit ke kanan	            5 >> 1 = 2
+
+        3. Bitwise AND (&)
+            Rule: Hasil 1 hanya jika KEDUA bit bernilai 1
+            
+            Truth Table:
+                A    B    A & B
+                0    0      0
+                0    1      0
+                1    0      0
+                1    1      1
+            
+            Contoh:
+                5   → 0101
+                & 3 → 0011
+                ------------
+                1   → 0001
+
+        4. Bitwise OR (|)
+            Rule: Hasil 1 jika SALAH SATU atau KEDUA bit bernilai 1
+            
+            Truth Table:
+                A    B    A | B
+                0    0      0
+                0    1      1
+                1    0      1
+                1    1      1
+            
+            Contoh:
+                5   → 0101
+                | 3 → 0011
+                ------------
+                7   → 0111
+
+        5. Bitwise XOR (^) - Exclusive OR
+            Rule: Hasil 1 jika bit BERBEDA
+            
+            Truth Table:
+                A    B    A ^ B
+                0    0      0
+                0    1      1
+                1    0      1
+                1    1      0
+            
+            Contoh:
+                5 → 0101
+                ^ 3 → 0011
+                ------------
+                6 → 0110
+
+        6. Bitwise NOT (~)
+            Rule: BALIK semua bit (0→1, 1→0)
+            
+            Contoh:
+                5 → 00000101
+                ~5  → 11111010 (= -6 dalam signed int)
+
+        7. Left Shift (<<)
+            Rule: Geser bit ke KIRI n posisi, isi 0 di kanan
+            Formula: x << n = x * (2^n)
+            
+            Contoh:
+                5    → 00000101
+                5 << 1 → 00001010 (= 10)
+                5 << 2 → 00010100 (= 20)
+
+        8. Right Shift (>>)
+            Rule: Geser bit ke KANAN n posisi
+            Formula: x >> n = x / (2^n)
+            
+            Contoh:
+                5    → 00000101
+                5 >> 1 → 00000010 (= 2)
+                5 >> 2 → 00000001 (= 1)
+
+        9. Penggunaan Praktis
+            ✅ Cek genap/ganjil: if (n & 1) → ganjil
+            ✅ Multiply by 2^n: x << n (lebih cepat dari x * pow(2,n))
+            ✅ Divide by 2^n: x >> n (lebih cepat dari x / pow(2,n))
+            ✅ Swap tanpa temp variable (XOR swap)
+            ✅ Set/Clear/Toggle specific bits
+            ✅ Check if power of 2: (n & (n-1)) == 0
+            ✅ Flags & permissions (bitmask)
+
+        10. Catatan Penting
+            ⚠️ Bitwise bekerja dengan INTEGER, bukan float/double
+            ⚠️ Hati-hati dengan signed vs unsigned integers
+            ⚠️ Hasil ~ tergantung ukuran tipe data (8/16/32/64 bit)
+            ⚠️ Left shift berlebihan bisa overflow
+    */
+    void operatorBitwise(){
+        cout << endl << "========== Operator Bitwise ==========" << endl;
+        
+        int a = 5;  // Binary: 0101
+        int b = 3;  // Binary: 0011
+        
+        cout << "Angka: a = " << a << " (binary: 0101)" << endl;
+        cout << "Angka: b = " << b << " (binary: 0011)" << endl;
+        cout << endl;
+        
+        
+        // ===== 1. BITWISE AND (&) =====
+        cout << "1. Bitwise AND (&)" << endl;
+        cout << "   Rule: Hasil 1 hanya jika KEDUA bit 1" << endl;
+        int resultAND = a & b;
+        cout << "   " << a << " & " << b << " = " << resultAND << endl;
+        cout << "   Binary: 0101 & 0011 = 0001" << endl;
+        
+        
+        // ===== 2. BITWISE OR (|) =====
+        cout << endl << "2. Bitwise OR (|)" << endl;
+        cout << "   Rule: Hasil 1 jika SALAH SATU bit 1" << endl;
+        int resultOR = a | b;
+        cout << "   " << a << " | " << b << " = " << resultOR << endl;
+        cout << "   Binary: 0101 | 0011 = 0111" << endl;
+        
+        
+        // ===== 3. BITWISE XOR (^) =====
+        cout << endl << "3. Bitwise XOR (^)" << endl;
+        cout << "   Rule: Hasil 1 jika bit BERBEDA" << endl;
+        int resultXOR = a ^ b;
+        cout << "   " << a << " ^ " << b << " = " << resultXOR << endl;
+        cout << "   Binary: 0101 ^ 0011 = 0110" << endl;
+        
+        
+        // ===== 4. BITWISE NOT (~) =====
+        cout << endl << "4. Bitwise NOT (~)" << endl;
+        cout << "   Rule: BALIK semua bit" << endl;
+        int resultNOT = ~a;
+        cout << "   ~" << a << " = " << resultNOT << endl;
+        cout << "   Binary: ~0101 = 1111...1010 (signed: -6)" << endl;
+        
+        
+        // ===== 5. LEFT SHIFT (<<) =====
+        cout << endl << "5. Left Shift (<<)" << endl;
+        cout << "   Rule: Geser bit ke KIRI, multiply by 2^n" << endl;
+        int resultLS1 = a << 1;
+        int resultLS2 = a << 2;
+        cout << "   " << a << " << 1 = " << resultLS1 << " (5 * 2^1 = 10)" << endl;
+        cout << "   " << a << " << 2 = " << resultLS2 << " (5 * 2^2 = 20)" << endl;
+        cout << "   Binary: 0101 << 1 = 1010" << endl;
+        
+        
+        // ===== 6. RIGHT SHIFT (>>) =====
+        cout << endl << "6. Right Shift (>>)" << endl;
+        cout << "   Rule: Geser bit ke KANAN, divide by 2^n" << endl;
+        int resultRS1 = a >> 1;
+        int resultRS2 = a >> 2;
+        cout << "   " << a << " >> 1 = " << resultRS1 << " (5 / 2^1 = 2)" << endl;
+        cout << "   " << a << " >> 2 = " << resultRS2 << " (5 / 2^2 = 1)" << endl;
+        cout << "   Binary: 0101 >> 1 = 0010" << endl;
+        
+        
+        // ===== 7. PRACTICAL EXAMPLES =====
+        cout << endl << "7. Contoh Praktis" << endl;
+        
+        // A. Cek Genap/Ganjil
+        cout << endl << "   A. Cek Genap/Ganjil (Super Fast!)" << endl;
+        int angka = 7;
+        if (angka & 1) {
+            cout << "      " << angka << " adalah GANJIL" << endl;
+        } else {
+            cout << "      " << angka << " adalah GENAP" << endl;
+        }
+        cout << "      Cara kerja: " << angka << " & 1 = " << (angka & 1) << endl;
+        
+        // B. Multiply/Divide cepat
+        cout << endl << "   B. Multiply/Divide dengan Power of 2" << endl;
+        int num = 10;
+        cout << "      " << num << " * 2 = " << (num << 1) << " (menggunakan <<)" << endl;
+        cout << "      " << num << " * 4 = " << (num << 2) << " (menggunakan <<)" << endl;
+        cout << "      " << num << " / 2 = " << (num >> 1) << " (menggunakan >>)" << endl;
+        cout << "      " << num << " / 4 = " << (num >> 2) << " (menggunakan >>)" << endl;
+        
+        // C. XOR Swap (No Temp Variable!)
+        cout << endl << "   C. Swap Tanpa Temp Variable (XOR Magic!)" << endl;
+        int x = 5, y = 3;
+        cout << "      Sebelum: x = " << x << ", y = " << y << endl;
+        x = x ^ y;  // x sekarang = 5 ^ 3
+        y = x ^ y;  // y sekarang = (5 ^ 3) ^ 3 = 5
+        x = x ^ y;  // x sekarang = (5 ^ 3) ^ 5 = 3
+        cout << "      Sesudah: x = " << x << ", y = " << y << endl;
+        
+        // D. Check Power of 2
+        cout << endl << "   D. Cek Apakah Power of 2" << endl;
+        int testNum = 8;
+        bool isPowerOf2 = (testNum > 0) && ((testNum & (testNum - 1)) == 0);
+        cout << "      Apakah " << testNum << " power of 2? " << (isPowerOf2 ? "YA" : "TIDAK") << endl;
+        cout << "      Cara: " << testNum << " & " << (testNum-1) << " = " << (testNum & (testNum-1)) << endl;
+        
+        // E. Set/Clear/Toggle Bit
+        cout << endl << "   E. Manipulasi Bit Tertentu" << endl;
+        int value = 5;  // 0101
+        int position = 1;
+        
+        // Set bit (nyalakan bit ke-n)
+        int setBit = value | (1 << position);
+        cout << "      Set bit-" << position << " dari " << value << " = " << setBit << " (binary: 0111)" << endl;
+        
+        // Clear bit (matikan bit ke-n)
+        int clearBit = value & ~(1 << position);
+        cout << "      Clear bit-" << position << " dari " << value << " = " << clearBit << " (binary: 0101)" << endl;
+        
+        // Toggle bit (flip bit ke-n)
+        int toggleBit = value ^ (1 << position);
+        cout << "      Toggle bit-" << position << " dari " << value << " = " << toggleBit << " (binary: 0111)" << endl;
+        
+        
+        // ===== TIPS =====
+        cout << endl << "💡 Tips:" << endl;
+        cout << "   - Bitwise HANYA untuk tipe INTEGER (int, char, long, dll)" << endl;
+        cout << "   - Shift operation (<<, >>) lebih cepat dari multiply/divide" << endl;
+        cout << "   - XOR berguna untuk swap, encryption sederhana, toggle" << endl;
+        cout << "   - n & 1 lebih cepat dari n % 2 untuk cek genap/ganjil" << endl;
+        cout << "   - Berguna untuk: flags, permissions, optimization, graphics" << endl;
+    }
+
+// P. Percabangan (If, else if, else, switch case)
     /*
         1. Pengertian
             Kontrol alur adalah cara program menentukan jalur eksekusi berdasarkan kondisi atau logika. 
@@ -837,27 +1074,6 @@ using namespace std;
             cout << "Ikuti Ujian Remidial" << endl;
         } else {
             cout << "Nilai tidak valid, mohon coba lagi!" << endl;
-        }
-    }
-    
-    void controlNestedIfElse(){
-        int ipk, masaStudi;
-
-        cout << endl << "========== Control Flow Nested If Else ==========" << endl;
-        cout << "Masukkan IPK anda : ";
-        cin >> ipk;
-        cout << "Masukkan masa studi anda : ";
-        cin >> masaStudi;
-
-        if (ipk >= 4){
-            cout << "Selamat anda lulus dengan IPK 4" << endl;
-            if (masaStudi <= 3){
-                cout << "Selamat anda juga mendapat predikat Cum-Laude" << endl;
-            }
-        } else if (ipk > 3){
-            cout << "Selamat anda lulus dengan IPK diatas 3" << endl;
-        } else {
-            cout << "Selamat anda lulus" << endl;
         }
     }
     
@@ -898,12 +1114,30 @@ using namespace std;
             break;
         }
     }
-    
-    void controlPercabanganAdvance(){
-        
-    }
 
-// O. Kontrol Perulangan
+    void controlNestedIfElse(){
+        int ipk, masaStudi;
+
+        cout << endl << "========== Control Flow Nested If Else ==========" << endl;
+        cout << "Masukkan IPK anda : ";
+        cin >> ipk;
+        cout << "Masukkan masa studi anda : ";
+        cin >> masaStudi;
+
+        if (ipk >= 4){
+            cout << "Selamat anda lulus dengan IPK 4" << endl;
+            if (masaStudi <= 3){
+                cout << "Selamat anda juga mendapat predikat Cum-Laude" << endl;
+            }
+        } else if (ipk > 3){
+            cout << "Selamat anda lulus dengan IPK diatas 3" << endl;
+        } else {
+            cout << "Selamat anda lulus" << endl;
+        }
+    }
+    
+
+// Q. Perulangan (For, While, Do While)
     /*
         1. Pengertian
             Perulangan adalah proses mengulang eksekusi blok kode selama kondisi tertentu terpenuhi. 
@@ -1036,10 +1270,564 @@ using namespace std;
         
     }
 
+// R. Loop Control (Break, Continue, Goto)
+    /*
+        1. Pengertian
+            Loop Control adalah perintah khusus untuk mengontrol alur perulangan (loop).
+            Ada 3 statement utama:
+            - break: Keluar dari loop seketika
+            - continue: Skip iterasi saat ini, lanjut ke iterasi berikutnya  
+            - goto: Jump ke label (JANGAN PAKAI!)
 
+        2. BREAK Statement
+            Fungsi: Keluar SEKETIKA dari loop (for, while, do-while, switch)
+            
+            Syntax:
+                if (kondisi) {
+                    break;  // Keluar dari loop
+                }
+            
+            Karakteristik:
+                ✅ Keluar seketika dari loop
+                ✅ Hanya keluar dari loop TERDEKAT (kalau nested)
+                ✅ Sering untuk "early exit" - keluar kalau kondisi tercapai
+            
+            Use Cases:
+                - Search: stop kalau item ditemukan
+                - Validation: stop kalau input valid
+                - Error: stop kalau ada error fatal
+                - Game: stop kalau game over
 
+        3. CONTINUE Statement
+            Fungsi: SKIP sisa code di iterasi ini, langsung ke iterasi berikutnya
+            
+            Syntax:
+                if (kondisi) {
+                    continue;  // Skip ke iterasi berikutnya
+                }
+            
+            Karakteristik:
+                ✅ Skip sisa code untuk iterasi ini
+                ✅ Loop TIDAK berhenti, lanjut iterasi berikutnya
+                ✅ Di for: langsung ke update (i++)
+                ✅ Di while: langsung cek kondisi lagi
+            
+            Use Cases:
+                - Skip invalid/corrupt data
+                - Process hanya data tertentu
+                - Skip angka genap, process ganjil
+                - Filter data on-the-fly
 
+        4. BREAK vs CONTINUE
+            ┌────────────┬─────────────────┬──────────────────────┐
+            │   Aspek    │      BREAK      │      CONTINUE        │
+            ├────────────┼─────────────────┼──────────────────────┤
+            │ Fungsi     │ Keluar dari loop│ Skip ke iterasi next │
+            │ Loop       │ STOP sepenuhnya │ Tetap jalan          │
+            │ Code after │ Tidak dieksekusi│ Tidak (iter ini saja)│
+            │ Use case   │ Found, error    │ Skip invalid data    │
+            │ Analogi    │ Keluar gedung   │ Skip tangga          │
+            └────────────┴─────────────────┴──────────────────────┘
 
+        5. GOTO Statement (AVOID!)
+            Fungsi: Jump ke label tertentu
+            
+            KENAPA JANGAN PAKAI:
+                ❌ "Spaghetti Code" - code berantakan
+                ❌ Hard to debug - flow tidak jelas
+                ❌ Hard to maintain - susah dipahami
+                ❌ Old-school - dari era C jadul
+                ❌ Ada alternatif LEBIH BAIK (break, continue, functions)
+            
+            Quote: "GOTO considered harmful" - Edsger Dijkstra
+            
+            Alternatif:
+                goto → break, continue, return, proper structure
+
+        6. Nested Loops
+            PENTING: break/continue hanya affect LOOP TERDEKAT!
+            
+            Untuk keluar dari multiple loops:
+                - Cara 1: Boolean flag
+                - Cara 2: Function + return (RECOMMENDED!)
+
+        7. Best Practices
+            ✅ Gunakan break untuk early exit optimization
+            ✅ Gunakan continue untuk skip invalid data
+            ✅ Hindari deep nesting dengan continue
+            ✅ JANGAN gunakan goto!
+            ✅ Comment kenapa pakai break/continue
+            ✅ Keep it simple and readable
+    */
+    void loopControl(){
+        cout << endl << "========== Loop Control (Break & Continue) ==========" << endl;
+        
+        
+        // ===== 1. BREAK STATEMENT =====
+        cout << "1. BREAK - Keluar dari Loop" << endl;
+        
+        // Contoh 1A: Search dengan break
+        cout << endl << "   A. Search dengan Break (Early Exit)" << endl;
+        int arr[] = {2, 5, 8, 12, 15, 20};
+        int target = 12;
+        bool found = false;
+        int position = -1;
+        
+        for (int i = 0; i < 6; i++) {
+            cout << "      Cek index " << i << ": " << arr[i] << endl;
+            if (arr[i] == target) {
+                found = true;
+                position = i;
+                cout << "      >>> FOUND! Breaking..." << endl;
+                break;  // Keluar seketika!
+            }
+        }
+        
+        if (found) {
+            cout << "      Target " << target << " ditemukan di index " << position << endl;
+        }
+        
+        // Contoh 1B: Input validation dengan break
+        cout << endl << "   B. Input Validation dengan Break" << endl;
+        cout << "      (Simulasi: akan berhenti di input valid)" << endl;
+        
+        int testInputs[] = {15, -5, 7};  // Simulasi input
+        for (int input : testInputs) {
+            cout << "      Try input: " << input << " ... ";
+            if (input >= 1 && input <= 10) {
+                cout << "Valid! Break." << endl;
+                break;  // Input valid, keluar
+            }
+            cout << "Invalid!" << endl;
+        }
+        
+        
+        // ===== 2. CONTINUE STATEMENT =====
+        cout << endl << "2. CONTINUE - Skip ke Iterasi Berikutnya" << endl;
+        
+        // Contoh 2A: Print hanya angka ganjil
+        cout << endl << "   A. Print Angka Ganjil (Skip Genap)" << endl;
+        cout << "      Angka 1-10, skip yang genap: ";
+        for (int i = 1; i <= 10; i++) {
+            if (i % 2 == 0) {
+                continue;  // Skip angka genap
+            }
+            cout << i << " ";
+        }
+        cout << endl;
+        
+        // Contoh 2B: Process valid data aja
+        cout << endl << "   B. Process Valid Data (Skip Negatif)" << endl;
+        int data[] = {5, -2, 8, -1, 3, 0, 7};
+        int sum = 0;
+        
+        cout << "      Data: ";
+        for (int val : data) {
+            cout << val << " ";
+        }
+        cout << endl;
+        
+        cout << "      Process: ";
+        for (int val : data) {
+            if (val <= 0) {
+                cout << "[skip " << val << "] ";
+                continue;  // Skip data <= 0
+            }
+            sum += val;
+            cout << "[+" << val << "] ";
+        }
+        cout << endl;
+        cout << "      Sum positif: " << sum << endl;
+        
+        
+        // ===== 3. BREAK vs CONTINUE COMPARISON =====
+        cout << endl << "3. Break vs Continue - Perbandingan" << endl;
+        
+        cout << endl << "   Loop 1-5 dengan BREAK di i=3:" << endl;
+        cout << "      ";
+        for (int i = 1; i <= 5; i++) {
+            if (i == 3) {
+                cout << "[BREAK] ";
+                break;  // Stop di 3
+            }
+            cout << i << " ";
+        }
+        cout << "→ Loop STOP" << endl;
+        
+        cout << endl << "   Loop 1-5 dengan CONTINUE di i=3:" << endl;
+        cout << "      ";
+        for (int i = 1; i <= 5; i++) {
+            if (i == 3) {
+                cout << "[SKIP] ";
+                continue;  // Skip 3
+            }
+            cout << i << " ";
+        }
+        cout << "→ Loop LANJUT" << endl;
+        
+        
+        // ===== 4. NESTED LOOPS =====
+        cout << endl << "4. Break/Continue di Nested Loops" << endl;
+        
+        cout << endl << "   Break di inner loop (hanya affect inner):" << endl;
+        for (int i = 0; i < 3; i++) {
+            cout << "      Row " << i << ": ";
+            for (int j = 0; j < 5; j++) {
+                if (j == 3) {
+                    cout << "[break] ";
+                    break;  // Keluar dari inner loop aja
+                }
+                cout << j << " ";
+            }
+            cout << endl;
+        }
+        
+        
+        // ===== 5. PRACTICAL PATTERNS =====
+        cout << endl << "5. Practical Patterns" << endl;
+        
+        // Pattern A: Infinite loop dengan break
+        cout << endl << "   A. Infinite Loop dengan Break (Countdown)" << endl;
+        int countdown = 5;
+        cout << "      Countdown: ";
+        while (true) {  // Infinite!
+            cout << countdown << " ";
+            countdown--;
+            if (countdown == 0) {
+                cout << "STOP!";
+                break;  // Exit point
+            }
+        }
+        cout << endl;
+        
+        // Pattern B: Skip invalid, process valid
+        cout << endl << "   B. Filter Data On-The-Fly" << endl;
+        int scores[] = {85, -1, 90, 150, 78, 92, -5};
+        cout << "      Scores: ";
+        for (int s : scores) cout << s << " ";
+        cout << endl;
+        
+        cout << "      Valid (0-100): ";
+        for (int score : scores) {
+            if (score < 0 || score > 100) {
+                continue;  // Skip invalid
+            }
+            cout << score << " ";
+        }
+        cout << endl;
+        
+        
+        // ===== 6. GOTO WARNING =====
+        cout << endl << "6. GOTO Statement (DON'T USE!)" << endl;
+        cout << "   GOTO considered HARMFUL!" << endl;
+        cout << "   Causes 'spaghetti code'" << endl;
+        cout << "   Hard to debug and maintain" << endl;
+        cout << "   Use break/continue/return instead!" << endl;
+        cout << endl;
+        cout << "   // JANGAN LAKUKAN INI:" << endl;
+        cout << "   // start:" << endl;
+        cout << "   //     code..." << endl;
+        cout << "   //     if (x) goto start;  // BAD!" << endl;
+        cout << endl;
+        cout << "   // LAKUKAN INI:" << endl;
+        cout << "   // while (condition) {" << endl;
+        cout << "   //     code..." << endl;
+        cout << "   //     if (x) break;  // ✅ GOOD!" << endl;
+        cout << "   // }" << endl;
+        
+        
+        // ===== TIPS =====
+        cout << endl << "Tips:" << endl;
+        cout << "   - break: keluar dari loop (stop completely)" << endl;
+        cout << "   - continue: skip iterasi ini (loop tetap jalan)" << endl;
+        cout << "   - break untuk optimization (early exit)" << endl;
+        cout << "   - continue untuk filter/skip invalid data" << endl;
+        cout << "   - Nested loop: break/continue hanya affect loop terdekat" << endl;
+        cout << "   - JANGAN PAKAI GOTO! Pakai break/continue/return" << endl;
+    }
+
+// S. Nested Loops
+    /*
+        1. Pengertian Nested Loops
+            Nested Loops adalah loop yang ada DI DALAM loop lain.
+            Struktur: Loop outer → Loop inner (di dalam outer)
+            
+            Analogi:
+                Outer loop = Lantai gedung
+                Inner loop = Kamar di tiap lantai
+                Untuk kunjungi semua kamar → nested loops!
+            
+            Syntax:
+                for (int i = 0; i < rows; i++) {      // Outer loop
+                    for (int j = 0; j < cols; j++) {  // Inner loop
+                        // Code di sini
+                    }
+                }
+
+        2. Cara Kerja Nested Loops
+            Execution flow:
+                Outer i=0: Inner j complete (j=0,1,2...)
+                Outer i=1: Inner j complete lagi
+                Outer i=2: Inner j complete lagi
+                ...
+            
+            Key: Inner loop SELESAI SEMUA sebelum outer increment!
+
+        3. Pattern Printing
+            Pattern printing adalah latihan TERBAIK untuk:
+                ✅ Memahami nested loops mendalam
+                ✅ Melatih logika programming
+                ✅ Visualisasi konsep loop
+                ✅ Brain gym!
+            
+            Kategori Pattern:
+                1. Rectangle patterns (solid, hollow)
+                2. Triangle patterns (right, inverted, aligned)
+                3. Pyramid patterns (normal, inverted, diamond)
+                4. Number patterns (sequence, Floyd's, Pascal's)
+                5. Advanced patterns (butterfly, hourglass)
+
+        4. Key Concepts Pattern
+            - Outer loop (i) = Baris
+            - Inner loop (j) = Kolom
+            - Relasi i & j menentukan kapan print:
+                • j <= i          → increasing per baris
+                • j < rows-i      → decreasing per baris
+                • j >= rows-i-1   → right alignment
+            - Spasi untuk alignment (centered, right)
+
+        5. Thinking Process
+            Step 1: Identifikasi jumlah baris dan kolom
+            Step 2: Cari pola per baris (bertambah/berkurang?)
+            Step 3: Tentukan relasi i dan j
+            Step 4: Butuh spasi? Berapa?
+            Step 5: Test dengan input kecil (3-5 baris)
+
+        6. Performance Note
+            ⚠️ Nested loops = O(n²) complexity
+            ⚠️ Triple nested = O(n³) → avoid kalau bisa
+            ⚠️ Untuk data besar, pertimbangkan algorithm lain
+    */
+    void nestedLoopsPattern(){
+        cout << endl << "========== Nested Loops & Pattern Printing ==========" << endl;
+        
+        
+        // ===== 1. SIMPLE NESTED LOOP =====
+        cout << "1. Simple Nested Loop (3x3 Grid)" << endl;
+        for (int i = 0; i < 3; i++) {
+            cout << "   ";
+            for (int j = 0; j < 3; j++) {
+                cout << "(" << i << "," << j << ") ";
+            }
+            cout << endl;
+        }
+        
+        
+        // ===== 2. RECTANGLE PATTERNS =====
+        cout << endl << "2. Rectangle Patterns" << endl;
+        
+        // A. Solid Rectangle
+        cout << endl << "   A. Solid Rectangle (4x6)" << endl;
+        for (int i = 0; i < 4; i++) {
+            cout << "      ";
+            for (int j = 0; j < 6; j++) {
+                cout << "* ";
+            }
+            cout << endl;
+        }
+        
+        // B. Hollow Rectangle
+        cout << endl << "   B. Hollow Rectangle (5x7)" << endl;
+        int rows = 5, cols = 7;
+        for (int i = 0; i < rows; i++) {
+            cout << "      ";
+            for (int j = 0; j < cols; j++) {
+                if (i == 0 || i == rows-1 || j == 0 || j == cols-1) {
+                    cout << "* ";
+                } else {
+                    cout << "  ";
+                }
+            }
+            cout << endl;
+        }
+        
+        
+        // ===== 3. TRIANGLE PATTERNS =====
+        cout << endl << "3. Triangle Patterns" << endl;
+        
+        // A. Right-Angled Triangle
+        cout << endl << "   A. Right-Angled Triangle" << endl;
+        for (int i = 0; i < 5; i++) {
+            cout << "      ";
+            for (int j = 0; j <= i; j++) {
+                cout << "* ";
+            }
+            cout << endl;
+        }
+        
+        // B. Inverted Triangle
+        cout << endl << "   B. Inverted Triangle" << endl;
+        for (int i = 0; i < 5; i++) {
+            cout << "      ";
+            for (int j = 0; j < 5-i; j++) {
+                cout << "* ";
+            }
+            cout << endl;
+        }
+        
+        // C. Right-Aligned Triangle
+        cout << endl << "   C. Right-Aligned Triangle" << endl;
+        rows = 5;
+        for (int i = 0; i < rows; i++) {
+            cout << "      ";
+            // Spasi kiri
+            for (int j = 0; j < rows-i-1; j++) {
+                cout << "  ";
+            }
+            // Bintang
+            for (int j = 0; j <= i; j++) {
+                cout << "* ";
+            }
+            cout << endl;
+        }
+        
+        
+        // ===== 4. PYRAMID PATTERNS =====
+        cout << endl << "4. Pyramid Patterns" << endl;
+        
+        // A. Pyramid
+        cout << endl << "   A. Pyramid (Centered)" << endl;
+        rows = 5;
+        for (int i = 0; i < rows; i++) {
+            cout << "      ";
+            // Spasi
+            for (int j = 0; j < rows-i-1; j++) {
+                cout << " ";
+            }
+            // Bintang
+            for (int j = 0; j <= i; j++) {
+                cout << "* ";
+            }
+            cout << endl;
+        }
+        
+        // B. Inverted Pyramid
+        cout << endl << "   B. Inverted Pyramid" << endl;
+        rows = 5;
+        for (int i = 0; i < rows; i++) {
+            cout << "      ";
+            // Spasi
+            for (int j = 0; j < i; j++) {
+                cout << " ";
+            }
+            // Bintang
+            for (int j = 0; j < rows-i; j++) {
+                cout << "* ";
+            }
+            cout << endl;
+        }
+        
+        // C. Diamond
+        cout << endl << "   C. Diamond" << endl;
+        int n = 5;
+        
+        // Upper half
+        for (int i = 0; i < n; i++) {
+            cout << "      ";
+            for (int j = 0; j < n-i-1; j++) cout << " ";
+            for (int j = 0; j <= i; j++) cout << "* ";
+            cout << endl;
+        }
+        
+        // Lower half
+        for (int i = 0; i < n-1; i++) {
+            cout << "      ";
+            for (int j = 0; j <= i; j++) cout << " ";
+            for (int j = 0; j < n-i-1; j++) cout << "* ";
+            cout << endl;
+        }
+        
+        
+        // ===== 5. NUMBER PATTERNS =====
+        cout << endl << "5. Number Patterns" << endl;
+        
+        // A. Number Triangle
+        cout << endl << "   A. Number Triangle" << endl;
+        for (int i = 1; i <= 5; i++) {
+            cout << "      ";
+            for (int j = 1; j <= i; j++) {
+                cout << j << " ";
+            }
+            cout << endl;
+        }
+        
+        // B. Floyd's Triangle
+        cout << endl << "   B. Floyd's Triangle" << endl;
+        int num = 1;
+        for (int i = 1; i <= 5; i++) {
+            cout << "      ";
+            for (int j = 1; j <= i; j++) {
+                cout << num++ << " ";
+            }
+            cout << endl;
+        }
+        
+        // C. Multiplication Table
+        cout << endl << "   C. Multiplication Table (5x5)" << endl;
+        cout << "      ";
+        for (int i = 1; i <= 5; i++) {
+            for (int j = 1; j <= 5; j++) {
+                cout << i*j << "\t";
+            }
+            cout << endl << "      ";
+        }
+        
+        
+        // ===== 6. ADVANCED PATTERNS =====
+        cout << endl << "6. Advanced Patterns" << endl;
+        
+        // A. Hourglass
+        cout << endl << "   A. Hourglass" << endl;
+        rows = 5;
+        
+        // Upper (inverted pyramid)
+        for (int i = 0; i < rows; i++) {
+            cout << "      ";
+            for (int j = 0; j < i; j++) cout << " ";
+            for (int j = 0; j < rows-i; j++) cout << "* ";
+            cout << endl;
+        }
+        
+        // Lower (pyramid)
+        for (int i = 1; i < rows; i++) {
+            cout << "      ";
+            for (int j = 0; j < rows-i-1; j++) cout << " ";
+            for (int j = 0; j <= i; j++) cout << "* ";
+            cout << endl;
+        }
+        
+        
+        // ===== 7. PRACTICAL EXAMPLE =====
+        cout << endl << "7. Practical: Matrix Coordinates" << endl;
+        cout << "   Matrix 3x4:" << endl;
+        for (int i = 0; i < 3; i++) {
+            cout << "      ";
+            for (int j = 0; j < 4; j++) {
+                cout << "[" << i << "," << j << "] ";
+            }
+            cout << endl;
+        }
+        
+        
+        // ===== TIPS =====
+        cout << endl << "Tips:" << endl;
+        cout << "   - Outer loop (i) = Baris, Inner loop (j) = Kolom" << endl;
+        cout << "   - j <= i → increasing, j < rows-i → decreasing" << endl;
+        cout << "   - Gunakan spasi untuk alignment (centered/right)" << endl;
+        cout << "   - Start simple (3 baris), lalu scale up" << endl;
+        cout << "   - Trace dengan pen & paper dulu!" << endl;
+        cout << "   - Nested loops = O(n²), hati-hati dengan data besar" << endl;
+    }
 
 
 
@@ -1054,7 +1842,7 @@ using namespace std;
         //programPertama();
         //komentar();
         //constConstexpr();
-        typeConversion();
+        //typeConversion();
         //variabel();
         //tipeData();
         //escapeSequence();
@@ -1065,6 +1853,7 @@ using namespace std;
         //operatorPerbandingan();
         //operatorLogika();
         //operatorTernary();
+        //operatorBitwise();
         //controlIfElse();
         //controlNestedIfElse();
         //controlSwitchCase();
