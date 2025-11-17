@@ -73,14 +73,23 @@ void array2D(){
 void studyKasusArray2D(){
     system("CLS");
 
-    int jumlahMahasiswa;
+    int jumlahMahasiswa = -1;
 
     // Intro Program
     cout << "\n=====[ Program Pengolahan Nilai Mahasiswa ]=====" << endl;
     
     // Perintaah input jumlah mahasiswa
-    cout << "Masukkan jumlah mahasiswa : ";
-    cin >> jumlahMahasiswa;
+    while (jumlahMahasiswa < 0){
+        cout << "Masukkan jumlah mahasiswa : ";
+        cin >> jumlahMahasiswa;
+        
+        if (cin.fail() || jumlahMahasiswa <= 0) {
+            cout << "Error: jumlah mahasiswa harus lebih dari 0!" << endl;
+            cin.clear();      
+            cin.ignore(1000, '\n');
+            jumlahMahasiswa = -1;
+        }
+    }
 
     // Deklarasi Array dengan banyak isi sesuai input jumlah mahasiswa
     string nama[jumlahMahasiswa]; 
@@ -88,12 +97,22 @@ void studyKasusArray2D(){
 
     // Perulangan untuk input nama & nilai
     for(int i = 0; i < jumlahMahasiswa; i++){
-
-            cout << "\n=====[ Data Mahasiswa " << i + 1 << " ]=====" << endl;
-            cout << "Masukkan Nama : ";
-            cin >> nama[i];
-            cout << "Masukkan Nilai : ";
+        cout << "\n=====[ Data Mahasiswa " << i + 1 << " ]=====" << endl;
+        cout << "Masukkan Nama : ";
+        cin >> nama[i];
+        
+        nilai[i] = -1;
+        while (nilai[i] < 0 || nilai[i] > 100) {
+            cout << "Masukkan Nilai (0-100): ";
             cin >> nilai[i];
+
+            if (cin.fail() || nilai[i] < 0 || nilai[i] > 100) {
+                cout << "Error - nilai antara 0 sampai 100" << endl;
+                cin.clear();
+                cin.ignore(1000, '\n');
+                nilai[i] = -1; 
+            }
+        }
     }
 
     // Menampilkan Daftar Nilai Mahasiswa
