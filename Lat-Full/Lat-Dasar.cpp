@@ -1135,7 +1135,6 @@ using namespace std;
             cout << "Selamat anda lulus" << endl;
         }
     }
-    
 
 // Q. Perulangan (For, While, Do While)
     /*
