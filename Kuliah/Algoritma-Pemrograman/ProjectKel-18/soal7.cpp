@@ -12,6 +12,15 @@ using namespace std;
         
 */
 
+void nimNama(){
+    system("CLS");
+
+    cout << "--------------------------------" << endl;
+    cout << "| Nama : Gega Ramadhan         |" << endl;
+    cout << "| NIM  : 123250112             |" << endl;
+    cout << "--------------------------------" << endl;
+}
+
 // Inisialisasi variabel 
 int inputAngka;
 string kataPuluhan;
@@ -19,7 +28,8 @@ string kataSatuan;
 string kataBelasan;
 
 int main(){
-    system("CLS");
+    // Tampilkan Nama & NIM
+    nimNama();
 
     // Judul Program
     cout << "\n=====[Program Konversi Angka Bahasa Indonesia]=====" << endl;

@@ -19,6 +19,14 @@ using namespace std;
         Banyaknya mahasiswa memiliki nilai tertinggi = 2
 */
 
+void nimNama(){
+    system("CLS");
+
+    cout << "--------------------------------" << endl;
+    cout << "| Nama : Gega Ramadhan         |" << endl;
+    cout << "| NIM  : 123250112             |" << endl;
+    cout << "--------------------------------" << endl;
+}
 
 int nilaiUjian[10];
 int nilaiTertinggi = 0;
@@ -26,10 +34,14 @@ int banyakNilaiTertinggi = 0;
 
 int main(){
 
-    cout << "==========[Program Nilai Mahasiswa]==========" << endl;
+    // Tampilkan Nama & NIM
+    nimNama();
+
+    cout << "\n==========[Program Nilai Mahasiswa]==========" << endl;
 
     //Input nilai
     cout << "1. Input Nilai Mahasiswa" << endl;
+
     int noMhs = 0;
     while(noMhs < 10){
         cout << "   - Masukkan Nilai Mahasiswa [" << noMhs + 1 << "]: ";

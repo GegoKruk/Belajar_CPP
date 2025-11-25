@@ -17,6 +17,15 @@ using namespace std;
         
 */
 
+void nimNama(){
+    system("CLS");
+
+    cout << "--------------------------------" << endl;
+    cout << "| Nama : Gega Ramadhan         |" << endl;
+    cout << "| NIM  : 123250112             |" << endl;
+    cout << "--------------------------------" << endl;
+}
+
 float penghitung(){
     // Data Array Nilai
     int nilai[10] = {2,5,1,2,4,6,3,2,7,1};
@@ -46,7 +55,8 @@ float penghitung(){
 }
 
 int main(){
-    system("CLS");
+    // Tampilkan Nama & NIM
+    nimNama();
 
     // Judul Program
     cout << "\n=====[Program Penghitung Nilai Rata-Rata]=====" << endl;
