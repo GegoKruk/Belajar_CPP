@@ -22,10 +22,10 @@ using namespace std;
 void nimNama(){
     system("CLS");
 
-    cout << "--------------------------------" << endl;
-    cout << "| Nama : Gega Ramadhan         |" << endl;
-    cout << "| NIM  : 123250112             |" << endl;
-    cout << "--------------------------------" << endl;
+    cout << "---------------------------------------------------------" << endl;
+    cout << "| Nama : Gega Ramadhan    | Nama : Rassya Arma Putra    |" << endl;
+    cout << "| NIM  : 123250112        | NIM  : 123250118            |" << endl;
+    cout << "---------------------------------------------------------" << endl;
 }
 
 int nilaiUjian[10];
