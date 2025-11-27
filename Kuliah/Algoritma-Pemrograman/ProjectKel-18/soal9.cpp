@@ -156,7 +156,7 @@ void bangunDatar(){
                 cout << "3. Masukkan nilai tinggi (t)        : ";
                 cin >> t;
                 ls = (a1 + a2) * t / 2;
-                cout << "Luas Trapesium                      : " << ls << endl;
+                cout << "4. Luas Trapesium                      : " << ls << endl;
             break;
             case 9:
                 loopMenuBangunDatar == false;
@@ -217,7 +217,7 @@ void bangunRuang(){
                 cin >> t;
                 v = p * l * t;
     
-                cout << "3. Volume Balok                    : " << v << endl;
+                cout << "4. Volume Balok                    : " << v << endl;
             break;
             case 3:
                 cout << "=====[Menghitung Volume Tabung]=====" << endl;
@@ -265,7 +265,7 @@ void bangunRuang(){
                 cout << "3. Masukkan nilai tinggi limas (t)  : ";
                 cin >> t;
                 v = p * l * t / 3;
-                cout << "Volume Limas Segiempat        : " << v << endl;
+                cout << "4. Volume Limas Segiempat        : " << v << endl;
             break;
             case 8:
                 cout << "=====[Menghitung Volume Prisma Segitiga]=====" << endl;
@@ -276,7 +276,7 @@ void bangunRuang(){
                 cout << "3. Masukkan nilai tinggi prisma (t1)  : ";
                 cin >> t1;
                 v = a * t / 2 * t1;
-                cout << "Volume Prisma Segitiga        : " << v << endl;
+                cout << "4. Volume Prisma Segitiga        : " << v << endl;
             break;
             case 9:
                 loopMenuBangunRuang == false;
