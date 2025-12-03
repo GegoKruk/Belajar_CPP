@@ -1,6 +1,21 @@
 #include <iostream>
 using namespace std;
 
+// Soal 2
+/*
+    Buatlah program (bahasa c++) untuk menginput suatu kalimat dan menghasilkan kalimat baru 
+	seperti contoh di bawah.
+
+	ketentuan : 
+	- input kalimat di program utama/main, 
+	- hasilnya dibuat dan ditampilkan di function,
+	- gunakan tipe data array (array of char), statement perulangan dan kondisional
+
+	Contoh tampilan :
+		kalimat = teknik informatika upn
+		hasil	= upn informatika teknik
+*/
+
 int main () {
 	string kalimat;
 	string kata[100];
