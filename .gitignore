@@ -9,5 +9,5 @@
 # Abaikan semua file .log
 *.log
 
-
+.workspace/
 cpp_curriculum_master.md
