@@ -96,7 +96,7 @@ using namespace std;
                 a. CONST:
                     - Nilai bisa ditentukan saat runtime (program jalan)
                     - Lebih fleksibel
-                    - Bisa dari input user atau hasil kalkulasi
+                    - Bisa dan cocok dari input user atau hasil kalkulasi
                 
                 b. CONSEXPR
                     - Nilai HARUS ditentukan saat compile-time (sebelum program jalan)
@@ -1828,11 +1828,112 @@ using namespace std;
         cout << "   - Nested loops = O(n²), hati-hati dengan data besar" << endl;
     }
 
+// T. Function
+    /*
+        1. Pengertian
+            Function ibaratkan sebuah mesin 
+                - mesin itu memiliki nama, 
+                - dapat di panggil berulang2 sesuai kebutuhan, 
+                - dapat diberikan bahan baku (parameter)
+                - dapat mengolah 
+                - dan menghasilkan sesuatu (return value) 
 
+        2. Mengapa butuh function?
+            - Reusability : Dapat di gunakan berkali2
+            - Modularity  : Efisien dalam memecah program besar, sehingga tidak rumit (njlimet)
+            - Abstraksi   : Dappat menggunakan tanpa mengetahui prosesnya secara dalam...
+                            Misal dalam menggunakan function2 template yang udah ada seperti perhitungan
+                            matematika di dalam library cmath, cukup menggunakan saja
 
+        3. Jenis-jenis function
+            - Fruitful Function : Fungsi bernilai, menghasilkan sebuah nilai dan dikirim ke pemanggilnya (return)
+            - Void Function     : Fungsi tanpa nilai, hanya menjalankan perintah dan tidak mengembalikan nilai ke pengirim 
+            
 
+        4. Anatomi
+            ----------------------------------------
+                [A] [B]          [C]
+                int hitungTambah(int a, int b) { 
+                    
+                    [D] int hasil = a + b;
+                
+                    [E] return hasil;   
+                }
+            ----------------------------------------
+            
+            [A] Return Type  
+                - tipe data function (nilai yang akan dikembalikan)
+                - Semua tipe data dasar (int, float, char, double, string, bool) bisa jadi parameter. 
+                - Begitu juga dengan modifier seperti long, short, unsigned, atau const.
+            [B] Nama Fungsi  
+                - Menggunakan camelCase 
+            [C] Parameter  
+                - ini adalah bahan baku mesin, yang di kirim dari pemanggil, jika tidak ada maka dikosongkan
+            [D] Body / Isi Fungsi
+                - Seluruh kode yang akan dijalankan function
+            [E] Return Statement
+                - nilai/variabel yang dikembalikan
 
+        5. Jumlah Parameter
+            Bisa lebih dari 2. Secara teori, tidak ada batasan jumlah parameter, tapi 
+            secara praktik (clean code), disarankan tidak terlalu banyak (biasanya di bawah 5) 
+            agar tidak bingung saat memanggilnya.
 
+        6. Jenis-Jenis Parameter
+            - Pass by Value (default) = mengirim salinan, variabel asalnya tidak berubah
+            - Pass by Reference       = mengirim alamat, variabel asalnya ikut berubah
+            - Default Parameter       = parameter diberi nilai default, jika misal kosong akan otomatis terisi
+                                        (Harus diletakkan PALING KANAN)
+            
+
+        6. TIDAK BISA NESTED FUNCTION, tapi bisa manggil function lain (normal)
+
+        7. Function Overloading - Nama sama tapi fungsi beda
+            - Nama function sama
+            - Parameter berbeda
+            - Bisa untuk fleksibilitas, tinggal pangil nama yang dengan parameter sesuai kebutuhan
+
+        8. Inline Function - Function kilat
+            - COCOK UNTUK FUNCTION PENDEK, SEHINGGA...
+            - Compiler tidak perlu loncat dari MAIN ke FUNCTION
+            - sistemnya langsung copy function kita di pemanggilnya
+
+            
+    */ 
+    
+    // -------------------[FUNCTION NORMAL]----------------------------
+        // Fruitful Function 
+        int fruitfulFunction(int parameter){
+            int hasil = parameter * 2;
+            return hasil;
+        }
+
+        // Void Function
+        void voidFunction(string parameter){
+            cout << "\nIni Function Void, dan ini parameternya : " << parameter << endl;
+        }
+
+    // -------------------[FUNCTION OVERLOADING]----------------------------
+        void functionDefaultParameter(int parameter, string nama = "User"){
+            cout << "\nIni Function Default parameter" << endl;
+            cout << "Parameter 1 : " << parameter << endl;
+            cout << "Parameter 2 : " << nama << endl;
+        }
+
+    // -------------------[FUNCTION OVERLOADING]----------------------------
+        void voidOverloadingCetak(int angka){
+            cout << "\nHasilnya Angka : " << angka << endl;
+        }
+        void voidOverloadingCetak(string text){
+            cout << "\nHasilnya Text : " << text << endl;
+        }
+
+    // -------------------[FUNCTION INLINE]----------------------------
+        inline int inlineFunctionPerkalian100(int angka){
+            int hasil = angka * 100;
+            return hasil;
+        }
+    
 
 
 
@@ -1858,6 +1959,22 @@ using namespace std;
         //controlSwitchCase();
         //perulanganFor();
         //perulanganWhile();
+        // perulanganDoWhile();
+        // loopControl();
+        // nestedLoopsPattern();
 
+        // -------------[FUNCTION]----------------
+        // Void Normal
+            fruitfulFunction(80); 
+            voidFunction("Halo");
+        // Default Parameter
+            functionDefaultParameter(10,"Halo");
+            functionDefaultParameter(10);
+        // Void Overloading - Otomatis manggil sesuai tipe parameternya
+            voidOverloadingCetak(80); 
+            voidOverloadingCetak("Halo");
+        // Inline Function
+            inlineFunctionPerkalian100(2);
+            
         return 0;
     }
