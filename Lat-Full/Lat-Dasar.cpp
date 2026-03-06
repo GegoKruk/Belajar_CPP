@@ -1898,7 +1898,50 @@ using namespace std;
             - Compiler tidak perlu loncat dari MAIN ke FUNCTION
             - sistemnya langsung copy function kita di pemanggilnya
 
+        9. Function Declaration (Prototype)
+            - Function harus DIDEKLARASIKAN sebelum dipanggil
+            - Declaration di ATAS main()
+            - Definition bisa di BAWAH main()
             
+            Contoh:
+                // Declaration (di atas main)
+                int tambah(int a, int b);
+                
+                int main() {
+                    int x = tambah(5, 3);  // Bisa dipanggil
+                }
+                
+                // Definition (di bawah main)
+                int tambah(int a, int b) {
+                    return a + b;
+                }
+
+        10. Function Scope
+            - Local Variable: Hanya ada di dalam function
+            - Global Variable: Bisa diakses semua function
+            - Parameter = Local Variable
+            
+            Best Practice:
+                ✅ Hindari global variables
+                ✅ Gunakan parameters & return values
+                ✅ Keep function self-contained
+
+        11. Recursive Function (Advanced)
+            - Function yang MEMANGGIL DIRINYA SENDIRI
+            - Harus ada BASE CASE (kondisi berhenti)
+            - Kalau ga ada base case = INFINITE LOOP!
+
+        12. "Multiple" Return Values
+            C++ tidak bisa return multiple values directly.
+            Tapi bisa pakai trick:
+                a. Pass by reference (ubah parameter)
+                b. Return struct/pair (nanti di modul struct)
+                c. Return array/vector (advanced)12. "Multiple" Return Values
+            C++ tidak bisa return multiple values directly.
+            Tapi bisa pakai trick:
+                a. Pass by reference (ubah parameter)
+                b. Return struct/pair (nanti di modul struct)
+                c. Return array/vector (advanced)
     */ 
     
     // -------------------[FUNCTION NORMAL]----------------------------
@@ -1933,8 +1976,41 @@ using namespace std;
             int hasil = angka * 100;
             return hasil;
         }
-    
+        
+    // -------------------[FUNCTION BY VALUE]----------------------------
+        void passByValue(int x){
+            x = x * 2;
+            cout << "Isi Variabel dalam function passByValue X : " << x << endl;
+        }
 
+    // -------------------[FUNCTION BY REFERENCE]----------------------------
+        void passByReference(int &x){
+            x = x * 2;
+            cout << "Isi Variabel dalam function passByReference X : " << x << endl;
+        }
+        
+        void demoPassByReferencerValue(){
+            int x = 10;
+
+            passByValue(x);
+            cout << "Isi Variabel X : " << x << "---> Akan tetap 10" << endl;
+            
+            passByReference(x);
+            cout << "Isi Variabel X : " << x << "---> Berubah Menjadi 20, karena pass by refernece, asalnya ikut berubah" << endl;
+        }
+
+    // -------------------[FUNCTION MULTIPLE RETURN - LEWAT REFERNCE]----------------------------
+        void multipleReturn(int p, int l, int &kel, int &luas){
+            kel = 2 * (p * l);
+            luas = p * l;
+        }
+
+        void demoMultipleReturn(){
+            int k, l;
+            multipleReturn(10,5,k,l);
+            cout << "Keliling : " << k << endl;
+            cout << "Luas : " << l << endl;
+        }
 
 
 // MESIN UTAMA
@@ -1975,6 +2051,9 @@ using namespace std;
             voidOverloadingCetak("Halo");
         // Inline Function
             inlineFunctionPerkalian100(2);
-            
+        // Pass By Value Function & Pass By Reference Function
+            demoPassByReferencerValue();
+        // Pass By Value Function & Pass By Reference Function
+            demoMultipleReturn();
         return 0;
     }
