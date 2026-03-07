@@ -2131,7 +2131,7 @@ using namespace std;
                 - Mencari Minimum
                 - Menghitung elemen dengan kondisi (misal berapa nilai yang lolos)
                 - Searching
-                
+
         B. Modul 8.3      - Algiritm Array
 
 
@@ -2154,45 +2154,53 @@ using namespace std;
 
 // MESIN UTAMA
     int main(){
-        //programPertama();
-        //komentar();
-        //constConstexpr();
-        //typeConversion();
-        //variabel();
-        //tipeData();
-        //escapeSequence();
-        //inputOutput();
-        //operatorAritmatika();
-        //operatorPenugasan();
-        //operatorIncrementDecrement();
-        //operatorPerbandingan();
-        //operatorLogika();
-        //operatorTernary();
-        //operatorBitwise();
-        //controlIfElse();
-        //controlNestedIfElse();
-        //controlSwitchCase();
-        //perulanganFor();
-        //perulanganWhile();
-        // perulanganDoWhile();
-        // loopControl();
-        // nestedLoopsPattern();
+            //programPertama();
+
+        // -------------[FUNDAMENTALS]----------------
+            //komentar();
+            //constConstexpr();
+            //typeConversion();
+            //variabel();
+            //tipeData();
+            //escapeSequence();
+            //inputOutput();
+
+        // -------------[OPERATORS]----------------
+            //operatorAritmatika();
+            //operatorPenugasan();
+            //operatorIncrementDecrement();
+            //operatorPerbandingan();
+            //operatorLogika();
+            //operatorTernary();
+            //operatorBitwise();
+
+        // -------------[BRANCHING]----------------
+            //controlIfElse();
+            //controlNestedIfElse();
+            //controlSwitchCase();
+
+        // -------------[LOOPS]----------------
+            //perulanganFor();
+            //perulanganWhile();
+            // perulanganDoWhile();
+            // loopControl();
+            // nestedLoopsPattern();
 
         // -------------[FUNCTION]----------------
-        // Void Normal
-            fruitfulFunction(80); 
-            voidFunction("Halo");
-        // Default Parameter
-            functionDefaultParameter(10,"Halo");
-            functionDefaultParameter(10);
-        // Void Overloading - Otomatis manggil sesuai tipe parameternya
-            voidOverloadingCetak(80); 
-            voidOverloadingCetak("Halo");
-        // Inline Function
-            inlineFunctionPerkalian100(2);
-        // Pass By Value Function & Pass By Reference Function
-            demoPassByReferencerValue();
-        // Pass By Value Function & Pass By Reference Function
-            demoMultipleReturn();
+            // Void Normal
+                fruitfulFunction(80); 
+                voidFunction("Halo");
+            // Default Parameter
+                functionDefaultParameter(10,"Halo");
+                functionDefaultParameter(10);
+            // Void Overloading - Otomatis manggil sesuai tipe parameternya
+                voidOverloadingCetak(80); 
+                voidOverloadingCetak("Halo");
+            // Inline Function
+                inlineFunctionPerkalian100(2);
+            // Pass By Value Function & Pass By Reference Function
+                demoPassByReferencerValue();
+            // Pass By Value Function & Pass By Reference Function
+                demoMultipleReturn();
         return 0;
     }
