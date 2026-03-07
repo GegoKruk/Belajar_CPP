@@ -2012,6 +2012,145 @@ using namespace std;
             cout << "Luas : " << l << endl;
         }
 
+// U. Array
+    /*
+        A. Modul 8.1-8.2  - Fundamental & Basic
+            1. Apa itu Array?
+                Array adalah kumpulan data dengan tipe data yang sama yang di simpan berurutan dalam memory 
+                menggunakan index, dapat diisi, diubah, dipanggil, dan di operasikan lainnya
+            
+            2. Fungsi array?
+                Mennyimpan data dengan tipe data yang sama secara berurutan
+                sehingga TIDAK BOROS VARIABEL, cukup tuliskan 1 dan di isi dengan berbagai macam nilai dengan tipe yang sama
+
+            3. Karakteristik Array?
+                - Contiguous    - bersebelahan di memory (BERURUTAN)
+                - Fixed size    - ukuran tetap (ga bisa resize)
+                - Same type     - semua elemen tipe data sama
+                - Random access - akses langsung dengan index
+                - Start from 0  - Index array itu dimulai dari 0
+
+            4. Bentuk Deklarasi Array?
+                tipe_data nama_array[ukurannya];
+
+                contoh:
+                    int dataNilai[10];      ---> Artinya dataNilai dapat menyimpan 10 data dengan tipe data integer
+
+            5. Cara Initialization Array? 
+                a. List Initialization (Complete)
+                    int nilai[5] = {1,2,3,4,5};     ---> Langsung di isi di tempat
+
+                b. Partial Initialization
+                    int nilai[5] = {80,90};         ---> Maka index 2-4 otomatis diisi/menjadi 0
+
+                c. Zero Initialization 
+                    int nilai[5] = {0}              ---> Maka isinya akan 0 semua dari index 0-4
+
+                d. Omit Size (auto-detect)
+                    int nilai[] = {10,20,30,40,50}; ---> Ukuran Otimatis mengikuti isinya yaitu 5
+
+                e. No Initialization (DANGER!)
+                    int nilai[5];                   ---> Akan error
+
+                f. Uniform Initialization (C++11)
+                    int nilai[5] {85, 90, 78, 92, 88};  ---> Tanpa (=) Lebih modern, lebih aman (prevent narrowing)
+
+            6. Aturan Indexing?
+                Start from 0  - Index array itu dimulai dari 0 - BUKAN DARI 1
+
+                KESALAHAN:
+                    int nilai[5] = {85, 90, 78, 92, 88};
+
+                    cout << nilai[5];   --->  OUT OF BOUNDS!
+                                        ---> Index valid: 0-4
+                                        ---> nilai[5] tidak ada!
+                                        ---> Undefined behavior! Bahaya!
+
+            7. Array Size?
+                a. Menggunakan sizeof()
+                    int nilai[5] = {85, 90, 78, 92, 88};
+
+                    int sizeByte - sizeof(nilai);                     ---> 20 Bytes (5 x 4 Bytes)
+                    int length - sizeof(nilai) / sizeof(nilai[0]);    ---> 5 Bytes
+
+                    Keterangan :
+                        sizeof(nilai) = total bytes array
+                        sizeof(nilai[0]) = bytes per element
+
+                b. Menggunakan CONST
+                    const int SIZE = 5;
+                    int nilai[SIZE] = {85, 90, 78, 92, 88};
+
+                    Keternagan:
+                        Tanpa Const pun bisa, cuma TIDAK STANDARD
+
+            8. Akses dan Modifikasi isi Array?
+                a. Read(Access)
+                    int nilai[3] = {85, 90, 78};
+
+                    int pertama = nilai[0];     ---> Read nilai[0] → 85
+                    cout << nilai[1];           ---> Read nilai[1] → 90
+
+                b. Write(Modify)
+                    int nilai[3] = {85, 90, 78};
+
+                    nilai[0] = 100;             ---> Ubah nilai[0] dari 85 jadi 100
+                    nilai[1] = nilai[1] + 5;    ---> Tambah 5, dari 90 jadi 95
+                    nilai[2]++;                 ---> Increment, dari 78 jadi 79
+
+                                                ---> Hasil akhir: {100, 95, 79}
+
+            9. Traversing Array (Looping)
+                a. For Loop (Index-based)
+                    int nilai[5] = {85, 90, 78, 92, 88};
+
+                    // Print semua elemen
+                    for (int i = 0; i < 5; i++) {
+                        cout << "nilai[" << i << "] = " << nilai[i] << endl;
+                    }
+                B. Range-based For Loop (C++11) - Lebih simple!
+                    cppint nilai[5] = {85, 90, 78, 92, 88};
+
+                    // Print semua elemen (tidak perlu index!)
+                    for (int n : nilai) {
+                        cout << n << endl;
+                    }
+                C. While Loop (Jarang, tapi bisa)
+                    cppint nilai[5] = {85, 90, 78, 92, 88};
+
+                    int i = 0;
+                    while (i < 5) {
+                        cout << nilai[i] << endl;
+                        i++;
+                    }
+
+            10. Basic Operations
+                - Mencari Nilai Total
+                - Mencari Rata2
+                - Mencari Maximum
+                - Mencari Minimum
+                - Menghitung elemen dengan kondisi (misal berapa nilai yang lolos)
+                - Searching
+                
+        B. Modul 8.3      - Algiritm Array
+
+
+
+        C. Modul 8.4      - Charcter Array
+
+
+
+        D. Modul 8.5      - Array Multidimensi
+
+
+
+        E. Modul 8.6-8.10 - Array + Function = Advance
+
+
+
+
+            
+    */
 
 // MESIN UTAMA
     int main(){
