@@ -2013,8 +2013,7 @@ using namespace std;
         }
 
 // U. Array
-    /*
-        A. Modul 8.1-8.2  - Fundamental & Basic
+    /* A. Modul 8.1-8.2 - Fundamental & Basic
             1. Apa itu Array?
                 Array adalah kumpulan data dengan tipe data yang sama yang di simpan berurutan dalam memory 
                 menggunakan index, dapat diisi, diubah, dipanggil, dan di operasikan lainnya
@@ -2131,26 +2130,44 @@ using namespace std;
                 - Mencari Minimum
                 - Menghitung elemen dengan kondisi (misal berapa nilai yang lolos)
                 - Searching
-
-        B. Modul 8.3      - Algiritm Array
-
-
-
-        C. Modul 8.4      - Charcter Array
-
-
-
-        D. Modul 8.5      - Array Multidimensi
-
-
-
-        E. Modul 8.6-8.10 - Array + Function = Advance
-
-
-
-
-            
     */
+
+    /* B. Modul 8.3 - Array Algorithm
+        
+        Apa itu algoritma array?
+            algoritma array adlaah teknik untuk memanipulasi/memproses data dalam array
+
+        ===================[ BAGIAN 1 - SEARCHING / MENCARI ] =====================
+            1. Linear Search
+            2. Binary Search
+
+        ===================[ BAGIAN 2 - SHORTING / MENGURUTKAN ] =====================
+            1. Bubble Short
+            2. Selection Short
+            3. Insertion Short
+
+        ===================[ BAGIAN 3 - MANIPULATION ] =====================
+            1. Reverse Array
+            2. Rotate Array
+            3. Remove Duplicate
+
+        ===================[ BAGIAN 4 - FREQUENCY ] =====================
+            1. Count
+            2. Find Duplicate
+    */
+
+    /* C. Modul 8.4 - Charcter Array
+
+    */
+
+    /* D. Modul 8.5 - Array Multidimensi
+
+    */
+
+    /* E. Modul 8.6-8.10 - Array + Function = Advance
+
+    */
+            
 
 // MESIN UTAMA
     int main(){
