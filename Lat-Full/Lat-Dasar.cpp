@@ -1956,7 +1956,7 @@ using namespace std;
             cout << "\nIni Function Void, dan ini parameternya : " << parameter << endl;
         }
 
-    // -------------------[FUNCTION OVERLOADING]----------------------------
+    // -------------------[FUNCTION DEFAULT PARAMETER]----------------------------
         void functionDefaultParameter(int parameter, string nama = "User"){
             cout << "\nIni Function Default parameter" << endl;
             cout << "Parameter 1 : " << parameter << endl;
@@ -2138,8 +2138,63 @@ using namespace std;
             algoritma array adlaah teknik untuk memanipulasi/memproses data dalam array
 
         ===================[ BAGIAN 1 - SEARCHING / MENCARI ] =====================
-            1. Linear Search
+            1. Sequential Search (Linear Search)
+                a. Sequential Search NON-SENTINEL 
+
+                    - Proses:
+                        Pengulangan dari elemen ke-1 sampai n
+                        Pada setiap pengulangan, bandingkan data[i] dengan yang dicari
+                        Jika sama → data ditemukan
+                        Jika sampai akhir tidak sama → data tidak ada
+
+                    - Pengecekan:
+                        i < n               → belum sampai akhir
+                        arr[i] != target    → belum ketemu
+                    
+                b. Sequential Search SENTINEL 
+                    - Proses:
+                        Simpan target di arr[n] (posisi sentinel)
+                        Loop dari i=0, cek arr[i] != target
+                        Jika ketemu:
+                            Jika i < n → data DITEMUKAN di posisi i
+                            Jika i == n → data TIDAK ADA (yang ketemu sentinel)
+                    
+                    - Kondisi Loop:
+                        while (arr[i] != target)  // Hanya 1 kondisi!
+
             2. Binary Search
+                    - KONSEP:
+                        Jika arr[i] SUDAH LEBIH BESAR dari target,
+                        maka TIDAK PERLU lanjut cek sisanya!
+                        (karena data terurut, sisanya pasti lebih besar lagi)
+                    
+                    - Proses:
+                        Loop dari awal
+                        Jika arr[i] == target → FOUND
+                        Jika arr[i] > target → STOP! (tidak akan ketemu)
+                        Jika arr[i] < target → lanjut
+                    
+
+            ========== BEST PRACTICES ==========
+                KAPAN PAKAI SEARCHING APA?
+            
+            1. Data TIDAK TERURUT & KECIL (<100):
+                → Sequential Non-Sentinel
+            
+            2. Data TIDAK TERURUT & Butuh EFISIENSI:
+                → Sequential Sentinel (fewer checks)
+            
+            3. Data TERURUT & KECIL-MEDIUM:
+                → Sequential Sorted (early termination)
+            
+            4. Data TERURUT & BESAR (>1000):
+                → Binary Search (FASTEST!)
+            
+            TIPS:
+            Sentinel        : Siapkan array[n+1] untuk space ekstra
+            Binary          : Pastikan data SORTED dulu
+            Production      : Pakai std::find() atau std::binary_search()
+            Always validate : check bounds, check sorted
 
         ===================[ BAGIAN 2 - SHORTING / MENGURUTKAN ] =====================
             1. Bubble Short
@@ -2204,20 +2259,20 @@ using namespace std;
             // nestedLoopsPattern();
 
         // -------------[FUNCTION]----------------
-            // Void Normal
-                fruitfulFunction(80); 
-                voidFunction("Halo");
-            // Default Parameter
-                functionDefaultParameter(10,"Halo");
-                functionDefaultParameter(10);
-            // Void Overloading - Otomatis manggil sesuai tipe parameternya
-                voidOverloadingCetak(80); 
-                voidOverloadingCetak("Halo");
-            // Inline Function
-                inlineFunctionPerkalian100(2);
-            // Pass By Value Function & Pass By Reference Function
-                demoPassByReferencerValue();
-            // Pass By Value Function & Pass By Reference Function
-                demoMultipleReturn();
+            // // Void Normal
+            //     fruitfulFunction(80); 
+            //     voidFunction("Halo");
+            // // Default Parameter
+            //     functionDefaultParameter(10,"Halo");
+            //     functionDefaultParameter(10);
+            // // Void Overloading - Otomatis manggil sesuai tipe parameternya
+            //     voidOverloadingCetak(80); 
+            //     voidOverloadingCetak("Halo");
+            // // Inline Function
+            //     inlineFunctionPerkalian100(2);
+            // // Pass By Value Function & Pass By Reference Function
+            //     demoPassByReferencerValue();
+            // // Pass By Value Function & Pass By Reference Function
+            //     demoMultipleReturn();
         return 0;
     }
