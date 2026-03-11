@@ -2197,9 +2197,109 @@ using namespace std;
             Always validate : check bounds, check sorted
 
         ===================[ BAGIAN 2 - SHORTING / MENGURUTKAN ] =====================
+            Apa itu sorting?
+            Sorting itu adalah teknik mengurutkan data, entah itu dari kecil ke besar atau sebaliknya
+                - Kecil ke Besar ---> Ascending
+                - Besar ke Kecil ---> Descending
+
+            Fungsinya?
+                - Agar Search lebih cepat karena data sudah terurut
+                - Mudah dibaca dan dipahami
+                - Mudah menemukan duplikat
+
             1. Bubble Short
+                - Konsep
+                    Membandingkan 2 elemen bersebelahan, jika salah urutan akan di swap
+                    Elemen terbesar akan berada di akhir (belakang)
+                    Nama Bubble short sendiri bisa di bayangkan seperti gelembung udara yang naik dari bawah air
+
+                - Proses
+                    Initial: [64, 34, 25, 12, 22]
+                    
+                    Pass 1: Compare & swap adjacent
+                            [34, 25, 12, 22, 64]  ← 64 bubble up ke akhir
+                    
+                    Pass 2: [25, 12, 22, 34, 64]  ← 34 bubble up
+                    
+                    Pass 3: [12, 22, 25, 34, 64]  ← 25 in place
+                    
+                    Pass 4: [12, 22, 25, 34, 64]  ← sorted!
+
             2. Selection Short
+                - Konsep
+                    "SELECT" yang berarti pilih, yaitu dengan memilih elemen terkecil dari seluruh elemen array 
+                    lalu dipindah ke paling depan, berulang sampai ke semua array terurutkan
+
+                - Proses
+                    Pass 1: Cari min dari semua elemen → swap dengan posisi 0
+                    Pass 2: Cari min dari sisa array → swap dengan posisi 1
+                    Pass 3: Cari min dari sisa array → swap dengan posisi 2
+                    ...
+                    Sampai semua sorted
+
+                - Visualisasi
+                    Initial: [64, 25, 12, 22, 11]
+                    
+                    Pass 1: min=11 (index 4)
+                            Swap 11 ↔ 64
+                            [11, 25, 12, 22, 64]  ← 11 FIXED
+                    
+                    Pass 2: min=12 (index 2)
+                            Swap 12 ↔ 25
+                            [11, 12, 25, 22, 64]  ← 12 FIXED
+                    
+                    Pass 3: min=22 (index 3)
+                            Swap 22 ↔ 25
+                            [11, 12, 22, 25, 64]  ← 22 FIXED
+                    
+                    Pass 4: min=25 (already in place)
+                            [11, 12, 22, 25, 64]  ← sorted!
+
             3. Insertion Short
+                - Konsep
+                    Sorting seperti sort KARTU REMI di tangan.
+                    Ambil elemen satu per satu, SISIPKAN di posisi yang benar.
+
+                - Proses
+                    Visualisasi:
+                    Initial: [12, 11, 13, 5, 6]
+                    
+                    Iter 1: key=11
+                            Insert 11 ke sorted part [12]
+                            [11, 12] | 13, 5, 6  ← 11 inserted
+                    
+                    Iter 2: key=13
+                            13 sudah di posisi benar
+                            [11, 12, 13] | 5, 6
+                    
+                    Iter 3: key=5
+                            Geser 13, 12, 11 ke kanan
+                            Insert 5 di awal
+                            [5, 11, 12, 13] | 6
+                    
+                    Iter 4: key=6
+                            Geser 13, 12, 11 ke kanan
+                            Insert 6 setelah 5
+                            [5, 6, 11, 12, 13]  ← sorted!
+
+            KAPAN PAKAI YANG MANA?
+            
+                Small array (<50)   :   Any is OK
+                Nearly sorted       :   INSERTION ⭐⭐
+                Minimize swaps      :   SELECTION
+                Learning/Teaching   :   BUBBLE (easiest)
+                Large array (>1000) :   DON'T USE THESE! 
+                                        Use std::sort() instead
+            
+            PRODUCTION CODE WARNING! ⚠️
+            
+                Ketiga sorting ini (Bubble/Selection/Insertion) adalah
+                untuk LEARNING PURPOSE!
+                
+                Untuk PRODUCTION code dengan data besar (>1000):
+                    ❌ JANGAN pakai Bubble/Selection/Insertion
+                    ✅ Pakai: Quick Sort, Merge Sort, Heap Sort
+                    ✅ Atau: std::sort() dari STL (nanti di modul STL)
 
         ===================[ BAGIAN 3 - MANIPULATION ] =====================
             1. Reverse Array
