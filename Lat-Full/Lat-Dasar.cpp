@@ -2302,13 +2302,125 @@ using namespace std;
                     ✅ Atau: std::sort() dari STL (nanti di modul STL)
 
         ===================[ BAGIAN 3 - MANIPULATION ] =====================
-            1. Reverse Array
+            1. Reverse Array (Balik Urutan)
+                - Konsep
+                    Balik urutan array dari belakang ke depan.
+
+                - Proses
+                    Cara Kerja:
+                    - Pointer left di awal (index 0)
+                    - Pointer right di akhir (index n-1)
+                    - Swap arr[left] dengan arr[right]
+                    - Geser left ke kanan, right ke kiri
+                    - Ulangi sampai left >= right
+
             2. Rotate Array
+                a. LEFT ROTATE:
+                    Geser semua elemen ke kiri.
+                    Elemen pertama jadi terakhir.
+                    
+                    Visualisasi:
+                        [1, 2, 3, 4, 5]  → rotate left →  [2, 3, 4, 5, 1]
+                
+                b. RIGHT ROTATE:
+                    Geser semua elemen ke kanan.
+                    Elemen terakhir jadi pertama.
+                    
+                    Visualisasi:
+                        [1, 2, 3, 4, 5]  → rotate right →  [5, 1, 2, 3, 4]
+
             3. Remove Duplicate
+                - Konsep
+                    Hilangkan elemen yang duplikat, keep yang unik.
+
+                - Proeses
+                    Cara Kerja:
+                    - uniqueIndex = 0 (posisi elemen unik terakhir)
+                    - Loop dari i=1 sampai n-1
+                    - Jika arr[i] != arr[uniqueIndex]:
+                        . Berarti arr[i] adalah elemen baru (unique)
+                        . uniqueIndex++
+                        . arr[uniqueIndex] = arr[i]
+                    - Return uniqueIndex + 1 (new size)
 
         ===================[ BAGIAN 4 - FREQUENCY ] =====================
-            1. Count
-            2. Find Duplicate
+            1. Frequency Count (Hitung Kemunculan)
+            
+                - Konsep
+                    Hitung berapa kali setiap elemen muncul dalam array.
+                
+                    METHOD 1: Nested Loop (General, untuk semua data)
+                        Kode:
+                            void countFrequency(int arr[], int n) {
+                                bool visited[n] = {false};
+                                
+                                for (int i = 0; i < n; i++) {
+                                    if (visited[i]) continue;
+                                    
+                                    int count = 1;
+                                    for (int j = i + 1; j < n; j++) {
+                                        if (arr[i] == arr[j]) {
+                                            count++;
+                                            visited[j] = true;
+                                        }
+                                    }
+                                    
+                                    cout << arr[i] << " appears " << count << " times" << endl;
+                                }
+                            }
+                        
+                        Keterangan:
+                            - Time: O(n²)
+                            - Space: O(n) untuk array visited
+                            - Bekerja untuk semua jenis data
+                
+                    METHOD 2: Frequency Array (untuk angka kecil)
+                        Kode:
+                            void countFrequencyArray(int arr[], int n, int maxValue) {
+                                int freq[maxValue + 1] = {0};
+                                
+                                // Count occurrences
+                                for (int i = 0; i < n; i++) {
+                                    freq[arr[i]]++;
+                                }
+                                
+                                // Print non-zero frequencies
+                                for (int i = 0; i <= maxValue; i++) {
+                                    if (freq[i] > 0) {
+                                        cout << i << " appears " << freq[i] << " times" << endl;
+                                    }
+                                }
+                            }
+                    
+                    Keterangan:
+                        - Time: O(n + maxValue)
+                        - Space: O(maxValue)
+                        - Hanya untuk angka 0 sampai maxValue
+                        - Lebih cepat dari nested loop
+
+            2. Find Duplicates (Cari Yang Duplikat)
+            
+                - KONSEP:
+                    Cari elemen mana saja yang muncul lebih dari sekali.
+                
+                    Kode:
+                        void findDuplicates(int arr[], int n) {
+                            bool found = false;
+                            
+                            for (int i = 0; i < n; i++) {
+                                for (int j = i + 1; j < n; j++) {
+                                    if (arr[i] == arr[j]) {
+                                        cout << arr[i] << " is duplicate" << endl;
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if (!found) {
+                                cout << "No duplicates found" << endl;
+                            }
+                        }
     */
 
     /* C. Modul 8.4 - Charcter Array
