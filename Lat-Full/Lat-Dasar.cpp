@@ -2529,7 +2529,7 @@ using namespace std;
                     if (strcmp(a, b) == 0)   // ✅ BENAR! Ini bandingin ISINYA
 
         7. Perbandingan Character Array dan String
-        
+
             Aspek           char Array (C-style)        std::string (C++ Modern)
             ---------------------------------------------------------------------
             Deklarasi       char s[20] = "Halo";        string s = "Halo";
@@ -2549,6 +2549,135 @@ using namespace std;
 
     /* D. Modul 8.5 - Array Multidimensi
 
+        1. Apa itu array multidimensi?
+            adalah array yang memiliki lebih dari satu dimensi/index
+
+        2. Analogi :
+            - 1D        ---> Seperti Barisan        : [85, 90, 78, 92]
+            - 2D        ---> Seperti Tabel 2x2      : 4 siswa × 5 mata pelajaran
+            - 3D        ---> Seperti Kubus/rubix    : lantai × baris × kolom
+            - nD        ---> Teoritis
+
+        3. Kegunaan
+            - 1D Array  ---> Untuk penyimanan yang simple
+            - 2D Array  ---> Paling umum, seperti tabel / matriks / grid
+            - 3D Array  ---> Lebih jarang, seperti kubus / data per waktu
+            - nD Array  ---> Teoritis, jarang dipakai langsung
+
+        ===================[ BAGIAN 1 - ARRAY 2 DIMENSI ] =====================
+            1. Deklarasi 
+                tipe_data namaArray[baris][kolom];
+
+            2. Visualisasi Memory 2D:
+                int nilai[3][4]:
+
+                            Kolom 0  Kolom 1  Kolom 2  Kolom 3
+                Baris 0 [   [0][0]   [0][1]   0][2]    [0][3] ]
+                Baris 1 [   [1][0]   [1][1]   1][2]    [1][3] ]
+                Baris 2 [   [2][0]   [2][1]   2][2]    [2][3] ]
+
+                Di memory, disimpan BERURUTAN (row-major order):
+                    [0][0] → [0][1] → [0][2] → [0][3] → [1][0] → [1][1] → ...
+
+            3. Inisialisasi Array 2D:
+                a. List Initialization Lengkap:
+                    int matriks[2][3] = {
+                        {1, 2, 3},      ---> Baris 0
+                        {4, 5, 6}       ---> Baris 1
+                    };
+
+                b. Tanpa kurung kurawal dalam (flat):
+                    int matriks[2][3] = {1, 2, 3, 4, 5, 6};     ---> Sama saja
+
+                c. Partial Initialization:
+                    int matriks[2][3] = {{1, 2}, {4}};          ---> Sisanya otomatis 0
+
+                d. Zero Initialization:
+                    int matriks[3][3] = {0};                    ---> Semua elemen jadi 0
+
+                e. Omit Baris (auto-detect), tapi KOLOM wajib:
+                    int matriks[][3] = {{1,2,3},{4,5,6}};       ---> Baris otomatis 2
+
+            4. Akses Elemen Array 2D:
+                int matriks[2][3] = {{10, 20, 30}, {40, 50, 60}};
+
+                Baca:
+                    cout << matriks[0][1];  ---> Output: 20  (baris 0, kolom 1)
+                    cout << matriks[1][2];  ---> Output: 60  (baris 1, kolom 2)
+
+                Tulis:
+                    matriks[0][0] = 99;     ---> Ubah elemen [0][0] jadi 99
+
+            5. Iterasi Array 2D (Nested Loop):
+                Wajib nested for loop: loop luar untuk baris, loop dalam untuk kolom.
+
+                for (int i = 0; i < baris; i++) {
+                    for (int j = 0; j < kolom; j++) {
+                        cout << matriks[i][j];
+                    }
+                }
+
+        ===================[ BAGIAN 2 - OPERASI MATRIX ARRAY ] =====================
+
+        1. Penjumlahan Matriks:
+                Syarat: Ukuran matriks A == ukuran matriks B
+                Rumus:  C[i][j] = A[i][j] + B[i][j]
+
+            2. Perkalian Matriks:
+                Syarat: Kolom A == Baris B
+                Rumus:  C[i][j] = Σ (A[i][k] * B[k][j])
+
+                Contoh: A[2][3] × B[3][2] → Hasil C[2][2]
+
+            3. Transpose Matriks:
+                Tukar baris dan kolom.
+                Rumus: B[j][i] = A[i][j]
+
+                Contoh:
+                    A = [1, 2, 3]     Transpose A = [1, 4]
+                        [4, 5, 6]                   [2, 5]
+                                                    [3, 6]
+
+        ===================[ BAGIAN 3 - ARRAY 3 DIMENSI ] =====================
+            1. Deklarasi Array 3D:
+                tipe_data nama[DEPTH][BARIS][KOLOM];
+
+                Analogi:
+                    Depth  = lantai gedung
+                    Baris  = baris kursi tiap lantai
+                    Kolom  = kolom kursi tiap baris
+
+                Contoh:
+                    int gedung[3][4][5];    ---> 3 lantai, 4 baris, 5 kolom = 60 elemen
+
+            2. Akses Elemen 3D:
+                gedung[lantai][baris][kolom]
+
+                Contoh:
+                    gedung[0][1][2] = 10;   ---> Lantai 0, Baris 1, Kolom 2 = 10
+
+            3. Iterasi Array 3D (Triple Nested Loop):
+                for (int d = 0; d < depth; d++) {
+                    for (int i = 0; i < baris; i++) {
+                        for (int j = 0; j < kolom; j++) {
+                            cout << data[d][i][j];
+                        }
+                    }
+                }
+
+        ===================[ BAGIAN 4 - TIPS & UKURAN ] =====================
+            1. Cara Hitung Ukuran (sizeof):
+                int grid[3][4];
+                sizeof(grid)                        ---> 48 bytes (3×4×4)
+                sizeof(grid[0])                     ---> 16 bytes (1 baris = 4×4)
+                sizeof(grid[0][0])                  ---> 4 bytes  (1 elemen int)
+
+                Jumlah elemen:
+                    total = sizeof(grid) / sizeof(grid[0][0])   ---> 12 elemen
+
+            2. Konstanta untuk Ukuran (Best Practice):
+                const int BARIS = 3, KOLOM = 3;
+                int matriks[BARIS][KOLOM];          ---> Lebih mudah diubah & dibaca
     */
 
     /* E. Modul 8.6-8.10 - Array + Function = Advance
