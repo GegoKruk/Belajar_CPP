@@ -2425,6 +2425,126 @@ using namespace std;
 
     /* C. Modul 8.4 - Charcter Array
 
+        1. Apa itu character Array?
+                Adalah tempat untuk menyimpan kumpulan karakter (char)
+                ini adalah cara lama (C-Style) untuk menyimpan teks/string
+
+        2. Dua cara menyimpan teks
+            a. Character Array (C-Style String) - Cara jadul
+            a. std::string                      - Cara Modern, Lebih mudah
+
+        3. Null Terminator
+            Adalah penanda berakhirnya sebuah string, dengan karakter khusus '\0' (NULL/NOL)
+            '\0' tidak tampil dilayar, tapi wajib
+            ---> Letaknya ada di index terakhir sebuah array
+
+            Visualisasi:
+                char nama[6] = "Gega";
+
+                    Index:  [ 0 ] [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]
+                    Value:  [ G ] [ e ] [ g ] [ a ] [\0 ] [   ]
+
+            NB : 
+                Harus melebihi 1 index untuk tempat null terminator ini
+                Ukuran Array = Panjang Teks + 1 (untuk \0)
+                    "Gega" = 4 huruf → butuh char[5] (minimal)
+
+                Kalau ukuran array kurang dan \0 tidak termuat:
+                    → cout akan terus baca memory sampai ketemu \0 acak
+                    → Output GARBAGE (karakter aneh)
+                    → UNDEFINED BEHAVIOR!
+        
+        4. Deklarasi dan Inialisasi
+            a. Deklarasi
+                Seperti array pada umumnya
+                char namaArray[ukurannya];
+
+                contoh:
+                    char nama[10];                       ---> Bisa menyimpan 9 huruf + 1 \0
+                    char kota[6] = "Jogja";              ---> Otomatis tambah \0 di akhir
+                    char huruf[3] = {'A','B','C'};       ---> BAHAYA! Tidak ada \0!
+                    char huruf[4] = {'A','B','C','\0'};  ---> Aman, ada \0
+
+            b. Cara Inisialisasi (String Literal):
+                    Dengan ukuran eksplisit:
+                        char nama[6] = "Gega";           ---> Size 6, isi "Gega" + \0 + sisa 0
+
+                    Omit size (auto-detect):        
+                        char nama[] = "Gega";            ---> Otomatis size 5 (4 + \0)
+
+                    Uniform Init (C++11):       
+                        char nama[]{"Gega"};             ---> Modern style
+
+        5. Input dan Output
+            a. Output dengan cout:
+                    char nama[] = "Gega";
+                    cout << nama;                        ---> Output: Gega (cout baca sampai \0)
+
+            b. Input dengan cin:
+                    char nama[20];
+                    cin >> nama;                         ---> Input sampai SPASI (stop di spasi)
+
+                    Masalah cin:
+                        Kalau input "Gega Ramadhan" → nama hanya berisi "Gega"
+                        Sisanya ("Ramadhan") tertinggal di buffer!
+
+            c. Input Kalimat dengan cin.getline():
+                    char nama[50];
+                    cin.getline(nama, 50);              ---> Input sampai ENTER, termasuk spasi
+
+                    Syntax cin.getline():
+                        cin.getline(namaArray, ukuranMax);
+                        cin.getline(namaArray, ukuranMax, delimiterKhusus);
+
+                    ----------------------------------------------------------------------------
+                    |Perbedaan cin.getline() vs getline():                                     |
+                    |        cin.getline(arr, size)        ---> untuk char array (C-style)     |
+                    |        getline(cin, str)             ---> untuk std::string (C++ modern) |
+                    ----------------------------------------------------------------------------
+
+        6. Library CSTRING
+            jika ingin mengoperasikan/memanipulasi character array maka butuh library csting
+
+            Nama :
+                #include <cstring>
+
+            Fungsi            Kegunaan                            Contoh
+            -----------------------------------------------------------------------
+            strlen(s)         Panjang string (tanpa \0)           strlen("Gega") = 4
+            strcpy(dst, src)  Copy string src ke dst              strcpy(a, b)
+            strcat(dst, src)  Sambung src ke belakang dst         strcat(a, b)
+            strcmp(s1, s2)    Bandingkan dua string               strcmp(a, b)
+            strchr(s, c)      Cari karakter c dalam s             strchr(s, 'a')
+            strstr(s1, s2)    Cari substring s2 dalam s1          strstr(s, "ga")
+
+            Detail strcmp():
+                Return 0    → s1 == s2 (sama persis)
+                Return < 0  → s1 < s2  (s1 lebih kecil secara ASCII)
+                Return > 0  → s1 > s2  (s1 lebih besar secara ASCII)
+
+                JANGAN pakai == untuk bandingan char array!
+                    char a[] = "Halo";
+                    char b[] = "Halo";
+                    if (a == b)              // ❌ SALAH! Ini bandingin ALAMAT memory, bukan isinya!
+                    if (strcmp(a, b) == 0)   // ✅ BENAR! Ini bandingin ISINYA
+
+        7. Perbandingan Character Array dan String
+        
+            Aspek           char Array (C-style)        std::string (C++ Modern)
+            ---------------------------------------------------------------------
+            Deklarasi       char s[20] = "Halo";        string s = "Halo";
+            Ukuran          Fixed (harus tentukan)       Dynamic (otomatis)
+            Panjang         strlen(s)                    s.length() / s.size()
+            Gabung          strcat(s1, s2)               s1 + s2 atau s1 += s2
+            Bandingkan      strcmp(s1,s2) == 0           s1 == s2 (langsung)
+            Input           cin.getline(s, size)         getline(cin, s)
+            Null terminator Wajib dikelola manual        Otomatis
+            Safety          Rawan buffer overflow        Lebih aman
+
+            Kapan pakai char array?
+                - Interoperasi dengan fungsi C (printf, scanf, library lama)
+                - Low-level programming / embedded
+                - Saat tidak bisa pakai std::string
     */
 
     /* D. Modul 8.5 - Array Multidimensi
