@@ -2682,6 +2682,96 @@ using namespace std;
 
     /* E. Modul 8.6-8.10 - Array + Function = Advance
 
+        ===================[ MODUL 8.6 - PASS ARRAY KE FUNCTION ] =====================
+            1. Konsep Dasar
+                Saat array dipass ke function, yang dikirim adalah POINTER (alamat memori),
+                bukan SALINAN seperti variabel biasa.
+
+                Konsekuensi PENTING:
+                    → Perubahan di dalam function AKAN mempengaruhi array ASLI
+                    → Ini seperti pass by reference, tapi khusus untuk array
+                    → Tidak perlu tanda & karena array sudah otomatis jadi pointer
+
+            2. Syntax Pass Array ke Function:
+                // Cara 1: Pakai []
+                void namaFunction(int arr[], int size) { ... }
+
+                // Cara 2: Pakai pointer (sama saja di balik layar)
+                void namaFunction(int* arr, int size) { ... }
+
+                // Cara 3: Pakai referensi dengan ukuran tetap (C++11)
+                void namaFunction(int (&arr)[5]) { ... }   ---> Hanya untuk ukuran FIXED
+
+                Kenapa harus kirim SIZE juga?
+                    Karena saat array jadi parameter, sizeof() tidak bisa diandalkan.
+                    sizeof(arr) di dalam function = sizeof pointer (4/8 byte), BUKAN ukuran array!
+                    Jadi ukuran array WAJIB dikirim sebagai parameter terpisah.
+
+            3. Protect Array dari Perubahan — pakai const:
+                void tampilArray(const int arr[], int size) { ... }
+                    ---> arr tidak bisa diubah di dalam function
+
+        ===================[ MODUL 8.7 - RETURN ARRAY DARI FUNCTION ] =====================
+            1. Cara Return Array:
+                C++ tidak bisa return array secara langsung.
+                Ada beberapa solusi:
+
+                a. Return lewat parameter (pass by reference / pointer) ← Paling umum
+                    void isiArray(int arr[], int size) {
+                        for (int i = 0; i < size; i++) arr[i] = i * 2;
+                    }
+
+                b. Return pointer ke static array ← Hati-hati, array harus static!
+                    int* buatArray() {
+                        static int arr[5] = {1,2,3,4,5};
+                        return arr;
+                    }
+
+                c. Return menggunakan std::array atau std::vector ← Modern C++
+                    (dibahas lebih lanjut di modul STL)
+
+            2. Kenapa Tidak Bisa Return Array Biasa?
+                int[] buatArray() { ... }   ---> ❌ TIDAK VALID di C++
+                
+                Karena array lokal akan dihapus dari memory saat function selesai.
+                Return pointer ke local array = UNDEFINED BEHAVIOR (bahaya!)
+
+        ===================[ MODUL 8.8 - FUNCTION UNTUK ALGORITMA ARRAY ] =====================
+            Fungsi-fungsi utility yang sering dibuat untuk array:
+
+            a. Tampil Array        : void tampilArray(arr, size)
+            b. Hitung Total        : int totalArray(arr, size)
+            c. Cari Nilai Max/Min  : int maxArray(arr, size)
+            d. Linear Search       : int cariElemen(arr, size, target)
+            e. Isi Array           : void isiArray(arr, size)
+            f. Sorting             : void sortArray(arr, size)
+
+        ===================[ MODUL 8.9 - PASS ARRAY 2D KE FUNCTION ] =====================
+            1. Syntax Pass Array 2D:
+                Kolom WAJIB dicantumkan, baris boleh dikosongkan.
+
+                // Cara 1: Eksplisit baris & kolom
+                void tampilMatriks(int mat[3][3], int baris, int kolom) { ... }
+
+                // Cara 2: Baris dikosongkan
+                void tampilMatriks(int mat[][3], int baris, int kolom) { ... }
+
+                Kenapa kolom wajib?
+                    Compiler butuh tahu kolom untuk hitung offset memory:
+                    mat[i][j] = *(mat + i*KOLOM + j)
+                    Kalau kolom tidak diketahui → compiler tidak bisa hitung lokasi elemen!
+
+        ===================[ MODUL 8.10 - ARRAY SEBAGAI GLOBAL ] =====================
+            1. Global Array:
+                Dideklarasikan di luar semua function → bisa diakses semua function.
+
+                int skorGlobal[5] = {0};    // Di luar main() dan function lain
+
+                Kapan pakai global array?
+                    ✅ Data yang dipakai banyak function berbeda
+                    ✅ Lookup table (data konstan yang sering dipakai)
+                    ❌ Hindari untuk data yang seharusnya lokal (rawan bug)
+
     */
             
 
@@ -2735,5 +2825,8 @@ using namespace std;
             //     demoPassByReferencerValue();
             // // Pass By Value Function & Pass By Reference Function
             //     demoMultipleReturn();
+
+        // -------------[Array]----------------
+
         return 0;
     }
