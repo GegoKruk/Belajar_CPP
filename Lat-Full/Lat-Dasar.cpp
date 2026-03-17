@@ -2132,6 +2132,103 @@ using namespace std;
                 - Searching
     */
 
+    void caraInisialisasi(){
+            //List Initialization (Complete)
+                int array1[5] = {1,2,3,4,5};     
+                
+            //Partial Initialization
+                int array2[5] = {80,90};         
+
+            //Zero Initialization 
+                int array3[5] = {0};        
+            
+            //Omit Size (auto-detect)
+                int array4[] = {10,20,30,40,50}; 
+            
+            //No Initialization (DANGER!)
+                int array5[5];              
+            
+            //Uniform Initialization (C++11)
+                int array6[5] {85, 90, 78, 92, 88};  
+    }
+
+    void sizeArray(){
+        int nilai[5] = {1,2,3,4,5};
+
+        int byteKeseluruhan = sizeof(nilai);                    // 20 Byte (5 element x 4 byte)
+        int bytePerElement = sizeof(nilai) / sizeof(nilai[0]);  // 5 Byte (20 byte / 4 byte)
+
+        cout << "\n==========[ARRAY - MODUL 8.1-8.2]==========" << endl;
+        cout << "\n==========[Size Array]==========" << endl;
+
+        cout << "Panjang Byte Total Array nilai[5] : " << byteKeseluruhan << endl;
+        cout << "Panjang Byte 1 Element  : " << bytePerElement << endl;
+
+        cout << "\nPanjang Byte Total = sizeof(namaArray);" << endl;
+        cout << "\nPanjang Byte 1 Element = sizeof(namaArray) / sizeof(namaArray[0]);" << endl;
+        // 1 Element 4 byte
+    }
+
+    void accessModifyArray(){
+
+        int nilai[5] = {1,2,3,4,5};
+
+        cout << "\n==========[Access & Modify]==========" << endl;
+
+        cout << "1. Read/Modify Element" << endl;
+        
+        //==========[Read / Access]===========
+            int read1 = nilai[0];
+            int read2 = nilai[1];
+            int read3 = nilai[2];
+            cout << "Read Element 1 Array Nilai : " << read1 << endl;
+            cout << "Read Element 2 Array Nilai : " << read2 << endl;
+            cout << "Read Element 3 Array Nilai : " << read3 << endl;
+        
+        
+        cout << "\n2. Write/Modify Element" << endl;
+        //==========[Write / Modify]===========
+            nilai[0] = 100;
+            nilai[1] = 200;
+            nilai[2] = 300;
+            cout << "Write Element 1 Array Nilai : " << nilai[0] << endl;
+            cout << "Write Element 2 Array Nilai : " << nilai[1] << endl;
+            cout << "Write Element 3 Array Nilai : " << nilai[2] << endl;
+    }
+
+    void traversingArrayLoop(){
+        int nilaiSiswa[10] = {
+            90,80,85,78,77,78,90,88,85,95
+        };
+
+        cout << "\n==========[Traversing Array]==========" << endl;
+
+        cout << "1. For Loop (index-based)" << endl;
+        for (int i = 0; i < 10; i++){
+            cout << "Data nilai ke-" << i+1  << " : " << nilaiSiswa[i] << endl;
+        }
+
+        cout << "\n2. Range-Based for loop (C++11) - Lebih Simple4" << endl;
+        for (int n : nilaiSiswa){
+            cout << n << endl;
+        }
+        
+        cout << "\n3. While Loop" << endl;
+        int i = 0;
+        while (i<10){
+            cout << "Data Nilai Ke-" << i+1 << " : " << nilaiSiswa[i] << endl;
+            i++;
+        }
+    }
+
+
+        void demoArrayFundamentalBasic(){
+            caraInisialisasi();
+            sizeArray();
+            accessModifyArray();
+            traversingArrayLoop();
+        }
+
     /* B. Modul 8.3 - Array Algorithm
         
         Apa itu algoritma array?
@@ -2827,6 +2924,7 @@ using namespace std;
             //     demoMultipleReturn();
 
         // -------------[Array]----------------
-
+            // Fundamental & Dasar
+            demoArrayFundamentalBasic();
         return 0;
-    }
+}
