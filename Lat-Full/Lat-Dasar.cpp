@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 // A. Program Pertama
@@ -2132,95 +2133,94 @@ using namespace std;
                 - Searching
     */
 
-    void caraInisialisasi(){
-            //List Initialization (Complete)
-                int array1[5] = {1,2,3,4,5};     
+        void caraInisialisasi(){
+                //List Initialization (Complete)
+                    int array1[5] = {1,2,3,4,5};     
+                    
+                //Partial Initialization
+                    int array2[5] = {80,90};         
+
+                //Zero Initialization 
+                    int array3[5] = {0};        
                 
-            //Partial Initialization
-                int array2[5] = {80,90};         
-
-            //Zero Initialization 
-                int array3[5] = {0};        
-            
-            //Omit Size (auto-detect)
-                int array4[] = {10,20,30,40,50}; 
-            
-            //No Initialization (DANGER!)
-                int array5[5];              
-            
-            //Uniform Initialization (C++11)
-                int array6[5] {85, 90, 78, 92, 88};  
-    }
-
-    void sizeArray(){
-        int nilai[5] = {1,2,3,4,5};
-
-        int byteKeseluruhan = sizeof(nilai);                    // 20 Byte (5 element x 4 byte)
-        int bytePerElement = sizeof(nilai) / sizeof(nilai[0]);  // 5 Byte (20 byte / 4 byte)
-
-        cout << "\n==========[ARRAY - MODUL 8.1-8.2]==========" << endl;
-        cout << "\n==========[Size Array]==========" << endl;
-
-        cout << "Panjang Byte Total Array nilai[5] : " << byteKeseluruhan << endl;
-        cout << "Panjang Byte 1 Element  : " << bytePerElement << endl;
-
-        cout << "\nPanjang Byte Total = sizeof(namaArray);" << endl;
-        cout << "\nPanjang Byte 1 Element = sizeof(namaArray) / sizeof(namaArray[0]);" << endl;
-        // 1 Element 4 byte
-    }
-
-    void accessModifyArray(){
-
-        int nilai[5] = {1,2,3,4,5};
-
-        cout << "\n==========[Access & Modify]==========" << endl;
-
-        cout << "1. Read/Modify Element" << endl;
-        
-        //==========[Read / Access]===========
-            int read1 = nilai[0];
-            int read2 = nilai[1];
-            int read3 = nilai[2];
-            cout << "Read Element 1 Array Nilai : " << read1 << endl;
-            cout << "Read Element 2 Array Nilai : " << read2 << endl;
-            cout << "Read Element 3 Array Nilai : " << read3 << endl;
-        
-        
-        cout << "\n2. Write/Modify Element" << endl;
-        //==========[Write / Modify]===========
-            nilai[0] = 100;
-            nilai[1] = 200;
-            nilai[2] = 300;
-            cout << "Write Element 1 Array Nilai : " << nilai[0] << endl;
-            cout << "Write Element 2 Array Nilai : " << nilai[1] << endl;
-            cout << "Write Element 3 Array Nilai : " << nilai[2] << endl;
-    }
-
-    void traversingArrayLoop(){
-        int nilaiSiswa[10] = {
-            90,80,85,78,77,78,90,88,85,95
-        };
-
-        cout << "\n==========[Traversing Array]==========" << endl;
-
-        cout << "1. For Loop (index-based)" << endl;
-        for (int i = 0; i < 10; i++){
-            cout << "Data nilai ke-" << i+1  << " : " << nilaiSiswa[i] << endl;
+                //Omit Size (auto-detect)
+                    int array4[] = {10,20,30,40,50}; 
+                
+                //No Initialization (DANGER!)
+                    int array5[5];              
+                
+                //Uniform Initialization (C++11)
+                    int array6[5] {85, 90, 78, 92, 88};  
         }
 
-        cout << "\n2. Range-Based for loop (C++11) - Lebih Simple4" << endl;
-        for (int n : nilaiSiswa){
-            cout << n << endl;
-        }
-        
-        cout << "\n3. While Loop" << endl;
-        int i = 0;
-        while (i<10){
-            cout << "Data Nilai Ke-" << i+1 << " : " << nilaiSiswa[i] << endl;
-            i++;
-        }
-    }
+        void sizeArray(){
+            int nilai[5] = {1,2,3,4,5};
 
+            int byteKeseluruhan = sizeof(nilai);                    // 20 Byte (5 element x 4 byte)
+            int bytePerElement = sizeof(nilai) / sizeof(nilai[0]);  // 5 Byte (20 byte / 4 byte)
+
+            cout << "\n==========[ARRAY - MODUL 8.1-8.2]==========" << endl;
+            cout << "\n==========[Size Array]==========" << endl;
+
+            cout << "Panjang Byte Total Array nilai[5] : " << byteKeseluruhan << endl;
+            cout << "Panjang Byte 1 Element  : " << bytePerElement << endl;
+
+            cout << "\nPanjang Byte Total = sizeof(namaArray);" << endl;
+            cout << "\nPanjang Byte 1 Element = sizeof(namaArray) / sizeof(namaArray[0]);" << endl;
+            // 1 Element 4 byte
+        }
+
+        void accessModifyArray(){
+
+            int nilai[5] = {1,2,3,4,5};
+
+            cout << "\n==========[Access & Modify]==========" << endl;
+
+            cout << "1. Read/Modify Element" << endl;
+            
+            //==========[Read / Access]===========
+                int read1 = nilai[0];
+                int read2 = nilai[1];
+                int read3 = nilai[2];
+                cout << "Read Element 1 Array Nilai : " << read1 << endl;
+                cout << "Read Element 2 Array Nilai : " << read2 << endl;
+                cout << "Read Element 3 Array Nilai : " << read3 << endl;
+            
+            
+            cout << "\n2. Write/Modify Element" << endl;
+            //==========[Write / Modify]===========
+                nilai[0] = 100;
+                nilai[1] = 200;
+                nilai[2] = 300;
+                cout << "Write Element 1 Array Nilai : " << nilai[0] << endl;
+                cout << "Write Element 2 Array Nilai : " << nilai[1] << endl;
+                cout << "Write Element 3 Array Nilai : " << nilai[2] << endl;
+        }
+
+        void traversingArrayLoop(){
+            int nilaiSiswa[10] = {
+                90,80,85,78,77,78,90,88,85,95
+            };
+
+            cout << "\n==========[Traversing Array]==========" << endl;
+
+            cout << "1. For Loop (index-based)" << endl;
+            for (int i = 0; i < 10; i++){
+                cout << "Data nilai ke-" << i+1  << " : " << nilaiSiswa[i] << endl;
+            }
+
+            cout << "\n2. Range-Based for loop (C++11) - Lebih Simple4" << endl;
+            for (int n : nilaiSiswa){
+                cout << n << endl;
+            }
+            
+            cout << "\n3. While Loop" << endl;
+            int i = 0;
+            while (i<10){
+                cout << "Data Nilai Ke-" << i+1 << " : " << nilaiSiswa[i] << endl;
+                i++;
+            }
+        }
 
         void demoArrayFundamentalBasic(){
             caraInisialisasi();
@@ -2520,6 +2520,84 @@ using namespace std;
                         }
     */
 
+        void cetakArray(int arr[], int n){
+            cout << "[ ";
+            for(int i = 0; i < n; i++){
+                cout << arr[i];
+                if(i < n-1) cout << ", ";
+            }
+            cout << " ]" << endl;
+        }
+
+        void searchingArray(){
+
+            cout << "\n=========[Searching Array]=========" << endl;
+            
+            int nilaiDicari = 85;
+            const int n = 10;
+            int nilaiSiswa[n] = {
+                90,80,85,78,77,78,90,88,85,95
+            };
+            cout << "\nData Array Nilai Siswa : " << endl;
+            cetakArray(nilaiSiswa, n);
+            cout << "Data Array yang Dicari : " << nilaiDicari << endl;
+            
+            cout << "\n1. Sequential Search Non-Sentinel" << endl;
+            {
+                bool ketemu = false;
+                for(int i = 0; i < n; i++){
+                    if(nilaiSiswa[i] == nilaiDicari){
+                        cout << "   Ketemu di index " << i << endl;
+                        ketemu = true;
+                    }
+                }
+                if(!ketemu) cout << "   Tidak ditemukan" << endl;
+            }
+
+            cout << "\n2. Sequential Search Sentinel" << endl;
+            {
+                int nilaiSiswaSentinel[11];
+                for(int i = 0; i < n; i++) nilaiSiswaSentinel[i] = nilaiSiswa[i];
+                nilaiSiswaSentinel[n] = nilaiDicari;   // pasang sentinel di index n
+
+                int i = 0;
+                while(nilaiSiswaSentinel[i] != nilaiDicari) i++;
+
+                if(i < n)
+                    cout << "   Ketemu di index " << i << endl;
+                else
+                    cout << "   Tidak ditemukan (yang ketemu adalah sentinel)" << endl;
+            }
+
+            
+            cout << "\n3. Binary Search (data harus sorted)" << endl;
+            {
+                int nilaiSiswaSorted[10] = {77, 78, 78, 80, 85, 85, 88, 90, 90, 95};
+                cout << "   Data sorted : "; cetakArray(nilaiSiswaSorted, n);
+
+                int left = 0, right = n - 1, hasilIdx = -1;
+                while(left <= right){
+                    int mid = (left + right) / 2;
+                    if(nilaiSiswaSorted[mid] == nilaiDicari){
+                        hasilIdx = mid;
+                        break;
+                    } else if(nilaiSiswaSorted[mid] < nilaiDicari){
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+                if(hasilIdx != -1)
+                    cout << "   Ketemu di index " << hasilIdx << endl;
+                else
+                    cout << "   Tidak ditemukan" << endl;
+            }
+        }
+
+        void demoArrayAlgorithm(){
+            searchingArray();
+        }
+
     /* C. Modul 8.4 - Charcter Array
 
         1. Apa itu character Array?
@@ -2644,6 +2722,10 @@ using namespace std;
                 - Saat tidak bisa pakai std::string
     */
 
+        void demoCharacterArray(){
+
+        }
+
     /* D. Modul 8.5 - Array Multidimensi
 
         1. Apa itu array multidimensi?
@@ -2715,7 +2797,6 @@ using namespace std;
                 }
 
         ===================[ BAGIAN 2 - OPERASI MATRIX ARRAY ] =====================
-
         1. Penjumlahan Matriks:
                 Syarat: Ukuran matriks A == ukuran matriks B
                 Rumus:  C[i][j] = A[i][j] + B[i][j]
@@ -2776,6 +2857,10 @@ using namespace std;
                 const int BARIS = 3, KOLOM = 3;
                 int matriks[BARIS][KOLOM];          ---> Lebih mudah diubah & dibaca
     */
+
+        void demoArrayMultidimensi(){
+
+        }
 
     /* E. Modul 8.6-8.10 - Array + Function = Advance
 
@@ -2871,6 +2956,9 @@ using namespace std;
 
     */
             
+        void demoArrayFunction(){
+            
+        }
 
 // MESIN UTAMA
     int main(){
@@ -2925,6 +3013,14 @@ using namespace std;
 
         // -------------[Array]----------------
             // Fundamental & Dasar
-            demoArrayFundamentalBasic();
+                demoArrayFundamentalBasic();
+            // Array Algorithm
+                demoArrayAlgorithm();
+            // Character Array
+                demoCharacterArray();
+            // Array Multidimensi
+                demoArrayMultidimensi();
+            // Array + Function
+                demoArrayFunction();
         return 0;
 }
