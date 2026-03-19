@@ -2154,71 +2154,80 @@ using namespace std;
         }
 
         void sizeArray(){
-            int nilai[5] = {1,2,3,4,5};
+            int nilai[5] = {1, 2, 3, 4, 5};
 
-            int byteKeseluruhan = sizeof(nilai);                    // 20 Byte (5 element x 4 byte)
-            int bytePerElement = sizeof(nilai) / sizeof(nilai[0]);  // 5 Byte (20 byte / 4 byte)
+            // 1. Menghitung total memori yang dipakai array (5 elemen * 4 byte)
+            int totalByte = sizeof(nilai);              // Hasil: 20
+            
+            // 2. Menghitung ukuran memori per satu elemen saja
+            int bytePerElemen = sizeof(nilai[0]);      // Hasil: 4 (karena int = 4 byte)
+            
+            // 3. Menghitung JUMLAH ELEMEN (Panjang Array)
+            int jumlahElemen = sizeof(nilai) / sizeof(nilai[0]); // Hasil: 5 (20 / 4)
 
-            cout << "\n==========[ARRAY - MODUL 8.1-8.2]==========" << endl;
-            cout << "\n==========[Size Array]==========" << endl;
+            cout << "\n==========================================" << endl;
+            cout << "|         ARRAY - MODUL 8.1-8.2          |" << endl;
+            cout << "==========================================" << endl;
+            
+            cout << "\n==========[Detail Memory]==========" << endl;
+            cout << "Total Byte Array (5 int) : " << totalByte << " Byte" << endl;
+            cout << "Ukuran 1 Elemen (int)    : " << bytePerElemen << " Byte" << endl;
+            cout << "Jumlah Elemen (Panjang)  : " << jumlahElemen << " Elemen" << endl;
 
-            cout << "Panjang Byte Total Array nilai[5] : " << byteKeseluruhan << endl;
-            cout << "Panjang Byte 1 Element  : " << bytePerElement << endl;
-
-            cout << "\nPanjang Byte Total = sizeof(namaArray);" << endl;
-            cout << "\nPanjang Byte 1 Element = sizeof(namaArray) / sizeof(namaArray[0]);" << endl;
-            // 1 Element 4 byte
+            cout << "\nRumus Jumlah Elemen = sizeof(array) / sizeof(array[0])" << endl;
         }
 
-        void accessModifyArray(){
+        void accessModifyArray() {
+            int nilai[5] = {1, 2, 3, 4, 5};
 
-            int nilai[5] = {1,2,3,4,5};
+            cout << "\n========== [ ACCESS & MODIFY ] ==========" << endl;
 
-            cout << "\n==========[Access & Modify]==========" << endl;
+            // --- READ / ACCESS ---
+            cout << "[Step 1] Membaca Element (Read):" << endl;
+            // Mengakses langsung menggunakan index (dimulai dari 0)
+            cout << "  > Index 0: " << nilai[0] << endl;
+            cout << "  > Index 1: " << nilai[1] << endl;
+            cout << "  > Index 2: " << nilai[2] << endl;
 
-            cout << "1. Read/Modify Element" << endl;
-            
-            //==========[Read / Access]===========
-                int read1 = nilai[0];
-                int read2 = nilai[1];
-                int read3 = nilai[2];
-                cout << "Read Element 1 Array Nilai : " << read1 << endl;
-                cout << "Read Element 2 Array Nilai : " << read2 << endl;
-                cout << "Read Element 3 Array Nilai : " << read3 << endl;
-            
-            
-            cout << "\n2. Write/Modify Element" << endl;
-            //==========[Write / Modify]===========
-                nilai[0] = 100;
-                nilai[1] = 200;
-                nilai[2] = 300;
-                cout << "Write Element 1 Array Nilai : " << nilai[0] << endl;
-                cout << "Write Element 2 Array Nilai : " << nilai[1] << endl;
-                cout << "Write Element 3 Array Nilai : " << nilai[2] << endl;
+            // --- WRITE / MODIFY ---
+            cout << "\n[Step 2] Mengubah Element (Modify):" << endl;
+            nilai[0] = 100; // Menimpa nilai lama
+            nilai[1] = 200;
+            nilai[2] = 300;
+
+            cout << "  > Update Index 0: " << nilai[0] << " (Berubah!)" << endl;
+            cout << "  > Update Index 1: " << nilai[1] << " (Berubah!)" << endl;
+            cout << "  > Update Index 2: " << nilai[2] << " (Berubah!)" << endl;
         }
 
-        void traversingArrayLoop(){
-            int nilaiSiswa[10] = {
-                90,80,85,78,77,78,90,88,85,95
-            };
-
-            cout << "\n==========[Traversing Array]==========" << endl;
-
-            cout << "1. For Loop (index-based)" << endl;
-            for (int i = 0; i < 10; i++){
-                cout << "Data nilai ke-" << i+1  << " : " << nilaiSiswa[i] << endl;
-            }
-
-            cout << "\n2. Range-Based for loop (C++11) - Lebih Simple4" << endl;
-            for (int n : nilaiSiswa){
-                cout << n << endl;
-            }
+        void traversingArrayLoop() {
+            int nilaiSiswa[10] = {90, 80, 85, 78, 77, 78, 90, 88, 85, 95};
             
-            cout << "\n3. While Loop" << endl;
-            int i = 0;
-            while (i<10){
-                cout << "Data Nilai Ke-" << i+1 << " : " << nilaiSiswa[i] << endl;
-                i++;
+            // Menghitung jumlah elemen secara otomatis
+            int n = sizeof(nilaiSiswa) / sizeof(nilaiSiswa[0]);
+
+            cout << "\n========== [ TRAVERSING ARRAY ] ==========" << endl;
+
+            // 1. FOR LOOP (Index-based) - Standar & Fleksibel
+            cout << "\n1. For Loop (Index-based):" << endl;
+            for (int i = 0; i < n; i++) {
+                cout << "   Data ke-" << (i + 1) << " [Index " << i << "]: " << nilaiSiswa[i] << endl;
+            }
+
+            // 2. RANGE-BASED FOR LOOP (C++11) - Modern & Clean
+            cout << "\n2. Range-Based Loop (Modern C++):" << endl;
+            cout << "   Values: ";
+            for (int nilai : nilaiSiswa) {
+                cout << "[" << nilai << "] ";
+            }
+            cout << endl;
+
+            // 3. WHILE LOOP - Manual control
+            cout << "\n3. While Loop:" << endl;
+            int j = 0;
+            while (j < n) {
+                cout << "   Siswa #" << (j + 1) << ": " << nilaiSiswa[j] << endl;
+                j++;
             }
         }
 
@@ -2531,6 +2540,10 @@ using namespace std;
 
         void searchingArray(){
 
+            cout << "\n==========================================" << endl;
+            cout << "|            ARRAY - MODUL 8.3           |" << endl;
+            cout << "==========================================" << endl;
+
             cout << "\n=========[Searching Array]=========" << endl;
             
             int nilaiDicari = 85;
@@ -2594,8 +2607,82 @@ using namespace std;
             }
         }
 
+        void sortingArray(){
+            cout << "\n=========[Sorting Array]=========" << endl;
+
+            const int n = 10;
+            int nilaiSiswa[n] = {
+                90,80,85,78,77,78,90,88,85,95
+            };
+            cout << "\nData Array Nilai Siswa : " << endl;
+            cetakArray(nilaiSiswa, n);
+
+            cout << "\n0. Standard Sort Library" << endl;
+            {
+                sort(nilaiSiswa, nilaiSiswa + n); 
+                cetakArray(nilaiSiswa, n);
+            }  
+
+            cout << "\n1. Bubble Short" << endl;
+            {
+                for (int i = 0; i < n; i++){
+                    for (int j = 1; j < n; j++){
+                        if (nilaiSiswa[j-1] > nilaiSiswa[j]){
+                            int temp = nilaiSiswa[j-1];
+                            nilaiSiswa[j-1] = nilaiSiswa[j];
+                            nilaiSiswa[j] = temp;
+                        }
+                    }
+                }
+            }
+                cout << "Hasil Bubble Sort : " << endl;
+                cetakArray(nilaiSiswa, n);
+
+            cout << "\n2. Selection Short (Ascending)" << endl;
+            {
+                for (int i = 0; i < n - 1; i++){            // i = "Slot" yang mau diisi (si pendek nomor 1, 2, dst)
+                    
+                    int minIndex = i;                       // Anggap posisi 'i' adalah yang terkecil sementara
+
+                    for (int j = i + 1; j < n; j++){        // j = "Detektif" yang nyari di sisa barisan
+                        if(nilaiSiswa[j] < nilaiSiswa[minIndex]){
+                            minIndex = j;                   // "Eh, ketemu yang lebih kecil! Catat index-nya!"
+                        }
+                    }
+                    
+                    // Eksekusi Tukar Nasib (Hanya dilakukan SEKALI setelah detektif selesai tugasnya)
+                    int temp = nilaiSiswa[i];
+                    nilaiSiswa[i] = nilaiSiswa[minIndex];
+                    nilaiSiswa[minIndex] = temp;
+                }
+
+                cout << "Hasil Selection Sort" << endl;
+                cetakArray(nilaiSiswa, n);
+            }
+
+            cout << "\n3. Insertion Sort" << endl;
+
+            for (int i = 1; i < n; i++) { 
+                int key = nilaiSiswa[i]; // 1. "Eh, ambil kartu ini dulu (simpan di kantong)"
+                int j = i - 1;           // 2. "Siap-siap bandingin sama kartu di sebelah kirinya"
+
+                // 3. SELAMA kartu di kiri lebih gede dari kartu di kantong...
+                while (j >= 0 && nilaiSiswa[j] > key) {
+                    nilaiSiswa[j + 1] = nilaiSiswa[j]; // 4. "Geser kartu gede itu ke kanan (kasih ruang)"
+                    j--;                               // 5. "Cek lagi kartu lebih kiri lagi, ada yang gede lagi gak?"
+                }
+
+                nilaiSiswa[j + 1] = key; // 6. "Nah, lubangnya ketemu! Masukkan kartu dari kantong ke sini"
+
+            }
+            
+            cout << "Hasil Insertion Sort" << endl;
+            cetakArray(nilaiSiswa, n);
+        }
+
         void demoArrayAlgorithm(){
             searchingArray();
+            sortingArray();
         }
 
     /* C. Modul 8.4 - Charcter Array
