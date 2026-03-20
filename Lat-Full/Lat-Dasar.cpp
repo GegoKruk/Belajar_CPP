@@ -2634,9 +2634,9 @@ using namespace std;
                         }
                     }
                 }
-            }
                 cout << "Hasil Bubble Sort : " << endl;
                 cetakArray(nilaiSiswa, n);
+            }
 
             cout << "\n2. Selection Short (Ascending)" << endl;
             {
@@ -2661,28 +2661,178 @@ using namespace std;
             }
 
             cout << "\n3. Insertion Sort" << endl;
+            {
+                for (int i = 1; i < n; i++) { 
+                    int key = nilaiSiswa[i]; // 1. "Eh, ambil kartu ini dulu (simpan di kantong)"
+                    int j = i - 1;           // 2. "Siap-siap bandingin sama kartu di sebelah kirinya"
+    
+                    // 3. SELAMA kartu di kiri lebih gede dari kartu di kantong...
+                    while (j >= 0 && nilaiSiswa[j] > key) {
+                        nilaiSiswa[j + 1] = nilaiSiswa[j]; // 4. "Geser kartu gede itu ke kanan (kasih ruang)"
+                        j--;                               // 5. "Cek lagi kartu lebih kiri lagi, ada yang gede lagi gak?"
+                    }
+    
+                    nilaiSiswa[j + 1] = key; // 6. "Nah, lubangnya ketemu! Masukkan kartu dari kantong ke sini"
+    
+                    cout << "Hasil Insertion Sort" << endl;
+                    cetakArray(nilaiSiswa, n);
+                }
+            }
+        }
 
-            for (int i = 1; i < n; i++) { 
-                int key = nilaiSiswa[i]; // 1. "Eh, ambil kartu ini dulu (simpan di kantong)"
-                int j = i - 1;           // 2. "Siap-siap bandingin sama kartu di sebelah kirinya"
+        void manipulationArray(){
+            int asal[5] = {30, 10, 50, 20, 40};
+            int tujuan[5];
 
-                // 3. SELAMA kartu di kiri lebih gede dari kartu di kantong...
-                while (j >= 0 && nilaiSiswa[j] > key) {
-                    nilaiSiswa[j + 1] = nilaiSiswa[j]; // 4. "Geser kartu gede itu ke kanan (kasih ruang)"
-                    j--;                               // 5. "Cek lagi kartu lebih kiri lagi, ada yang gede lagi gak?"
+            // 1. COPY: Salin 'asal' ke 'tujuan'
+            copy(asal, asal + 5, tujuan);
+
+            // 2. SORT: Urutkan array 'asal' (10, 20, 30, 40, 50)
+            sort(asal, asal + 5);
+
+            // 3. REVERSE: Balik urutannya (50, 40, 30, 20, 10)
+            reverse(asal, asal + 5);
+
+            // 4. REPLACE: Ganti angka 30 jadi 99
+            replace(asal, asal + 5, 30, 99);
+
+            // 5. FILL: Setel semua isi 'tujuan' jadi 0
+            fill(tujuan, tujuan + 5, 0);
+
+            cout << "\n=========[Manipulasi Array]=========" << endl;
+
+            const int n = 5;
+            int arr[n] = {1, 2, 3, 4, 5};
+            cout << "\nData Awal : ";
+            cetakArray(arr, n);
+
+            // ===== 1. REVERSE ARRAY =====
+            cout << "\n1. Reverse Array (Balik Urutan)" << endl;
+            {
+                int data[5] = {1, 2, 3, 4, 5};
+                cout << "   Sebelum : "; cetakArray(data, 5);
+
+                // Cara kerja: tukar elemen paling kiri & kanan, gerak ke tengah
+                //   left                             right
+                //    v                               v
+                //   [1]   [2]   [3]   [4]   [5]
+                //
+                // Step 1: swap(data[0], data[4]) → [5, 2, 3, 4, 1]   left=1, right=3
+                // Step 2: swap(data[1], data[3]) → [5, 4, 3, 2, 1]   left=2, right=2
+                // Step 3: left >= right → BERHENTI
+
+                int left = 0;
+                int right = 4;
+
+                while(left < right){
+                    // Tukar elemen kiri & kanan
+                    int temp    = data[left];
+                    data[left]  = data[right];
+                    data[right] = temp;
+
+                    left++;     // Geser kiri ke dalam
+                    right--;    // Geser kanan ke dalam
                 }
 
-                nilaiSiswa[j + 1] = key; // 6. "Nah, lubangnya ketemu! Masukkan kartu dari kantong ke sini"
-
+                cout << "   Sesudah : "; cetakArray(data, 5);
             }
-            
-            cout << "Hasil Insertion Sort" << endl;
-            cetakArray(nilaiSiswa, n);
+
+            // ===== 2. ROTATE LEFT =====
+            cout << "\n2. Rotate Left (Elemen Pertama Pindah ke Akhir)" << endl;
+            {
+                int data[5] = {1, 2, 3, 4, 5};
+                cout << "   Sebelum : "; cetakArray(data, 5);
+
+                // Cara kerja:
+                //   Simpan data[0] dulu → temp = 1
+                //   Geser semua elemen ke KIRI satu posisi
+                //   Taruh temp di posisi terakhir
+                //
+                //   [1]  [2]  [3]  [4]  [5]
+                //    ↓
+                //   temp = 1
+                //   [2]  [3]  [4]  [5]  [_]   ← geser kiri
+                //   [2]  [3]  [4]  [5]  [1]   ← taruh temp di akhir
+
+                int temp = data[0];                     // Simpan elemen pertama
+                for(int i = 0; i < 4; i++){
+                    data[i] = data[i + 1];              // Geser semua ke kiri
+                }
+                data[4] = temp;                         // Taruh di posisi terakhir
+
+                cout << "   Sesudah : "; cetakArray(data, 5);
+            }
+
+            // ===== 3. ROTATE RIGHT =====
+            cout << "\n3. Rotate Right (Elemen Terakhir Pindah ke Depan)" << endl;
+            {
+                int data[5] = {1, 2, 3, 4, 5};
+                cout << "   Sebelum : "; cetakArray(data, 5);
+
+                // Cara kerja: kebalikan rotate left
+                //   Simpan data[4] dulu → temp = 5
+                //   Geser semua elemen ke KANAN satu posisi
+                //   Taruh temp di posisi pertama
+                //
+                //   [1]  [2]  [3]  [4]  [5]
+                //                        ↓
+                //                      temp = 5
+                //   [_]  [1]  [2]  [3]  [4]   ← geser kanan
+                //   [5]  [1]  [2]  [3]  [4]   ← taruh temp di awal
+
+                int temp = data[4];                     // Simpan elemen terakhir
+                for(int i = 4; i > 0; i--){
+                    data[i] = data[i - 1];              // Geser semua ke kanan
+                }
+                data[0] = temp;                         // Taruh di posisi pertama
+
+                cout << "   Sesudah : "; cetakArray(data, 5);
+            }
+
+            // ===== 4. REMOVE DUPLICATE (array SUDAH sorted) =====
+            cout << "\n4. Remove Duplicate (array harus sorted dulu)" << endl;
+            {
+                int data[8] = {1, 1, 2, 3, 3, 4, 5, 5};
+                int size = 8;
+                cout << "   Sebelum : "; cetakArray(data, size);
+
+                // Cara kerja:
+                //   uniqueIndex = 0  (penunjuk posisi elemen unik terakhir)
+                //   Loop dari i = 1:
+                //     Kalau data[i] != data[uniqueIndex] → elemen BARU, unik!
+                //       uniqueIndex++
+                //       data[uniqueIndex] = data[i]   ← pindahkan ke depan
+                //     Kalau sama → skip (duplikat, buang)
+                //
+                //   data = [1, 1, 2, 3, 3, 4, 5, 5]
+                //          uniqueIdx=0
+                //   i=1 : data[1]=1 == data[0]=1 → skip
+                //   i=2 : data[2]=2 != data[0]=1 → uniqueIdx=1, data[1]=2
+                //   i=3 : data[3]=3 != data[1]=2 → uniqueIdx=2, data[2]=3
+                //   i=4 : data[4]=3 == data[2]=3 → skip
+                //   i=5 : data[5]=4 != data[2]=3 → uniqueIdx=3, data[3]=4
+                //   ... dst
+                //   Hasil : [1, 2, 3, 4, 5]  newSize = uniqueIdx+1 = 5
+
+                int uniqueIdx = 0;
+                for(int i = 1; i < size; i++){
+                    if(data[i] != data[uniqueIdx]){     // Elemen baru ketemu
+                        uniqueIdx++;
+                        data[uniqueIdx] = data[i];      // Pindah ke posisi unik berikutnya
+                    }
+                    // Kalau sama → tidak dilakukan apa-apa (otomatis terbuang)
+                }
+                int newSize = uniqueIdx + 1;            // Ukuran baru setelah duplikat dihapus
+
+                cout << "   Sesudah : "; cetakArray(data, newSize);
+                cout << "   Ukuran  : " << size << " -> " << newSize << endl;
+            }
         }
 
         void demoArrayAlgorithm(){
             searchingArray();
             sortingArray();
+            manipulationArray();
         }
 
     /* C. Modul 8.4 - Charcter Array
