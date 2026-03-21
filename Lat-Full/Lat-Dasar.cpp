@@ -1,5 +1,6 @@
 #include <iostream>
-#include <algorithm>
+#include <algorithm> // untuk array modul -Array Algorrithm
+#include <cstring> //untuk array modul - Character Array
 using namespace std;
 
 // A. Program Pertama
@@ -2958,9 +2959,252 @@ using namespace std;
                 - Low-level programming / embedded
                 - Saat tidak bisa pakai std::string
     */
+        
+        // -------[ HELPER: cetak char array per karakter dengan index ]-------
+        void cetakCharArray(char arr[]){
+            int len = strlen(arr);
+            cout << "   Index : ";
+            for(int i = 0; i < len; i++) cout << "[ " << i << " ] ";
+            cout << endl;
+            cout << "   Value : ";
+            for(int i = 0; i < len; i++) cout << "[ " << arr[i] << " ] ";
+            cout << " [\0]" << endl;
+        }
 
         void demoCharacterArray(){
+            cout << "\n==========================================" << endl;
+            cout << "|         ARRAY - MODUL 8.4              |" << endl;
+            cout << "|         Character Array                |" << endl;
+            cout << "==========================================" << endl;
 
+
+            // =====================================================================
+            // 1. CARA MENYIMPAN TEKS
+            // =====================================================================
+            cout << "\n===[ 1. Dua Cara Menyimpan Teks ]===" << endl;
+            {
+                // Cara modern - std::string
+                string text1 = "Gega Ramadhan";
+
+                // Cara C-style - char array (harus tentukan ukuran, ingat +1 untuk \0)
+                char text2[] = "Gega Ramadhan";   // auto-detect size = 13 + 1 = 14
+
+                cout << "   std::string  : " << text1 << "  (size dinamis)" << endl;
+                cout << "   char array[] : " << text2 << "  (size = " << sizeof(text2) << " bytes, termasuk \0)" << endl;
+            }
+
+
+            // =====================================================================
+            // 2. DEKLARASI & INISIALISASI
+            // =====================================================================
+            cout << "\n===[ 2. Deklarasi & Inisialisasi ]===" << endl;
+            {
+                // a. Ukuran eksplisit - wajib cukup untuk isi + \0
+                char kota[6] = "Jogja";           // 5 huruf + 1 \0 = pas ukuran 6
+
+                // b. Auto-detect size - compiler hitung sendiri
+                char nama[] = "Gega";             // otomatis jadi char[5]
+
+                // c. Uniform Init C++11
+                char negara[]{"Indonesia"};       // modern style, sama saja
+
+                // d. Per karakter - \0 WAJIB ditulis manual!
+                char huruf[4] = {'A','B','C','\0'};
+
+                cout << "   char kota[6]      = \"" << kota   << "\"  (size=" << sizeof(kota)   << ")" << endl;
+                cout << "   char nama[]       = \"" << nama   << "\"   (size=" << sizeof(nama)   << ")" << endl;
+                cout << "   char negara[]     = \"" << negara << "\" (size=" << sizeof(negara) << ")" << endl;
+                cout << "   char huruf[4]     = \"" << huruf  << "\"   (size=" << sizeof(huruf)  << ")" << endl;
+            }
+
+
+            // =====================================================================
+            // 3. NULL TERMINATOR - VISUALISASI MEMORY
+            // =====================================================================
+            cout << "\n===[ 3. Null Terminator - Visualisasi Memory ]===" << endl;
+            {
+                char kata[] = "Halo";
+                cout << "   char kata[] = \"Halo\"" << endl;
+                cetakCharArray(kata);
+                cout << "   strlen(kata) = " << strlen(kata) << "  (tidak hitung \0)" << endl;
+                cout << "   sizeof(kata) = " << sizeof(kata) << "  (hitung \0)" << endl;
+            }
+
+
+            // =====================================================================
+            // 4. AKSES PER KARAKTER + LOOP
+            // =====================================================================
+            cout << "\n===[ 4. Akses Per Karakter + Loop ]===" << endl;
+            {
+                char kata[] = "Belajar";
+
+                // Akses langsung lewat index
+                cout << "   kata[0] = '" << kata[0] << "'  (karakter pertama)" << endl;
+                cout << "   kata[6] = '" << kata[6] << "'  (karakter terakhir)" << endl;
+
+                // Loop pakai index
+                cout << "   For loop       : ";
+                for(int i = 0; i < (int)strlen(kata); i++) cout << kata[i] << " ";
+                cout << endl;
+
+                // Loop sampai ketemu \0 (cara C-style)
+                cout << "   Loop s/d \\0   : ";
+                for(int i = 0; kata[i] != '\0'; i++) cout << kata[i] << " ";
+                cout << endl;
+
+                // Range-based for (C++11)
+                cout << "   Range-based    : ";
+                for(char c : kata) if(c != '\0') cout << c << " ";
+                cout << endl;
+            }
+
+
+            // =====================================================================
+            // 5. INPUT & OUTPUT
+            // =====================================================================
+            cout << "\n===[ 5. Input & Output ]===" << endl;
+            {
+                char contohCin[20]     = "Gega";        // simulasi input cin >> (stop di spasi)
+                char contohGetline[50] = "Gega Ramadhan"; // simulasi cin.getline (termasuk spasi)
+
+                cout << "   cin >> nama          : \"" << contohCin     << "\"  (stop di spasi)" << endl;
+                cout << "   cin.getline(nama,50) : \"" << contohGetline << "\"  (ambil semua)" << endl;
+                cout << "   NB: pakai cin.getline() untuk input yang ada spasinya!" << endl;
+            }
+
+
+            // =====================================================================
+            // 6. FUNGSI CSTRING
+            // =====================================================================
+            cout << "\n===[ 6. Fungsi <cstring> ]===" << endl;
+
+            // --- strlen ---
+            cout << "\n   [strlen] - Hitung Panjang" << endl;
+            {
+                char s[] = "Halo Dunia";
+                cout << "   strlen(\"" << s << "\") = " << strlen(s) << endl;
+            }
+
+            // --- strcpy ---
+            cout << "\n   [strcpy] - Salin String" << endl;
+            {
+                char src[] = "C++ Keren";
+                char dst[20];                     // dst harus cukup besar!
+                strcpy(dst, src);
+                cout << "   src = \"" << src << "\"" << endl;
+                cout << "   dst setelah strcpy = \"" << dst << "\"" << endl;
+            }
+
+            // --- strcat ---
+            cout << "\n   [strcat] - Sambung String" << endl;
+            {
+                char depan[30] = "Halo, ";        // ukuran harus cukup untuk hasil akhir
+                char belakang[] = "Gaes!";
+                strcat(depan, belakang);
+                cout << "   Hasil strcat = \"" << depan << "\"" << endl;
+            }
+
+            // --- strcmp ---
+            cout << "\n   [strcmp] - Bandingkan String" << endl;
+            {
+                char p1[] = "rahasia123";
+                char p2[] = "rahasia123";
+                char p3[] = "salahpass";
+
+                int cmp12 = strcmp(p1, p2);
+                int cmp13 = strcmp(p1, p3);
+
+                cout << "   strcmp(p1, p2) = " << cmp12 << "  → " << (cmp12 == 0 ? "SAMA ✓" : "BEDA ✗") << endl;
+                cout << "   strcmp(p1, p3) = " << cmp13 << "  → " << (cmp13 == 0 ? "SAMA ✓" : "BEDA ✗") << endl;
+                cout << "   ⚠ Jangan pakai == untuk bandingin char array!" << endl;
+
+                // Simulasi login
+                cout << "   Simulasi login: ";
+                if(strcmp(p1, p2) == 0) cout << "Login BERHASIL ✓" << endl;
+                else                    cout << "Password SALAH ✗" << endl;
+            }
+
+            // --- strchr ---
+            cout << "\n   [strchr] - Cari Karakter dalam String" << endl;
+            {
+                char kalimat[] = "Belajar C++";
+                char* hasil = strchr(kalimat, 'a');
+                cout << "   Cari 'a' dalam \"" << kalimat << "\"" << endl;
+                if(hasil) cout << "   Ketemu! Sisa string dari sana: \"" << hasil << "\"" << endl;
+                else      cout << "   Tidak ditemukan" << endl;
+            }
+
+            // --- strstr ---
+            cout << "\n   [strstr] - Cari Substring" << endl;
+            {
+                char kalimat[] = "Saya suka belajar C++";
+                char* hasil = strstr(kalimat, "belajar");
+                cout << "   Cari \"belajar\" dalam \"" << kalimat << "\"" << endl;
+                if(hasil) cout << "   Ketemu! Sisa string dari sana: \"" << hasil << "\"" << endl;
+                else      cout << "   Tidak ditemukan" << endl;
+            }
+
+            // =====================================================================
+            // 7. CHAR ARRAY vs STD::STRING
+            // =====================================================================
+            cout << "\n===[ 7. Char Array vs std::string ]===" << endl;
+            {
+                // char array
+                char cArr[30] = "Char Array";
+                strcat(cArr, " + tambah");         // sambung pakai strcat
+                int panjangC = strlen(cArr);
+
+                // std::string
+                string sStr = "std::string";
+                sStr += " + tambah";               // sambung pakai +=
+                int panjangS = sStr.length();
+
+                cout << "   char[]      : \"" << cArr << "\"  panjang=" << panjangC << endl;
+                cout << "   std::string : \"" << sStr << "\"  panjang=" << panjangS << endl;
+
+                // Konversi std::string → char array
+                string asal = "Konversi ke char[]";
+                char buf[50];
+                strcpy(buf, asal.c_str());         // c_str() ubah string jadi const char*
+                cout << "   Konversi string → char[] : \"" << buf << "\"" << endl;
+            }
+
+            // =====================================================================
+            // 8. ARRAY OF STRINGS (2D Char Array)
+            // =====================================================================
+            cout << "\n===[ 8. Array of Strings (2D Char Array) ]===" << endl;
+            {
+                // Tiap baris = satu string, kolom = max panjang string + \0
+                char buah[5][10] = {
+                    "Apel",
+                    "Mangga",
+                    "Jeruk",
+                    "Anggur",
+                    "Melon"
+                };
+
+                cout << "   Daftar buah:" << endl;
+                for(int i = 0; i < 5; i++){
+                    cout << "   [" << i << "] " << buah[i]
+                        << "  (panjang=" << strlen(buah[i]) << ")" << endl;
+                }
+
+                // Sorting nama buah pakai strcmp + bubble sort
+                cout << "   Sorted (A-Z):" << endl;
+                for(int i = 0; i < 4; i++){
+                    for(int j = 0; j < 4 - i; j++){
+                        if(strcmp(buah[j], buah[j+1]) > 0){
+                            char temp[10];
+                            strcpy(temp,    buah[j]);
+                            strcpy(buah[j], buah[j+1]);
+                            strcpy(buah[j+1], temp);
+                        }
+                    }
+                }
+                for(int i = 0; i < 5; i++){
+                    cout << "   [" << i << "] " << buah[i] << endl;
+                }
+            }
         }
 
     /* D. Modul 8.5 - Array Multidimensi
