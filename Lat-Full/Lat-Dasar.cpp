@@ -1,6 +1,7 @@
 #include <iostream>
-#include <algorithm> // untuk array modul -Array Algorrithm
-#include <cstring> //untuk array modul - Character Array
+#include <algorithm>    // untuk array modul -Array Algorrithm
+#include <cstring>      // untuk array modul - Character Array
+#include <iomanip>      // untuk array modul - array multidimensi
 using namespace std;
 
 // A. Program Pertama
@@ -3339,8 +3340,312 @@ using namespace std;
                 int matriks[BARIS][KOLOM];          ---> Lebih mudah diubah & dibaca
     */
 
-        void demoArrayMultidimensi(){
+                // -------[ HELPER: cetak matriks 2D dengan border rapi ]-------
+        void cetakMatriks(int mat[][4], int baris, int kolom, string label = ""){
+            if(label != "") cout << "   " << label << endl;
+            cout << "   +";
+            for(int j = 0; j < kolom; j++) cout << "------+";
+            cout << endl;
+            for(int i = 0; i < baris; i++){
+                cout << "   |";
+                for(int j = 0; j < kolom; j++){
+                    cout << "  " << setw(3) << mat[i][j] << " |";
+                }
+                cout << "  <- Baris " << i << endl;
+                cout << "   +";
+                for(int j = 0; j < kolom; j++) cout << "------+";
+                cout << endl;
+            }
+        }
 
+        void cetakMatriks3x3(int mat[3][3], int baris, int kolom, string label = ""){
+            if(label != "") cout << "   " << label << endl;
+            cout << "   +";
+            for(int j = 0; j < kolom; j++) cout << "------+";
+            cout << endl;
+            for(int i = 0; i < baris; i++){
+                cout << "   |";
+                for(int j = 0; j < kolom; j++){
+                    cout << "  " << setw(3) << mat[i][j] << " |";
+                }
+                cout << "  <- Baris " << i << endl;
+                cout << "   +";
+                for(int j = 0; j < kolom; j++) cout << "------+";
+                cout << endl;
+            }
+        }
+
+        void demoArrayMultidimensi(){
+            cout << "\n==========================================" << endl;
+            cout << "|         ARRAY - MODUL 8.5              |" << endl;
+            cout << "|         Array Multidimensi             |" << endl;
+            cout << "==========================================" << endl;
+
+
+            // =====================================================================
+            // 1. DEKLARASI & INISIALISASI ARRAY 2D
+            // =====================================================================
+            cout << "\n===[ 1. Deklarasi & Inisialisasi Array 2D ]===" << endl;
+            {
+                // a. List Initialization Lengkap
+                int A[2][3] = {
+                    {1, 2, 3},    // Baris 0
+                    {4, 5, 6}     // Baris 1
+                };
+
+                // b. Flat (sama saja, tanpa kurung kurawal dalam)
+                int B[2][3] = {1, 2, 3, 4, 5, 6};
+
+                // c. Partial — sisanya otomatis 0
+                int C[2][3] = {{10, 20}, {40}};
+
+                // d. Zero Initialization — semua jadi 0
+                int D[2][3] = {0};
+
+                // e. Omit baris (auto-detect), KOLOM wajib ditulis
+                int E[][3] = {{7, 8, 9}, {10, 11, 12}};
+
+                cout << "   A[2][3] list init    : ";
+                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << A[i][j] << " "; cout << "| "; }
+                cout << endl;
+
+                cout << "   B[2][3] flat         : ";
+                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << B[i][j] << " "; cout << "| "; }
+                cout << endl;
+
+                cout << "   C[2][3] partial      : ";
+                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << C[i][j] << " "; cout << "| "; }
+                cout << "  (sisanya auto=0)" << endl;
+
+                cout << "   D[2][3] zero init    : ";
+                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << D[i][j] << " "; cout << "| "; }
+                cout << endl;
+
+                cout << "   E[][3] omit baris    : ";
+                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << E[i][j] << " "; cout << "| "; }
+                cout << endl;
+            }
+
+
+            // =====================================================================
+            // 2. VISUALISASI MEMORY (INDEX & AKSES)
+            // =====================================================================
+            cout << "\n===[ 2. Visualisasi Index & Akses Elemen ]===" << endl;
+            {
+                int mat[3][4] = {
+                    {10, 20, 30, 40},
+                    {50, 60, 70, 80},
+                    {90,100,110,120}
+                };
+
+                // Tampil dengan header kolom
+                cout << "   mat[3][4]:" << endl;
+                cout << "            Kol[0] Kol[1] Kol[2] Kol[3]" << endl;
+                cout << "         +-------+------+------+------+" << endl;
+                for(int i = 0; i < 3; i++){
+                    cout << "   Baris[" << i << "] |";
+                    for(int j = 0; j < 4; j++) cout << "  " << setw(3) << mat[i][j] << "  |";
+                    cout << endl;
+                    cout << "         +-------+------+------+------+" << endl;
+                }
+
+                cout << "\n   Akses langsung:" << endl;
+                cout << "   mat[0][0] = " << mat[0][0] << "   (baris 0, kolom 0)" << endl;
+                cout << "   mat[1][2] = " << mat[1][2] << "   (baris 1, kolom 2)" << endl;
+                cout << "   mat[2][3] = " << mat[2][3] << "  (baris 2, kolom 3)" << endl;
+
+                // Modifikasi
+                mat[1][1] = 999;
+                cout << "\n   Setelah mat[1][1] = 999 :" << endl;
+                cout << "            Kol[0] Kol[1] Kol[2] Kol[3]" << endl;
+                cout << "         +-------+------+------+------+" << endl;
+                for(int i = 0; i < 3; i++){
+                    cout << "   Baris[" << i << "] |";
+                    for(int j = 0; j < 4; j++) cout << "  " << setw(3) << mat[i][j] << "  |";
+                    cout << endl;
+                    cout << "         +-------+------+------+------+" << endl;
+                }
+            }
+
+
+            // =====================================================================
+            // 3. CONTOH NYATA: TABEL NILAI SISWA
+            // =====================================================================
+            cout << "\n===[ 3. Contoh Nyata: Tabel Nilai Siswa ]===" << endl;
+            {
+                const int JML_SISWA = 4;
+                const int JML_MAPEL = 4;
+
+                string namaSiswa[JML_SISWA] = {"Andi  ", "Budi  ", "Cici  ", "Dina  "};
+                string namaMapel[JML_MAPEL] = {"MTK", "IPA", "IPS", "ING"};
+
+                int nilai[JML_SISWA][JML_MAPEL] = {
+                    {85, 90, 78, 92},   // Andi
+                    {70, 88, 95, 80},   // Budi
+                    {92, 75, 85, 88},   // Cici
+                    {78, 82, 90, 95}    // Dina
+                };
+
+                // Header tabel
+                cout << "   +----------+-----+-----+-----+-----+--------+" << endl;
+                cout << "   | Nama     | MTK | IPA | IPS | ING | Rata2  |" << endl;
+                cout << "   +----------+-----+-----+-----+-----+--------+" << endl;
+
+                int idxTerbaik = 0;
+                double rataMax = 0;
+
+                for(int i = 0; i < JML_SISWA; i++){
+                    int total = 0;
+                    cout << "   | " << namaSiswa[i] << " |";
+                    for(int j = 0; j < JML_MAPEL; j++){
+                        cout << "  " << nilai[i][j] << " |";
+                        total += nilai[i][j];
+                    }
+                    double rata = (double)total / JML_MAPEL;
+                    cout << " " << fixed << setprecision(1) << rata << "  |" << endl;
+                    cout << "   +----------+-----+-----+-----+-----+--------+" << endl;
+
+                    if(rata > rataMax){ rataMax = rata; idxTerbaik = i; }
+                }
+
+                cout << "\n   Siswa terbaik: " << namaSiswa[idxTerbaik]
+                     << " (rata-rata: " << rataMax << ")" << endl;
+            }
+
+
+            // =====================================================================
+            // 4. OPERASI MATRIKS
+            // =====================================================================
+            cout << "\n===[ 4. Operasi Matriks ]===" << endl;
+            {
+                int A[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
+                int B[3][3] = {{9,8,7},{6,5,4},{3,2,1}};
+                int C[3][3] = {0};
+
+                // --- Penjumlahan ---
+                cout << "\n   [Penjumlahan] C = A + B  (C[i][j] = A[i][j] + B[i][j])" << endl;
+                for(int i=0;i<3;i++)
+                    for(int j=0;j<3;j++)
+                        C[i][j] = A[i][j] + B[i][j];
+
+                // Tampil A | + | B | = | C
+                cout << "       Matriks A          +    Matriks B          =    Matriks C" << endl;
+                for(int i=0;i<3;i++){
+                    cout << "   [";
+                    for(int j=0;j<3;j++) cout << setw(3) << A[i][j];
+                    cout << " ]";
+                    cout << (i==1 ? "  +  " : "     ");
+                    cout << "[";
+                    for(int j=0;j<3;j++) cout << setw(3) << B[i][j];
+                    cout << " ]";
+                    cout << (i==1 ? "  =  " : "     ");
+                    cout << "[";
+                    for(int j=0;j<3;j++) cout << setw(3) << C[i][j];
+                    cout << " ]" << endl;
+                }
+
+                // --- Transpose ---
+                cout << "\n   [Transpose] B = A^T  (B[j][i] = A[i][j])" << endl;
+                int T[3][3] = {0};
+                for(int i=0;i<3;i++)
+                    for(int j=0;j<3;j++)
+                        T[j][i] = A[i][j];
+
+                cout << "       Matriks A          →    Transpose A" << endl;
+                for(int i=0;i<3;i++){
+                    cout << "   [";
+                    for(int j=0;j<3;j++) cout << setw(3) << A[i][j];
+                    cout << " ]";
+                    cout << (i==1 ? "  →  " : "     ");
+                    cout << "[";
+                    for(int j=0;j<3;j++) cout << setw(3) << T[i][j];
+                    cout << " ]" << endl;
+                }
+
+                // --- Perkalian Matriks ---
+                cout << "\n   [Perkalian] C = A x B  (C[i][j] = sum A[i][k]*B[k][j])" << endl;
+                int P[3][3] = {0};
+                for(int i=0;i<3;i++)
+                    for(int j=0;j<3;j++)
+                        for(int k=0;k<3;k++)
+                            P[i][j] += A[i][k] * B[k][j];
+
+                cout << "       Matriks A          x    Matriks B          =    Matriks C" << endl;
+                for(int i=0;i<3;i++){
+                    cout << "   [";
+                    for(int j=0;j<3;j++) cout << setw(3) << A[i][j];
+                    cout << " ]";
+                    cout << (i==1 ? "  x  " : "     ");
+                    cout << "[";
+                    for(int j=0;j<3;j++) cout << setw(3) << B[i][j];
+                    cout << " ]";
+                    cout << (i==1 ? "  =  " : "     ");
+                    cout << "[";
+                    for(int j=0;j<3;j++) cout << setw(4) << P[i][j];
+                    cout << " ]" << endl;
+                }
+            }
+
+
+            // =====================================================================
+            // 5. ARRAY 3 DIMENSI
+            // =====================================================================
+            cout << "\n===[ 5. Array 3 Dimensi ]===" << endl;
+            {
+                // Analogi: data suhu 2 kota, 3 hari, 2 waktu (pagi/sore)
+                // suhu[kota][hari][waktu]
+                int suhu[2][3][2] = {
+                    { {28,33}, {27,32}, {29,34} },   // Kota 0: Jogja
+                    { {31,36}, {30,35}, {32,37} }    // Kota 1: Jakarta
+                };
+
+                string namaKota[2]  = {"Jogja  ", "Jakarta"};
+                string namaHari[3]  = {"Senin ", "Selasa", "Rabu  "};
+                string namaWaktu[2] = {"Pagi", "Sore"};
+
+                cout << "   Data suhu[2 kota][3 hari][2 waktu]:" << endl;
+                cout << "   +-----------+--------+--------+--------+" << endl;
+                cout << "   | Kota      | Senin  | Selasa | Rabu   |" << endl;
+                cout << "   +-----------+--------+--------+--------+" << endl;
+
+                for(int k = 0; k < 2; k++){
+                    for(int w = 0; w < 2; w++){
+                        cout << "   | " << namaKota[k] << " " << namaWaktu[w] << " |";
+                        for(int h = 0; h < 3; h++){
+                            cout << " " << setw(3) << suhu[k][h][w] << "°C  |";
+                        }
+                        cout << endl;
+                    }
+                    cout << "   +-----------+--------+--------+--------+" << endl;
+                }
+
+                // Akses langsung
+                cout << "\n   Akses langsung suhu[1][2][0] (Jakarta, Rabu, Pagi) = "
+                    << suhu[1][2][0] << "°C" << endl;
+            }
+
+
+            // =====================================================================
+            // 6. SIZEOF ARRAY 2D
+            // =====================================================================
+            cout << "\n===[ 6. sizeof() pada Array 2D ]===" << endl;
+            {
+                int grid[3][4];
+
+                int totalBytes  = sizeof(grid);
+                int bytesBaris  = sizeof(grid[0]);
+                int bytesElemen = sizeof(grid[0][0]);
+                int jmlElemen   = totalBytes / bytesElemen;
+
+                cout << "   Array int grid[3][4]:" << endl;
+                cout << "   +-----------------------------+----------+" << endl;
+                cout << "   | sizeof(grid)                | " << setw(4) << totalBytes  << " bytes |  (total semua)" << endl;
+                cout << "   | sizeof(grid[0])             | " << setw(4) << bytesBaris  << " bytes |  (1 baris)" << endl;
+                cout << "   | sizeof(grid[0][0])          | " << setw(4) << bytesElemen << " bytes |  (1 elemen int)" << endl;
+                cout << "   | Jumlah elemen               | " << setw(4) << jmlElemen   << "       |  (3 x 4)" << endl;
+                cout << "   +-----------------------------+----------+" << endl;
+                cout << "   Rumus jumlah elemen = sizeof(grid) / sizeof(grid[0][0])" << endl;
+            }
         }
 
     /* E. Modul 8.6-8.10 - Array + Function = Advance
