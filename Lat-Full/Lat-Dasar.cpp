@@ -2016,7 +2016,7 @@ using namespace std;
         }
 
 // U. Array
-    /* A. Modul 8.1-8.2 - Fundamental & Basic
+    /* 1. Modul 8.1-8.2 - Fundamental & Basic
             1. Apa itu Array?
                 Array adalah kumpulan data dengan tipe data yang sama yang di simpan berurutan dalam memory 
                 menggunakan index, dapat diisi, diubah, dipanggil, dan di operasikan lainnya
@@ -2240,7 +2240,7 @@ using namespace std;
             traversingArrayLoop();
         }
 
-    /* B. Modul 8.3 - Array Algorithm
+    /* 2. Modul 8.3 - Array Algorithm
         
         Apa itu algoritma array?
             algoritma array adlaah teknik untuk memanipulasi/memproses data dalam array
@@ -2837,7 +2837,7 @@ using namespace std;
             manipulationArray();
         }
 
-    /* C. Modul 8.4 - Charcter Array
+    /* 3. Modul 8.4 - Charcter Array
 
         1. Apa itu character Array?
                 Adalah tempat untuk menyimpan kumpulan karakter (char)
@@ -3208,7 +3208,7 @@ using namespace std;
             }
         }
 
-    /* D. Modul 8.5 - Array Multidimensi
+    /* 4. Modul 8.5 - Array Multidimensi
 
         1. Apa itu array multidimensi?
             adalah array yang memiliki lebih dari satu dimensi/index
@@ -3648,7 +3648,7 @@ using namespace std;
             }
         }
 
-    /* E. Modul 8.6-8.10 - Array + Function = Advance
+    /* 5. Modul 8.6-8.10 - Array + Function = Advance
 
         ===================[ MODUL 8.6 - PASS ARRAY KE FUNCTION ] =====================
             1. Konsep Dasar
@@ -4066,6 +4066,415 @@ using namespace std;
                 cout << "   Itulah bahayanya global: function lain bisa reset tanpa sepengetahuan kamu!" << endl;
             }
         }
+
+// V. String C++ & - C-Style String
+
+    /* MODUL 9.0 - Difference & Cheat Sheet
+
+        Pada Bab U (Array 8.4) kita sudah belajar char[] alias C-style string,
+        yaitu array karakter gaya C lama yang butuh null terminator \0 secara manual.
+
+        Bab ini melanjutkan ke std::string, yaitu tipe data teks modern bawaan
+        C++ yang jauh lebih mudah, aman, dan fleksibel untuk dipakai sehari-hari.
+
+    
+        ==================[ PERBEDAAN CEPAT: char[] vs std::string
+
+            Aspek               char[] (C-style, Bab 8.4)          std::string (modern, Bab ini)
+            ─────────────────── ─────────────────────────────────── ──────────────────────────────
+            Tipe                Array karakter mentah               Object dari class <string>
+            Ukuran              Tetap saat deklarasi                Dinamis, bisa berubah otomatis
+            Null terminator     Wajib ada \0 di akhir               Diurus otomatis
+            Penjumlahan         Pakai strcat(), ribet               Cukup pakai +
+            Perbandingan        Pakai strcmp()                       Cukup pakai ==, <, >
+            Keamanan            Rawan buffer overflow                Aman, ada bounds checking
+            Header              #include <cstring>                  #include <string>
+
+            --> Untuk project C++ modern: selalu gunakan std::string
+                kecuali ada alasan khusus (misalnya interop dengan library C lama).
+
+
+        ==================[ CHEAT SHEET - RINGKASAN CEPAT std::string
+
+        Header              : #include <string>
+        Deklarasi           : string s = "teks";
+        Panjang             : s.length() atau s.size()
+        Kosong?             : s.empty()
+        Akses karakter      : s[i] (cepat) / s.at(i) (aman)
+        Karakter pertama    : s.front()
+        Karakter terakhir   : s.back()
+        Gabung              : s1 + s2  atau  s1 += s2
+        Cari                : s.find("sub")  --> index atau string::npos
+        Cari dari belakang  : s.rfind("sub")
+        Potong              : s.substr(pos, len)
+        Ganti               : s.replace(pos, len, baru)
+        Sisip               : s.insert(pos, str)
+        Hapus bagian        : s.erase(pos, len)
+        Hapus semua         : s.clear()
+        Angka ke string     : to_string(42)
+        String ke int       : stoi("42")
+        String ke double    : stod("3.14")
+        C-string ke string  : string s = cStr; (otomatis)
+        string ke C-string  : s.c_str()
+        Balik string        : reverse(s.begin(), s.end())
+        Lowercase           : transform(s.begin(), s.end(), s.begin(), ::tolower)
+        Uppercase           : transform(s.begin(), s.end(), s.begin(), ::toupper)
+        Input satu kata     : cin >> s
+        Input satu baris    : getline(cin, s)
+        Parameter read-only : const string& s  (paling efisien)
+    */  
+
+    /* MODUL 9.1 - C-STYLE STRING (Tinjauan & Bahaya)
+        1. Apa itu C-Style String?
+            Array of char yang diakhiri karakter null '\0'
+            Warisan dari bahasa C, masih relevan untuk dipahami.
+
+            Contoh deklarasi:
+                char nama[6]  = "Budi";          --> B-u-d-i-\0-_  (1 slot sisa)
+                char kota[]   = "Jakarta";       --> compiler hitung otomatis: 7+1 = 8 slot
+                char init[3]  = {'A','B','\0'};  --> manual
+
+        2. Kenapa \0 itu kritis?
+            Tanpa \0, fungsi seperti strlen(), cout, printf() tidak tahu
+            kapan string berakhir --> terus baca memori sampai ketemu \0 kebetulan.
+            Bug ini disebut BUFFER OVERREAD --> berbahaya!
+
+        3. Fungsi-fungsi dari <cstring>:
+
+            strlen(s)           --> Panjang string (tidak hitung \0)
+                                    strlen("Budi") --> 4
+
+            strcpy(dst, src)    --> Salin string src ke dst
+                                    strcpy(a, "halo")
+
+            strcat(dst, src)    --> Sambung src ke belakang dst
+                                    strcat(a, " dunia")
+
+            strcmp(s1, s2)      --> Bandingkan 2 string
+                                    0  = sama
+                                    <0 = s1 lebih kecil (secara ASCII)
+                                    >0 = s1 lebih besar
+                                    strcmp("abc","abc") --> 0
+
+            strchr(s, c)        --> Cari karakter c di string s
+                                    strchr("halo", 'a') --> pointer ke 'a'
+
+            strstr(s, sub)      --> Cari substring di string
+                                    strstr("halo dunia", "nia") --> pointer ke "nia"
+
+        ❌ BAHAYA strcpy() & strcat():
+            Tidak melakukan pengecekan panjang!
+            Jika dst terlalu kecil --> BUFFER OVERFLOW --> crash / celah keamanan.
+            Alternatif aman: strncpy() dan strncat()
+
+        4. Input C-Style String:
+
+            cin >> nama                  --> baca sampai spasi, TIDAK aman untuk kalimat panjang
+            cin.getline(nama, 50)        --> baca sampai newline, max 49 karakter, lebih aman
+    */
+    
+    /* MODUL 9.2 - DEKLARASI & OPERASI DASAR std::string
+        1. Header yang dibutuhkan:
+            #include <string>
+            (kadang sudah terbawa <iostream>, tapi tetap tulis eksplisit)
+
+        2. Cara Deklarasi & Inisialisasi:
+
+            string nama = "Budi";           --> cara paling umum
+            string nama("Budi");            --> constructor syntax
+            string nama;                    --> string kosong ""
+            string s(5, '*');               --> isi 5 karakter bintang: "*****"
+            string s = "";                  --> string kosong eksplisit
+
+        3. Operasi Dasar:
+
+            Operasi             Contoh                          Keterangan
+            ────────────────── ─────────────────────────────── ──────────────────────────
+            Panjang            nama.length() / nama.size()     Jumlah karakter
+            String kosong?     nama.empty()                    true jika panjang 0
+            Gabung (concat)    "halo" + " " + "dunia"          Hasil: "halo dunia"
+            Gabung (+=)        s += " tambahan"                Langsung tambah di belakang
+            Ambil karakter     nama[0]  / nama.at(0)           Karakter pertama
+            Bandingkan         s1 == s2 / s1 < s2              Seperti operator biasa
+
+        4. Perbedaan [] vs at():
+
+            nama[i]     --> akses langsung, TIDAK ada pengecekan batas
+                            jika i >= ukuran --> undefined behavior (crash tak terduga)
+
+            nama.at(i)  --> akses AMAN, ada pengecekan batas
+                            jika i >= ukuran --> melempar exception std::out_of_range
+
+            --> Pakai at() untuk keamanan, pakai [] untuk performa (saat sudah yakin index valid)
+
+        5. Akses Karakter Khusus:
+
+            nama.front()    --> karakter pertama (sama dengan nama[0])
+            nama.back()     --> karakter terakhir (sama dengan nama[nama.size()-1])
+
+        6. Modifikasi String:
+
+            nama.push_back('!')     --> tambah satu karakter di akhir
+            nama.pop_back()         --> hapus karakter terakhir
+            nama.clear()            --> hapus semua isi, jadi string kosong ""
+            nama.resize(n)          --> ubah panjang jadi n (potong/tambah)
+            nama.resize(n, 'x')     --> ubah panjang, isi slot baru dengan 'x'
+
+            --> Tidak seperti char[], string bisa berubah ukuran dinamis tanpa overflow!
+    */
+
+    /* MODUL 9.3 - METHOD-METHOD PENTING std::string
+        1. substr(pos, len) --> Ambil bagian string
+            Ambil substring mulai index pos sepanjang len karakter.
+            Jika len tidak ditulis --> ambil sampai akhir.
+
+            string s = "Hello World";
+            s.substr(0, 5)      --> "Hello"
+            s.substr(6)         --> "World"   (sampai akhir)
+            s.substr(6, 3)      --> "Wor"
+
+        2. find(what, start_pos) --> Cari posisi substring atau karakter
+            Kembalikan index pertama ditemukan.
+            Jika tidak ketemu --> kembalikan string::npos (nilai sangat besar ~4 miliar)
+
+            "Hello World".find("World")     --> 6
+            "Hello World".find("xyz")       --> string::npos
+            "Hello World".find('l')         --> 2  (l pertama)
+            "Hello World".find('l', 4)      --> 9  (mulai cari dari index 4)
+
+            ⚠️  Selalu cek hasil find() != string::npos sebelum dipakai!
+
+        3. replace(pos, len, new_str) --> Ganti bagian string
+            Ganti len karakter mulai pos dengan new_str.
+            Panjang pengganti boleh berbeda dari yang diganti.
+
+            string s = "Hello World";
+            s.replace(6, 5, "C++")      --> "Hello C++"
+
+        4. insert(pos, str) --> Sisipkan string di posisi tertentu
+
+            string s = "Halo World";
+            s.insert(5, " Dunia")       --> "Halo Dunia World"
+
+        5. erase(pos, len) --> Hapus bagian string
+            Hapus len karakter mulai pos.
+            Jika len tidak ditulis --> hapus sampai akhir.
+
+            string s = "Hello World";
+            s.erase(5, 6)       --> "Hello"
+            s.erase(2)          --> "He"   (hapus dari index 2 sampai akhir)
+
+        6. rfind(what) --> Cari dari belakang
+            Sama seperti find() tapi mulai mencari dari akhir string.
+
+            "abcabc".rfind('c')     --> 5  (c paling kanan)
+
+        7. find_first_of(chars) & find_last_of(chars)
+            Cari salah satu dari sekumpulan karakter.
+
+            "Hello World".find_first_of("aeiou")    --> 1  (vokal pertama: e)
+            "Hello World".find_last_of("aeiou")     --> 7  (vokal terakhir: o)
+
+        8. compare(s2) --> Perbandingan detail
+            Lebih powerful dari operator ==, bisa bandingkan sebagian string.
+
+            s1.compare(s2)              --> 0 jika sama, negatif jika s1 < s2, positif jika s1 > s2
+            s1.compare(pos, len, s2)    --> bandingkan sebagian s1 saja
+    */
+
+    /* MODUL 9.4 - INPUT & OUTPUT STRING
+        1. cin >> vs getline()
+
+            Cara input           Perilaku                                    Cocok untuk
+            ──────────────────── ─────────────────────────────────────────── ─────────────────────────
+            cin >> s             Berhenti di spasi/enter. Satu kata saja.    Satu kata tanpa spasi
+            getline(cin, s)      Baca seluruh baris sampai Enter ditekan.    Kalimat / nama lengkap
+            getline(cin, s, '|') Baca sampai delimiter tertentu (bukan '\n') Parsing custom input
+
+        2. ⚠️  MASALAH KLASIK: cin campur getline()
+
+            Jika pakai cin >> sebelum getline(), ada sisa '\n' di buffer.
+            getline() akan langsung membaca '\n' itu --> hasil string KOSONG!
+
+            Contoh masalah:
+                int umur;
+                string nama;
+                cin >> umur;            // user ketik 20 lalu Enter
+                getline(cin, nama);     // LANGSUNG LEWAT! nama jadi ""
+
+            ✅  SOLUSI: tambahkan cin.ignore() setelah cin >>
+
+                int umur;
+                string nama;
+                cin >> umur;
+                cin.ignore();           // buang sisa '\n' di buffer
+                getline(cin, nama);     // sekarang baca dengan benar
+
+            Atau lebih aman:
+                cin.ignore(1000, '\n'); // buang sampai 1000 char atau sampai '\n'
+
+        3. Output String:
+            cout << s               --> tampil tanpa newline
+            cout << s << endl       --> tampil dengan newline
+            cout << "Nama: " << s   --> dengan label
+    */
+
+    /* MODUL 9.5 - KONVERSI STRING <-> ANGKA
+        1. String ke Angka (header: <string>)
+
+            Fungsi          Konversi                    Contoh
+            ─────────────── ─────────────────────────── ────────────────────────────
+            stoi(s)         string --> int              stoi("42")      --> 42
+            stol(s)         string --> long             stol("1000000") --> 1000000L
+            stoll(s)        string --> long long        stoll("9999999999")
+            stof(s)         string --> float            stof("3.14")    --> 3.14f
+            stod(s)         string --> double           stod("3.14159") --> 3.14159
+            stold(s)        string --> long double      stold("3.141592")
+
+            ⚠️  Jika string tidak bisa dikonversi (misal stoi("abc")):
+                --> melempar exception std::invalid_argument
+                --> program CRASH jika tidak ditangkap dengan try-catch!
+
+            Cara aman:
+                try {
+                    int n = stoi(inputUser);
+                } catch (exception& e) {
+                    cout << "Input tidak valid!" << endl;
+                }
+
+        2. Angka ke String
+
+            to_string(42)       --> "42"
+            to_string(3.14)     --> "3.140000"  (presisi default 6 desimal)
+            to_string(-99)      --> "-99"
+
+            ⚠️  to_string() untuk float/double: presisi bisa tidak sesuai harapan.
+                Untuk kontrol format lebih detail --> gunakan std::ostringstream dari <sstream>
+
+        3. Konversi antara C-string dan std::string
+
+            --> Dari C-string ke std::string (OTOMATIS):
+                string s = "Halo";          // dari string literal
+                string s = cStrVariable;    // dari char*
+
+            --> Dari std::string ke C-string (pakai .c_str()):
+                const char* cs = s.c_str(); // pointer read-only ke isi string
+
+            ⚠️  Pointer ini tidak valid lagi jika string s dimodifikasi setelah .c_str()!
+    */
+
+    /* MODUL 9.6 - OPERASI LANJUTAN & TIPS
+
+        1. Iterasi Karakter String
+
+            // Cara 1: Range-based for (paling modern & bersih)
+            for (char c : s) { ... }
+
+            // Cara 2: Index-based (kalau perlu index)
+            for (int i = 0; i < s.size(); i++) { ... }
+
+            // Cara 3: Iterator
+            for (auto it = s.begin(); it != s.end(); it++) { ... }
+
+        2. String Comparison - Urutan Lexicographic
+            Operator <, >, <=, >= bekerja secara lexicographic (urutan kamus).
+            Perbandingan karakter per karakter berdasarkan nilai ASCII.
+
+            "apple" < "banana"  --> true  (a < b)
+            "abc"   < "abd"     --> true  (c < d)
+            "ABC"   < "abc"     --> true  (huruf kapital ASCII-nya lebih kecil dari kecil)
+
+            ⚠️  Perbandingan CASE-SENSITIVE secara default!
+                Untuk case-insensitive --> ubah dulu ke lowercase.
+
+        3. Mengubah Case (pakai <algorithm> + <cctype>)
+
+            // Semua jadi lowercase:
+            transform(s.begin(), s.end(), s.begin(), ::tolower);
+
+            // Semua jadi UPPERCASE:
+            transform(s.begin(), s.end(), s.begin(), ::toupper);
+
+        4. Cek & Klasifikasi Karakter (dari <cctype>)
+
+            Fungsi          Return true jika...
+            ─────────────── ────────────────────────────────
+            isalpha(c)      Huruf (a-z, A-Z)
+            isdigit(c)      Angka (0-9)
+            isalnum(c)      Huruf atau angka
+            isupper(c)      Huruf kapital
+            islower(c)      Huruf kecil
+            isspace(c)      Whitespace (spasi, tab, newline)
+            ispunct(c)      Tanda baca (! . , dll)
+
+        5. Membalik String (dari <algorithm>)
+
+            reverse(s.begin(), s.end());            // modifikasi di tempat
+            string rev(s.rbegin(), s.rend());       // buat string baru yang dibalik
+
+        6. Kapasitas vs Ukuran
+
+            s.size()            --> jumlah karakter aktual
+            s.length()          --> sama dengan size()
+            s.capacity()        --> memori yang sudah dialokasikan (selalu >= size)
+            s.reserve(n)        --> minta alokasi minimal n karakter (optimasi append berulang)
+            s.shrink_to_fit()   --> kembalikan memori berlebih ke sistem
+
+        7. Pola Umum yang Sering Dipakai
+
+            a. Hitung kemunculan karakter
+                count(s.begin(), s.end(), 'a');     // dari <algorithm>
+
+            b. Cek apakah mengandung substring
+                s.find("sub") != string::npos;      // true jika ketemu
+
+            c. Trim spasi di kiri & kanan (tidak ada fungsi bawaan, manual):
+                s.erase(0, s.find_first_not_of(' '));           // trim kiri
+                s.erase(s.find_last_not_of(' ') + 1);           // trim kanan
+
+            d. Split string berdasarkan delimiter (pakai stringstream dari <sstream>):
+                stringstream ss("kata1 kata2 kata3");
+                string token;
+                while (ss >> token) {
+                    // token berisi "kata1", lalu "kata2", lalu "kata3"
+                }
+
+        8. String sebagai Parameter Fungsi
+
+            void f(string s)            --> pass by VALUE, buat salinan (mahal untuk string panjang)
+            void f(const string& s)     --> pass by CONST REFERENCE, tidak buat salinan, tidak bisa diubah ✅ TERBAIK untuk read-only
+            void f(string& s)           --> pass by REFERENCE, bisa dimodifikasi langsung
+
+            --> Selalu gunakan const string& jika tidak perlu modifikasi!
+
+    // KESALAHAN UMUM & CARA MENGHINDARINYA
+
+        ❌  Pakai == untuk bandingkan char*
+            --> == untuk char* membandingkan ALAMAT memori, bukan isi string!
+            ✅  Gunakan strcmp() untuk C-string, atau konversi ke std::string dulu.
+
+        ❌  Lupa cin.ignore() sebelum getline()
+            --> getline() baca sisa '\n' dari cin >> sebelumnya --> string kosong
+            ✅  Tambahkan cin.ignore() atau cin.ignore(1000,'\n') setelah cin >>
+
+        ❌  Akses s[s.size()] atau lebih
+            --> Index di luar batas --> undefined behavior (crash tak terduga)
+            ✅  Gunakan s.at(i) yang melempar exception, atau selalu cek i < s.size()
+
+        ❌  Modifikasi hasil c_str()
+            --> c_str() kembalikan const char*, TIDAK boleh dimodifikasi
+            --> Jika string diubah setelah c_str(), pointer lama tidak valid!
+            ✅  Salin ke char[] baru jika perlu modifikasi
+
+        ❌  Konversi sto*() tanpa try-catch
+            --> stoi("abc") melempar std::invalid_argument --> program crash
+            ✅  Bungkus dengan try { ... } catch (exception& e) { ... }
+
+        ❌  Lupa #include <string>
+            --> Kadang terbawa <iostream>, tapi tidak dijamin di semua compiler
+            ✅  Selalu tulis #include <string> secara eksplisit
+
+    */
 
 // MESIN UTAMA
     int main(){
