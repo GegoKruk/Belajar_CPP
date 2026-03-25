@@ -4447,33 +4447,430 @@ using namespace std;
 
             --> Selalu gunakan const string& jika tidak perlu modifikasi!
 
-    // KESALAHAN UMUM & CARA MENGHINDARINYA
+        
+        // KESALAHAN UMUM & CARA MENGHINDARINYA
+            ❌  Pakai == untuk bandingkan char*
+                --> == untuk char* membandingkan ALAMAT memori, bukan isi string!
+                ✅  Gunakan strcmp() untuk C-string, atau konversi ke std::string dulu.
 
-        ❌  Pakai == untuk bandingkan char*
-            --> == untuk char* membandingkan ALAMAT memori, bukan isi string!
-            ✅  Gunakan strcmp() untuk C-string, atau konversi ke std::string dulu.
+            ❌  Lupa cin.ignore() sebelum getline()
+                --> getline() baca sisa '\n' dari cin >> sebelumnya --> string kosong
+                ✅  Tambahkan cin.ignore() atau cin.ignore(1000,'\n') setelah cin >>
 
-        ❌  Lupa cin.ignore() sebelum getline()
-            --> getline() baca sisa '\n' dari cin >> sebelumnya --> string kosong
-            ✅  Tambahkan cin.ignore() atau cin.ignore(1000,'\n') setelah cin >>
+            ❌  Akses s[s.size()] atau lebih
+                --> Index di luar batas --> undefined behavior (crash tak terduga)
+                ✅  Gunakan s.at(i) yang melempar exception, atau selalu cek i < s.size()
 
-        ❌  Akses s[s.size()] atau lebih
-            --> Index di luar batas --> undefined behavior (crash tak terduga)
-            ✅  Gunakan s.at(i) yang melempar exception, atau selalu cek i < s.size()
+            ❌  Modifikasi hasil c_str()
+                --> c_str() kembalikan const char*, TIDAK boleh dimodifikasi
+                --> Jika string diubah setelah c_str(), pointer lama tidak valid!
+                ✅  Salin ke char[] baru jika perlu modifikasi
 
-        ❌  Modifikasi hasil c_str()
-            --> c_str() kembalikan const char*, TIDAK boleh dimodifikasi
-            --> Jika string diubah setelah c_str(), pointer lama tidak valid!
-            ✅  Salin ke char[] baru jika perlu modifikasi
+            ❌  Konversi sto*() tanpa try-catch
+                --> stoi("abc") melempar std::invalid_argument --> program crash
+                ✅  Bungkus dengan try { ... } catch (exception& e) { ... }
 
-        ❌  Konversi sto*() tanpa try-catch
-            --> stoi("abc") melempar std::invalid_argument --> program crash
-            ✅  Bungkus dengan try { ... } catch (exception& e) { ... }
+            ❌  Lupa #include <string>
+                --> Kadang terbawa <iostream>, tapi tidak dijamin di semua compiler
+                ✅  Selalu tulis #include <string> secara eksplisit
 
-        ❌  Lupa #include <string>
-            --> Kadang terbawa <iostream>, tapi tidak dijamin di semua compiler
-            ✅  Selalu tulis #include <string> secara eksplisit
+    */
 
+// W. Pointers (Pengenalan)
+
+    /* MODUL 10.0 - Gambaran Umum & Kenapa Pointer Penting
+    
+        Pointer adalah salah satu fitur paling powerful sekaligus paling
+        bikin bingung di C++. Tapi tenang, kalau dipahami pelan-pelan,
+        konsepnya sebenarnya tidak serumit yang dibayangkan.
+
+        Analogi sederhana:
+            Bayangkan memory komputer itu seperti deretan loker di sekolah.
+            Setiap loker punya NOMOR (alamat) dan ISI (nilai yang disimpan).
+
+            Variabel biasa = isi loker
+            Pointer        = secarik kertas yang ditulis NOMOR LOKERNYA
+
+            Jadi pointer tidak menyimpan nilai secara langsung,
+            melainkan MENYIMPAN ALAMAT dari tempat nilai itu tinggal.
+
+        Kenapa pointer penting?
+            ✅ Manipulasi memory secara langsung (efisien)
+            ✅ Dynamic memory allocation (alokasi memori saat runtime)
+            ✅ Pass array ke function dengan efisien
+            ✅ Bikin data structure kompleks (linked list, tree, dll)
+            ✅ Dasar untuk memahami OOP, STL, dan banyak fitur modern C++
+    */
+
+    /* MODUL 10.1 - Memory & Addresses
+
+        1. Bagaimana Komputer Menyimpan Data?
+
+            Setiap variabel yang kita buat disimpan di MEMORY (RAM).
+            Memory itu ibarat deretan sel, dan setiap sel punya ALAMAT unik.
+            Alamat ini berupa angka heksadesimal, contoh: 0x7ffd3a2b1c08
+
+            Visualisasi:
+                Alamat      | Isi
+                ------------|------
+                0x1000      |  10      <-- int x = 10
+                0x1004      |  20      <-- int y = 20
+                0x1008      |  30      <-- int z = 30
+
+            Catatan: int biasanya butuh 4 byte, makanya alamatnya melompat 4
+
+        2. Operator Address-of (&)
+
+            Operator & digunakan untuk mendapatkan ALAMAT sebuah variabel.
+            Bukan simbol bitwise AND ya, beda konteks!
+
+            Contoh:
+                int x = 10;
+                cout << x;      --> menampilkan nilai:  10
+                cout << &x;     --> menampilkan alamat: 0x7ffd... (angka heks)
+
+        3. Stack vs Heap
+
+            Ada dua area memory utama yang sering kita pakai:
+
+            a. STACK
+                - Untuk variabel lokal (yang kita buat di dalam fungsi/main)
+                - Ukuran terbatas (~1-8 MB tergantung sistem)
+                - Otomatis dibersihkan ketika fungsi selesai
+                - Pengelolaan OTOMATIS oleh compiler
+                - Contoh: int x = 10; --> ada di stack
+
+            b. HEAP
+                - Untuk dynamic memory allocation (pakai new)
+                - Ukuran lebih besar (dibatasi RAM)
+                - TIDAK otomatis dibersihkan, programmer wajib bebaskan dengan delete
+                - Pengelolaan MANUAL oleh programmer
+                - Contoh: int* ptr = new int(10); --> ada di heap
+
+            Ilustrasi:
+                ┌────────────────────┐  ← Alamat tinggi
+                │       STACK        │  ← Variabel lokal, tumbuh ke bawah
+                │         ↓         │
+                │                   │
+                │         ↑         │
+                │       HEAP         │  ← Dynamic allocation, tumbuh ke atas
+                ├────────────────────┤
+                │  Global/Static     │
+                ├────────────────────┤
+                │   Code (Program)   │
+                └────────────────────┘  ← Alamat rendah
+    */
+
+    /* MODUL 10.2 - Pointer Basics
+
+        1. Apa itu Pointer?
+
+            Pointer adalah variabel yang MENYIMPAN ALAMAT MEMORY dari variabel lain.
+            Pointer tidak menyimpan nilai langsung, tapi menyimpan "dimana nilainya berada".
+
+        2. Deklarasi Pointer
+
+            Syntax:
+                tipe_data* nama_pointer;
+
+            Contoh:
+                int*    ptr;        --> pointer ke int
+                double* dPtr;       --> pointer ke double
+                char*   cPtr;       --> pointer ke char
+                string* sPtr;       --> pointer ke string
+
+            Catatan penulisan (semua valid, konvensi berbeda-beda):
+                int* ptr;       --> gaya C++ (bintang menempel ke tipe) ← DISARANKAN
+                int *ptr;       --> gaya C (bintang menempel ke nama)
+                int * ptr;      --> gaya campuran
+
+            ⚠️ JEBAKAN:
+                int* a, b;
+                --> a adalah pointer, tapi b BUKAN pointer (b adalah int biasa)!
+                Kalau mau dua pointer: int* a; int* b;
+
+        3. Inisialisasi Pointer
+
+            Ada dua cara mengisi pointer:
+
+            a. Arahkan ke variabel yang sudah ada (pakai &)
+                int angka = 42;
+                int* ptr = &angka;  --> ptr sekarang menyimpan ALAMAT angka
+
+            b. Null Pointer (pointer tidak menunjuk ke mana-mana)
+                int* ptr = nullptr; --> cara modern C++11 (LEBIH BAIK!)
+                int* ptr = NULL;    --> cara lama (C-style)
+                int* ptr = 0;       --> juga bisa, tapi kurang eksplisit
+
+            ⚠️ BAHAYA: Uninitialized pointer (pointer liar / wild pointer)
+                int* ptr;           --> BAHAYA! Nilai ptr tidak jelas (garbage)
+                *ptr = 10;          --> CRASH atau undefined behavior!
+                Selalu inisialisasi pointer!
+
+        4. Dereferencing (*) - Mengakses Nilai yang Ditunjuk
+
+            Operator * digunakan untuk MENGAKSES atau MENGUBAH nilai
+            yang berada di alamat yang disimpan pointer.
+
+            Contoh:
+                int angka = 42;
+                int* ptr = &angka;
+
+                cout << ptr;    --> menampilkan ALAMAT (misal: 0x7ffd...)
+                cout << *ptr;   --> menampilkan NILAI yang di alamat itu: 42
+
+            * di sini = "pergi ke alamat itu, ambil nilainya"
+            Istilahnya: DEREFERENCE
+
+            Modifikasi via pointer:
+                *ptr = 99;      --> mengubah nilai angka menjadi 99!
+                cout << angka;  --> output: 99 (ikut berubah!)
+
+        5. Hubungan Variabel, Alamat, dan Pointer
+
+            Visualisasi lengkap:
+
+                int angka = 42;         int* ptr = &angka;
+                                    
+                Nama:    angka           ptr
+                Nilai:   42              0x1000  (alamat angka)
+                Alamat:  0x1000          0x2000  (alamat ptr sendiri)
+
+                cout << angka;      --> 42        (nilai angka)
+                cout << &angka;     --> 0x1000    (alamat angka)
+                cout << ptr;        --> 0x1000    (isi ptr = alamat angka)
+                cout << *ptr;       --> 42        (nilai di alamat 0x1000)
+                cout << &ptr;       --> 0x2000    (alamat ptr itu sendiri)
+
+        6. Null Pointer & Safety
+
+            nullptr adalah pointer yang sengaja tidak menunjuk ke mana-mana.
+            Gunakan ini sebagai "default" pointer sebelum diarahkan ke sesuatu.
+
+            Cara cek sebelum gunakan:
+                int* ptr = nullptr;
+
+                if (ptr != nullptr) {
+                    cout << *ptr;   // aman, ptr sudah punya alamat valid
+                } else {
+                    cout << "Pointer belum diinisialisasi!";
+                }
+
+            ❌ JANGAN deref null pointer:
+                int* ptr = nullptr;
+                cout << *ptr;   --> CRASH! (Segmentation Fault)
+    */
+
+    /* MODUL 10.3 - Pointer Arithmetic
+
+        1. Konsep Pointer Arithmetic
+
+            Pointer bisa ditambah atau dikurangi dengan angka integer.
+            Hasilnya bukan tambah/kurang biasa, tapi melompat sebanyak
+            (n * sizeof(tipe_data)) byte di memory.
+
+            Jadi pointer arithmetic sadar tipe data!
+
+        2. Operasi yang Tersedia
+
+            Operasi         Contoh          Keterangan
+            ────────────── ─────────────── ────────────────────────────────────────
+            ptr + n        ptr + 1         Maju n elemen (n * sizeof(tipe))
+            ptr - n        ptr - 2         Mundur n elemen
+            ptr++          ptr++           Maju 1 elemen (sama dengan ptr + 1)
+            ptr--          ptr--           Mundur 1 elemen
+            ptr1 - ptr2    p2 - p1         Selisih posisi (dalam satuan elemen, bukan byte)
+            ptr1 == ptr2                   Perbandingan apakah menunjuk alamat sama
+            ptr1 < ptr2                    Perbandingan posisi (cocok untuk array)
+
+        3. Visualisasi Pointer Arithmetic
+
+            int arr[5] = {10, 20, 30, 40, 50};
+            int* ptr = arr;     --> ptr menunjuk ke arr[0]
+
+            Memory layout (tiap int = 4 byte):
+
+            Alamat:  [1000] [1004] [1008] [1012] [1016]
+            Nilai:   [  10] [  20] [  30] [  40] [  50]
+            Index:   [   0] [   1] [   2] [   3] [   4]
+
+            ptr       = 1000   --> menunjuk ke elemen 0
+            ptr + 1   = 1004   --> menunjuk ke elemen 1 (bukan 1001!)
+            ptr + 2   = 1008   --> menunjuk ke elemen 2
+            *(ptr + 2) = 30    --> nilai di elemen 2
+
+        4. Increment & Decrement Pointer
+
+            int arr[] = {10, 20, 30};
+            int* ptr = arr;         --> menunjuk ke arr[0]
+
+            ptr++;                  --> sekarang menunjuk ke arr[1]
+            cout << *ptr;           --> output: 20
+
+            ptr++;                  --> sekarang menunjuk ke arr[2]
+            cout << *ptr;           --> output: 30
+
+            ptr--;                  --> kembali ke arr[1]
+            cout << *ptr;           --> output: 20
+
+        5. Selisih Dua Pointer
+
+            int arr[5] = {10, 20, 30, 40, 50};
+            int* awal = &arr[0];
+            int* akhir = &arr[4];
+
+            int selisih = akhir - awal;     --> selisih = 4 (bukan 16 byte!)
+            Hasilnya dalam satuan ELEMEN, bukan byte.
+
+        6. Perbandingan Pointer
+
+            Pointer bisa dibandingkan dengan ==, !=, <, >, <=, >=
+            Ini berguna untuk loop traversal array.
+
+            int arr[5] = {10, 20, 30, 40, 50};
+            int* start = arr;
+            int* end   = arr + 5;    --> satu posisi di luar elemen terakhir
+
+            // Loop traversal pakai pointer
+            for (int* p = start; p != end; p++) {
+                cout << *p << " ";
+            }
+            // Output: 10 20 30 40 50
+
+        7. ⚠️ Batasan & Bahaya Pointer Arithmetic
+
+            ❌ JANGAN keluar batas array:
+                int arr[3] = {1, 2, 3};
+                int* ptr = arr + 10;    --> out of bounds, undefined behavior!
+                cout << *ptr;           --> CRASH atau nilai sampah!
+
+            ❌ JANGAN arithmetic pada pointer yang tidak dalam array yang sama:
+                int a = 10, b = 20;
+                int* p1 = &a;
+                int* p2 = &b;
+                int diff = p2 - p1;     --> undefined behavior! (beda variabel)
+
+            ✅ Pointer arithmetic AMAN hanya dalam batas array yang sama.
+    */
+
+    /* MODUL 10.4 - Pointers & Arrays
+
+        1. Hubungan Erat Pointer dan Array
+
+            Di C++, nama array ADALAH pointer ke elemen pertamanya.
+            Ini bukan analogi, ini benar-benar sama!
+
+            int arr[5] = {10, 20, 30, 40, 50};
+
+            arr         --> alamat arr[0]   (sama dengan &arr[0])
+            *arr        --> nilai arr[0]    = 10
+            *(arr + 1)  --> nilai arr[1]    = 20
+            *(arr + i)  --> nilai arr[i]    (cara pointer mengakses elemen ke-i)
+
+            // Ini SAMA SAJA:
+            arr[2]      == *(arr + 2)   == *(2 + arr)   == 2[arr]   --> semua = 30
+
+        2. Array Decay
+
+            Ketika array dilewatkan ke function sebagai parameter,
+            array "berubah" menjadi pointer ke elemen pertamanya.
+            Proses ini disebut ARRAY DECAY.
+
+            Konsekuensi:
+            - sizeof() di dalam function tidak bisa hitung ukuran array
+            - Itulah kenapa wajib kirim SIZE sebagai parameter terpisah
+                (sudah dibahas di modul Array & Function Bab U)
+
+            void fungsi(int arr[], int size)    // arr[] = int* arr di balik layar
+            void fungsi(int* arr, int size)     // sama saja
+
+        3. Perbedaan Pointer dan Array
+
+            Meski mirip, ada perbedaan penting:
+
+            Aspek               Pointer                     Array
+            ─────────────────── ─────────────────────────── ────────────────────────────
+            Deklarasi           int* ptr;                   int arr[5];
+            Reassignment        ptr = arr2; (bisa)          arr = arr2; (❌ TIDAK BISA)
+            sizeof()            sizeof(ptr) = 4/8 byte      sizeof(arr) = total byte array
+            Arithmetic          ptr++; (bisa)               arr++; (❌ TIDAK BISA)
+            Isi                 Menyimpan alamat             Array itu sendiri
+
+            Intinya:
+            - Array adalah blok memory yang fixed (tidak bisa dipindah)
+            - Pointer adalah variabel yang menyimpan alamat (bisa diubah)
+
+        4. Pointer Indexing
+
+            Setelah pointer diarahkan ke array, bisa pakai notasi [] juga:
+
+            int arr[5] = {10, 20, 30, 40, 50};
+            int* ptr = arr;
+
+            ptr[0]  --> 10  (sama dengan *ptr)
+            ptr[2]  --> 30  (sama dengan *(ptr + 2))
+            ptr[4]  --> 50
+
+        5. Iterasi Array dengan Pointer
+
+            Ada dua cara iterasi, hasilnya sama:
+
+            // Cara 1: Index biasa
+            for (int i = 0; i < 5; i++) {
+                cout << arr[i] << " ";
+            }
+
+            // Cara 2: Pointer arithmetic
+            for (int* p = arr; p < arr + 5; p++) {
+                cout << *p << " ";
+            }
+
+            // Cara 3: Pointer dengan index
+            int* ptr = arr;
+            for (int i = 0; i < 5; i++) {
+                cout << ptr[i] << " ";
+            }
+
+        6. Pointer ke String (C-Style)
+
+            char nama[] = "Gega";
+            char* ptr   = nama;         --> ptr menunjuk ke 'G'
+
+            cout << ptr;                --> Output: Gega (cout baca sampai \0)
+            cout << *ptr;               --> Output: G (satu karakter)
+            ptr++;
+            cout << *ptr;               --> Output: e (karakter berikutnya)
+            cout << ptr;                --> Output: ega (mulai dari posisi ptr sekarang)
+
+        7. const dengan Pointer - Ada 3 Kombinasi!
+
+            Ini sering membingungkan, tapi penting:
+
+            a. Pointer ke const (tidak bisa ubah nilai yang ditunjuk):
+                const int* ptr = &angka;
+                *ptr = 99;      --> ❌ ERROR! Nilai tidak bisa diubah
+                ptr = &lain;    --> ✅ OK, pointer-nya bisa diubah
+
+            b. Const pointer (alamat yang disimpan tidak bisa diubah):
+                int* const ptr = &angka;
+                *ptr = 99;      --> ✅ OK, nilai bisa diubah
+                ptr = &lain;    --> ❌ ERROR! Pointer tidak bisa diubah
+
+            c. Const pointer ke const (keduanya tidak bisa diubah):
+                const int* const ptr = &angka;
+                *ptr = 99;      --> ❌ ERROR!
+                ptr = &lain;    --> ❌ ERROR!
+
+            Trik baca: baca dari kanan ke kiri.
+                "const int* ptr"       --> ptr adalah pointer (*) ke int yang const
+                "int* const ptr"       --> ptr adalah const pointer (*const) ke int
+                "const int* const ptr" --> ptr adalah const pointer ke int yang const
+
+            Penggunaan umum:
+                void tampilArray(const int* arr, int size) {
+                    // const int* arr artinya: kita tidak akan ubah isinya
+                    // ini cara aman pass array ke function read-only
+                }
     */
 
 // MESIN UTAMA
