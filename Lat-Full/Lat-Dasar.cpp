@@ -4873,6 +4873,236 @@ using namespace std;
                 }
     */
 
+// X. References (Referensi)
+
+    /* MODUL 11.0 - Gambaran Umum & Kenapa Reference Penting
+
+        Kalau Pointer itu seperti "secarik kertas yang ditulis NOMOR LOKER",
+        maka Reference itu seperti "memberikan NAMA LAIN / ALIAS ke loker itu".
+
+        Analogi sederhana:
+            Bayangkan kamu punya teman bernama "Muhammad Farhan Hidayatullah",
+            tapi sehari-hari dipanggil "Gega". Keduanya merujuk ke ORANG YANG SAMA.
+            Ubah rambutnya? Berubah di keduanya. Karena memang orangnya sama!
+
+            Variabel asli = Muhammad Farhan Hidayatullah (nama panjang)
+            Reference     = Gega (alias/panggilan, merujuk ke orang yang sama)
+
+        Kenapa reference penting?
+            ✅ Lebih simpel & aman daripada pointer untuk banyak kasus
+            ✅ Wajib diinisialisasi saat deklarasi (tidak bisa null)
+            ✅ Tidak perlu dereference (*) untuk akses nilai
+            ✅ Syntax lebih bersih, seperti variabel biasa
+            ✅ Dasar untuk memahami pass by reference di function
+    */
+
+    /* MODUL 11.1 - Reference Basics
+
+        1. Apa itu Reference?
+
+            Reference adalah ALIAS (nama lain) untuk variabel yang sudah ada.
+            Bukan salinan, bukan pointer — tapi benar-benar NAMA LAIN yang
+            merujuk ke LOKASI MEMORY yang SAMA.
+
+            Jadi apapun yang dilakukan pada reference, variabel aslinya IKUT BERUBAH.
+
+        2. Cara Deklarasi Reference
+
+            Syntax:
+                tipe_data& namaReference = variabelAsli;
+
+            Contoh:
+                int angka  = 10;
+                int& ref   = angka;     --> ref adalah alias dari angka
+
+                cout << angka;  --> 10
+                cout << ref;    --> 10  (sama!)
+
+                ref = 99;               --> mengubah via reference
+                cout << angka;  --> 99  (angka IKUT BERUBAH!)
+
+        3. WAJIB Diinisialisasi!
+
+            Reference HARUS langsung diarahkan ke variabel saat deklarasi.
+            Tidak bisa dibiarkan kosong seperti pointer!
+
+                int& ref;               --> ❌ ERROR! Reference tanpa init
+                int& ref = angka;       --> ✅ OK
+
+            Dan setelah diinisialisasi, reference TIDAK BISA diarahkan ulang
+            ke variabel lain (berbeda dengan pointer yang bisa diubah).
+
+        4. Reference vs Pointer - Perbandingan Singkat
+
+            Aspek               Reference                   Pointer
+            ─────────────────── ─────────────────────────── ────────────────────────────
+            Syntax deklarasi    int& ref = angka;           int* ptr = &angka;
+            Inisialisasi        WAJIB saat deklarasi         Boleh setelah deklarasi
+            Null                TIDAK BISA null              Bisa nullptr
+            Reassignment        TIDAK BISA ganti target      Bisa ganti target (ptr = &lain)
+            Akses nilai         ref  (langsung)              *ptr  (perlu dereference)
+            Alamat              &ref = &angka (sama!)        ptr = alamat yang disimpan
+            Keamanan            Lebih aman                   Lebih rawan bug
+            Kegunaan utama      Alias, pass by ref           Dynamic memory, array, dll
+
+        5. Reference BUKAN Variabel Baru
+
+            Reference tidak membuat salinan variabel.
+            Reference dan variabel asli menunjuk ke ALAMAT MEMORY yang SAMA.
+
+            int angka = 10;
+            int& ref  = angka;
+
+            &angka == &ref      --> ✅ TRUE! Alamatnya SAMA persis!
+
+        6. Const Reference
+
+            Reference ke nilai const — tidak boleh diubah via reference ini.
+
+                int angka = 42;
+                const int& cref = angka;
+
+                cout << cref;   --> ✅ OK, bisa baca
+                cref = 99;      --> ❌ ERROR! Tidak bisa ubah via const reference
+
+            Kegunaan const reference:
+                - Baca saja tanpa modifikasi
+                - Terima literal atau ekspresi (const ref bisa bind ke temporary!)
+
+                const int& cr = 5 + 3;  --> ✅ OK! (temporary value 8)
+                int& r = 5 + 3;         --> ❌ ERROR! Non-const ref tidak bisa bind ke temporary
+    */
+
+    /* MODUL 11.2 - Pass by Reference
+
+        1. Mengapa Pass by Reference?
+
+            Secara default, function menerima SALINAN nilai (pass by value).
+            Artinya perubahan di dalam function TIDAK mempengaruhi variabel asli.
+
+            Dengan pass by reference, function menerima ALIAS dari variabel asli.
+            Perubahan di dalam function LANGSUNG mempengaruhi variabel asli!
+
+        2. Syntax Pass by Reference
+
+            // Pass by VALUE (default) - salinan, asli tidak berubah
+            void fungsiValue(int x) {
+                x = 99;     // hanya ubah salinan lokal
+            }
+
+            // Pass by REFERENCE - alias, asli IKUT BERUBAH
+            void fungsiRef(int& x) {
+                x = 99;     // mengubah variabel asli!
+            }
+
+            int a = 10;
+            fungsiValue(a);     --> a tetap 10
+            fungsiRef(a);       --> a berubah jadi 99!
+
+        3. Kapan Pakai Pass by Reference?
+
+            ✅ Saat function perlu MENGUBAH nilai variabel pemanggil
+            ✅ Saat "mengembalikan" lebih dari satu nilai (multiple return)
+            ✅ Saat passing objek besar agar tidak membuat salinan (hemat memory)
+
+            Contoh multiple return via reference:
+                void hitungPersegi(int sisi, int& keliling, int& luas) {
+                    keliling = 4 * sisi;
+                    luas     = sisi * sisi;
+                }
+
+        4. Const Reference sebagai Parameter (PALING UMUM!)
+
+            Digunakan saat function hanya MEMBACA nilai, tidak mengubahnya.
+            Lebih efisien daripada pass by value untuk tipe data besar (string, vector, dll).
+
+            void tampilkan(const string& nama) {
+                cout << nama;   // baca saja, tidak modifikasi
+            }
+
+            Keuntungan const reference:
+                ✅ Tidak membuat salinan (efisien)
+                ✅ Tidak bisa diubah (aman)
+                ✅ Bisa menerima literal / temporary
+
+            Perbandingan cara pass parameter:
+
+            void f(string s)          --> COPY, mahal untuk string panjang
+            void f(string& s)         --> REFERENCE, bisa ubah, tidak bisa terima literal
+            void f(const string& s)   --> CONST REF, efisien + aman ← PALING DIREKOMENDASIKAN untuk read-only
+
+        5. Swap Classic - Use Case Populer Pass by Reference
+
+            // SALAH - tidak swap aslinya!
+            void salahSwap(int a, int b) {
+                int temp = a;
+                a = b;
+                b = temp;
+            }
+
+            // BENAR - swap aslinya!
+            void swap(int& a, int& b) {
+                int temp = a;
+                a = b;
+                b = temp;
+            }
+    */
+
+    /* MODUL 11.3 - Reference vs Pointer - Kapan Pakai Yang Mana?
+
+        1. GUNAKAN REFERENCE ketika:
+
+            ✅ Function perlu ubah argumen (pass by ref)
+            ✅ Mau buat alias yang lebih readable
+            ✅ Passing parameter besar yang tidak perlu diubah (const ref)
+            ✅ Tidak butuh kemampuan pointer seperti nullptr atau reassignment
+            ✅ Range-based for loop dengan objek besar (for (auto& x : v))
+
+        2. GUNAKAN POINTER ketika:
+
+            ✅ Perlu nullable (bisa nullptr = "tidak ada")
+            ✅ Perlu reassignment (arahkan ke variabel berbeda)
+            ✅ Dynamic memory allocation (new / delete)
+            ✅ Array C-style dan pointer arithmetic
+            ✅ Implementasi data structure (linked list, tree, dll)
+
+        3. Tabel Keputusan Cepat
+
+            Butuh ini?              Pakai      Alasan
+            ─────────────────────── ────────── ─────────────────────────────────────
+            Alias sederhana         Reference  Syntax bersih, tidak bisa null
+            Nullable                Pointer    ptr = nullptr memungkinkan
+            Ubah target nanti       Pointer    Bisa arahkan ulang
+            Pass arg & ubahnya      Reference  Syntax lebih simpel
+            Pass arg, hanya baca    const ref  Efisien + aman
+            Dynamic memory          Pointer    new / delete hanya bisa lewat pointer
+            Iterasi manual array    Pointer    Pointer arithmetic
+            Return dua nilai        Reference  Lebih idiomatik
+
+        4. Kode Aturan Praktis (Rules of Thumb)
+
+            "Gunakan reference secara default.
+            Gunakan pointer hanya kalau reference tidak bisa melakukan tugasnya."
+            - Bjarne Stroustrup (pencipta C++)
+
+            "Prefer references over pointers in C++ code."
+            - Google C++ Style Guide
+
+        5. Reference ke Reference (TIDAK ADA!)
+
+            int angka = 10;
+            int& ref  = angka;
+            int& ref2 = ref;    --> bukan ref ke ref, ini ref ke angka juga!
+
+        6. Pointer ke Pointer (ADA, dan berguna)
+
+            int  angka = 10;
+            int* ptr   = &angka;
+            int** pptr = &ptr;      --> pointer ke pointer
+
+            **pptr = 99;            --> mengubah angka via dua level pointer
+    */
+
 // MESIN UTAMA
     int main(){
             //programPertama();
