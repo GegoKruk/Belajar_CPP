@@ -2,6 +2,7 @@
 #include <algorithm>    // untuk array modul -Array Algorrithm
 #include <cstring>      // untuk array modul - Character Array
 #include <iomanip>      // untuk array modul - array multidimensi
+#include <cmath>        // untuk struct modul - struct basics
 using namespace std;
 
 // A. Program Pertama
@@ -5101,6 +5102,288 @@ using namespace std;
             int** pptr = &ptr;      --> pointer ke pointer
 
             **pptr = 99;            --> mengubah angka via dua level pointer
+    */
+
+// Y. Struct 
+
+    /* MODUL 12.0 - Struct Basics
+
+    1. Apa itu Struct?
+
+        Struct (Structure) adalah tipe data BUATAN SENDIRI yang mengelompokkan
+        beberapa variabel dengan tipe berbeda-beda menjadi SATU KESATUAN.
+
+        Analogi dunia nyata:
+            Bayangkan sebuah KTP.
+            KTP punya banyak info: nama, NIK, tempat lahir, tanggal lahir, dll.
+            Semua info itu milik SATU ORANG yang sama.
+            Struct ibarat "cetakan KTP" — template yang mendefinisikan info apa saja
+            yang dimiliki setiap orang.
+
+        Sebelum pakai struct (ribet!):
+            string nama1      = "Budi";
+            int    umur1      = 20;
+            double ipk1       = 3.85;
+
+            string nama2      = "Sari";
+            int    umur2      = 21;
+            double ipk2       = 3.90;
+            // → Untuk 100 mahasiswa? Mimpi buruk!
+
+        Dengan struct (rapi!):
+            Mahasiswa mhs1    = {"Budi", 20, 3.85};
+            Mahasiswa mhs2    = {"Sari", 21, 3.90};
+            // → Mudah, terstruktur, dan scalable!
+
+    2. Syntax Deklarasi Struct
+
+        struct NamaStruct {
+            tipe_data member1;
+            tipe_data member2;
+            tipe_data member3;
+            // ... dan seterusnya
+        };  ← jangan lupa titik koma di sini!
+
+        Contoh:
+            struct Mahasiswa {
+                string nama;
+                int    umur;
+                double ipk;
+            };
+
+        Setelah dideklarasi, "Mahasiswa" bisa digunakan seperti int, string, dll.
+        Ini disebut USER-DEFINED TYPE (tipe yang kita buat sendiri).
+
+    3. Membuat Objek / Variable Struct
+
+        Setelah struct dideklarasikan, buat "instance" (variabel dari tipe itu):
+
+            Mahasiswa mhs1;         // Deklarasi saja (member belum terisi)
+            Mahasiswa mhs2 = {"Budi", 20, 3.85};  // Inisialisasi langsung
+
+    4. Mengakses Member — Dot Operator ( . )
+
+        Gunakan titik (.) untuk akses member:
+
+            mhs1.nama = "Sari";
+            mhs1.umur = 21;
+            mhs1.ipk  = 3.90;
+
+            cout << mhs1.nama;  // Output: Sari
+            cout << mhs1.ipk;   // Output: 3.9
+
+    5. Cara Inisialisasi Struct
+
+        a. Satu per satu:
+            Mahasiswa m;
+            m.nama = "Budi";
+            m.umur = 20;
+            m.ipk  = 3.85;
+
+        b. Aggregate initialization (urutan harus sesuai deklarasi):
+            Mahasiswa m = {"Budi", 20, 3.85};
+
+        c. Designated initialization (C++20, nama member explicit):
+            Mahasiswa m = {.nama = "Budi", .umur = 20, .ipk = 3.85};
+
+        d. Default member values (C++11 ke atas):
+            struct Mahasiswa {
+                string nama  = "Unknown";
+                int    umur  = 0;
+                double ipk   = 0.0;
+            };
+            Mahasiswa m;    // nama = "Unknown", umur = 0, ipk = 0.0
+
+    6. Struct di Memory
+
+        Struct menyimpan member secara BERURUTAN di memory:
+
+        Mahasiswa m = {"Budi", 20, 3.85};
+
+        Memory layout (konseptual):
+        ┌──────────────────┬───────────┬──────────────────┐
+        │  nama ("Budi")   │  umur(20) │   ipk (3.85)     │
+        └──────────────────┴───────────┴──────────────────┘
+        Semua dalam satu blok memory yang berdekatan.
+*/
+
+    /* MODUL 12.1 - Struct Operations
+
+    1. Passing Struct ke Function
+
+        Seperti tipe data biasa, struct bisa dipass ke function.
+        Ada tiga cara:
+
+        a. Pass by VALUE (copy dibuat — perubahan TIDAK mengubah asli):
+            void tampilkan(Mahasiswa m) { ... }
+
+        b. Pass by REFERENCE (alias — perubahan MENGUBAH asli):
+            void updateIPK(Mahasiswa& m, double ipkBaru) { ... }
+
+        c. Pass by CONST REFERENCE (baca saja, efisien, aman):
+            void tampilkan(const Mahasiswa& m) { ... }
+
+        ⭐ BEST PRACTICE:
+            - Hanya READ   → const Mahasiswa& m   (efisien + aman)
+            - Perlu MODIFY → Mahasiswa& m
+            - Struct kecil → boleh by value (misal: Titik, WaktuJam)
+
+    2. Returning Struct dari Function
+
+        Function bisa mengembalikan struct seperti tipe data biasa.
+
+            Mahasiswa buatMahasiswa(string nama, int umur, double ipk) {
+                Mahasiswa m;
+                m.nama = nama;
+                m.umur = umur;
+                m.ipk  = ipk;
+                return m;
+            }
+
+            Mahasiswa mhs = buatMahasiswa("Budi", 20, 3.85);
+
+    3. Array of Structs
+
+        Bisa membuat array yang setiap elemennya adalah struct!
+
+            Mahasiswa kelas[30];    // 30 mahasiswa
+            kelas[0].nama = "Budi";
+            kelas[0].ipk  = 3.85;
+
+        Ini sangat powerful untuk menyimpan banyak data terstruktur.
+
+    4. Nested Structs
+
+        Struct bisa punya member yang tipenya struct juga!
+
+            struct Alamat {
+                string jalan;
+                string kota;
+                string provinsi;
+            };
+
+            struct Pegawai {
+                string nama;
+                int    gaji;
+                Alamat alamat;   ← member berupa struct lain!
+            };
+
+            Pegawai p;
+            p.nama            = "Budi";
+            p.alamat.kota     = "Yogyakarta";
+            p.alamat.provinsi = "DIY";
+
+    5. Struct dan sizeof()
+
+        sizeof(struct) = jumlah bytes semua membernya
+        (+ kemungkinan padding untuk alignment di memory)
+
+            sizeof(Titik) → biasanya 16 bytes (2 × double 8 bytes)
+*/
+
+    /* MODUL 12.2 - Struct vs Class (Preview)
+
+        1. Perbedaan Teknis: Default Access
+
+            Secara teknis, perbedaan SATU-SATUNYA antara struct dan class di C++
+            adalah DEFAULT ACCESS SPECIFIER:
+
+                struct → default: PUBLIC  (semua bisa akses member dari luar)
+                class  → default: PRIVATE (tidak bisa akses member dari luar)
+
+            Contoh:
+
+                struct PointS {
+                    int x;      // ← otomatis PUBLIC
+                    int y;
+                };
+
+                class PointC {
+                    int x;      // ← otomatis PRIVATE (tidak bisa diakses langsung!)
+                    int y;
+                };
+
+                PointS ps;
+                ps.x = 5;   // ✅ OK — struct, public by default
+
+                PointC pc;
+                pc.x = 5;   // ❌ ERROR — class, private by default
+
+        2. Konvensi Penggunaan (di dunia nyata):
+
+            Programmer C++ umumnya pakai konvensi tidak tertulis ini:
+
+            STRUCT digunakan untuk:
+                ✅ Data sederhana tanpa behaviour (Plain Old Data / POD)
+                ✅ Kumpulan nilai yang saling berkaitan
+                ✅ Data transfer objects (DTO)
+                ✅ Tidak butuh encapsulation
+                ✅ Contoh: Titik, Warna, Ukuran, Record data
+
+            CLASS digunakan untuk:
+                ✅ Objek dengan state (data) DAN behaviour (fungsi)
+                ✅ Butuh encapsulation (sembunyikan detail)
+                ✅ Inheritance / polymorphism
+                ✅ Invariants yang perlu dijaga
+                ✅ Contoh: BankAccount, Mahasiswa dengan metode, Car
+
+        3. Struct dengan Member Function
+
+            Di C++, struct BISA punya member function (berbeda dari C!).
+            Tapi biasanya tidak perlu — kalau sudah kompleks, pakai class.
+
+                struct Persegi {
+                    double sisi;
+
+                    double luas() {
+                        return sisi * sisi;
+                    }
+
+                    double keliling() {
+                        return 4 * sisi;
+                    }
+                };
+
+                Persegi p = {5.0};
+                cout << p.luas();       // 25
+                cout << p.keliling();   // 20
+
+        4. C-Style Struct vs C++ Struct
+
+            C (lama):
+                struct Titik { int x; int y; };
+                struct Titik p1;        // harus tulis 'struct' lagi!
+                p1.x = 3;
+
+            C++ (modern):
+                struct Titik { int x; int y; };
+                Titik p1;               // tidak perlu kata 'struct' lagi
+                p1.x = 3;
+
+        5. Typedef + Struct (C-style, sudah jarang di C++)
+
+            // Gaya lama C:
+            typedef struct {
+                int x;
+                int y;
+            } Titik;
+
+            // Di C++ tidak perlu typedef — langsung:
+            struct Titik {
+                int x;
+                int y;
+            };
+            Titik p;    // langsung bisa!
+
+        6. Ringkasan
+
+            Fitur                   struct          class
+            ─────────────────────── ─────────────── ───────────────
+            Default access          public          private
+            Bisa member function    ✅ Ya           ✅ Ya
+            Bisa inheritance        ✅ Ya           ✅ Ya
+            Konvensi penggunaan     Data sederhana  Objek kompleks
+            Kapan dipilih           POD / DTO       Encapsulation
     */
 
 // MESIN UTAMA
