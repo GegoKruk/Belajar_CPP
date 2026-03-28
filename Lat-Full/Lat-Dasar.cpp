@@ -3745,22 +3745,22 @@ using namespace std;
     
     // ==================[ GLOBAL ARRAY - Modul 8.10 ]==================
     // Dideklarasikan di luar semua function -> bisa diakses function manapun
-    int skorPemain[5] = {70, 85, 60, 90, 75};   // Global array skor 5 pemain
+        int skorPemain[5] = {70, 85, 60, 90, 75};   // Global array skor 5 pemain
 
-    void tampilSkorGlobal(){
-        cout << "   [ ";
-        for(int i = 0; i < 5; i++){
-            cout << "P" << i+1 << ":" << skorPemain[i];
-            if(i < 4) cout << "  ";
+        void tampilSkorGlobal(){
+            cout << "   [ ";
+            for(int i = 0; i < 5; i++){
+                cout << "P" << i+1 << ":" << skorPemain[i];
+                if(i < 4) cout << "  ";
+            }
+            cout << " ]" << endl;
         }
-        cout << " ]" << endl;
-    }
 
-    void tambahBonusGlobal(int bonus){
-        for(int i = 0; i < 5; i++) skorPemain[i] += bonus;
-    }
+        void tambahBonusGlobal(int bonus){
+            for(int i = 0; i < 5; i++) skorPemain[i] += bonus;
+        }
 
-    void resetSkorGlobal(){
+        void resetSkorGlobal(){
         for(int i = 0; i < 5; i++) skorPemain[i] = 0;
     }
 
@@ -5108,178 +5108,178 @@ using namespace std;
 
     /* MODUL 12.0 - Struct Basics
 
-    1. Apa itu Struct?
+        1. Apa itu Struct?
 
-        Struct (Structure) adalah tipe data BUATAN SENDIRI yang mengelompokkan
-        beberapa variabel dengan tipe berbeda-beda menjadi SATU KESATUAN.
+            Struct (Structure) adalah tipe data BUATAN SENDIRI yang mengelompokkan
+            beberapa variabel dengan tipe berbeda-beda menjadi SATU KESATUAN.
 
-        Analogi dunia nyata:
-            Bayangkan sebuah KTP.
-            KTP punya banyak info: nama, NIK, tempat lahir, tanggal lahir, dll.
-            Semua info itu milik SATU ORANG yang sama.
-            Struct ibarat "cetakan KTP" — template yang mendefinisikan info apa saja
-            yang dimiliki setiap orang.
+            Analogi dunia nyata:
+                Bayangkan sebuah KTP.
+                KTP punya banyak info: nama, NIK, tempat lahir, tanggal lahir, dll.
+                Semua info itu milik SATU ORANG yang sama.
+                Struct ibarat "cetakan KTP" — template yang mendefinisikan info apa saja
+                yang dimiliki setiap orang.
 
-        Sebelum pakai struct (ribet!):
-            string nama1      = "Budi";
-            int    umur1      = 20;
-            double ipk1       = 3.85;
+            Sebelum pakai struct (ribet!):
+                string nama1      = "Budi";
+                int    umur1      = 20;
+                double ipk1       = 3.85;
 
-            string nama2      = "Sari";
-            int    umur2      = 21;
-            double ipk2       = 3.90;
-            // → Untuk 100 mahasiswa? Mimpi buruk!
+                string nama2      = "Sari";
+                int    umur2      = 21;
+                double ipk2       = 3.90;
+                // → Untuk 100 mahasiswa? Mimpi buruk!
 
-        Dengan struct (rapi!):
-            Mahasiswa mhs1    = {"Budi", 20, 3.85};
-            Mahasiswa mhs2    = {"Sari", 21, 3.90};
-            // → Mudah, terstruktur, dan scalable!
+            Dengan struct (rapi!):
+                Mahasiswa mhs1    = {"Budi", 20, 3.85};
+                Mahasiswa mhs2    = {"Sari", 21, 3.90};
+                // → Mudah, terstruktur, dan scalable!
 
-    2. Syntax Deklarasi Struct
+        2. Syntax Deklarasi Struct
 
-        struct NamaStruct {
-            tipe_data member1;
-            tipe_data member2;
-            tipe_data member3;
-            // ... dan seterusnya
-        };  ← jangan lupa titik koma di sini!
+            struct NamaStruct {
+                tipe_data member1;
+                tipe_data member2;
+                tipe_data member3;
+                // ... dan seterusnya
+            };  ← jangan lupa titik koma di sini!
 
-        Contoh:
-            struct Mahasiswa {
-                string nama;
-                int    umur;
-                double ipk;
-            };
+            Contoh:
+                struct Mahasiswa {
+                    string nama;
+                    int    umur;
+                    double ipk;
+                };
 
-        Setelah dideklarasi, "Mahasiswa" bisa digunakan seperti int, string, dll.
-        Ini disebut USER-DEFINED TYPE (tipe yang kita buat sendiri).
+            Setelah dideklarasi, "Mahasiswa" bisa digunakan seperti int, string, dll.
+            Ini disebut USER-DEFINED TYPE (tipe yang kita buat sendiri).
 
-    3. Membuat Objek / Variable Struct
+        3. Membuat Objek / Variable Struct
 
-        Setelah struct dideklarasikan, buat "instance" (variabel dari tipe itu):
+            Setelah struct dideklarasikan, buat "instance" (variabel dari tipe itu):
 
-            Mahasiswa mhs1;         // Deklarasi saja (member belum terisi)
-            Mahasiswa mhs2 = {"Budi", 20, 3.85};  // Inisialisasi langsung
+                Mahasiswa mhs1;         // Deklarasi saja (member belum terisi)
+                Mahasiswa mhs2 = {"Budi", 20, 3.85};  // Inisialisasi langsung
 
-    4. Mengakses Member — Dot Operator ( . )
+        4. Mengakses Member — Dot Operator ( . )
 
-        Gunakan titik (.) untuk akses member:
+            Gunakan titik (.) untuk akses member:
 
-            mhs1.nama = "Sari";
-            mhs1.umur = 21;
-            mhs1.ipk  = 3.90;
+                mhs1.nama = "Sari";
+                mhs1.umur = 21;
+                mhs1.ipk  = 3.90;
 
-            cout << mhs1.nama;  // Output: Sari
-            cout << mhs1.ipk;   // Output: 3.9
+                cout << mhs1.nama;  // Output: Sari
+                cout << mhs1.ipk;   // Output: 3.9
 
-    5. Cara Inisialisasi Struct
+        5. Cara Inisialisasi Struct
 
-        a. Satu per satu:
-            Mahasiswa m;
-            m.nama = "Budi";
-            m.umur = 20;
-            m.ipk  = 3.85;
+            a. Satu per satu:
+                Mahasiswa m;
+                m.nama = "Budi";
+                m.umur = 20;
+                m.ipk  = 3.85;
 
-        b. Aggregate initialization (urutan harus sesuai deklarasi):
+            b. Aggregate initialization (urutan harus sesuai deklarasi):
+                Mahasiswa m = {"Budi", 20, 3.85};
+
+            c. Designated initialization (C++20, nama member explicit):
+                Mahasiswa m = {.nama = "Budi", .umur = 20, .ipk = 3.85};
+
+            d. Default member values (C++11 ke atas):
+                struct Mahasiswa {
+                    string nama  = "Unknown";
+                    int    umur  = 0;
+                    double ipk   = 0.0;
+                };
+                Mahasiswa m;    // nama = "Unknown", umur = 0, ipk = 0.0
+
+        6. Struct di Memory
+
+            Struct menyimpan member secara BERURUTAN di memory:
+
             Mahasiswa m = {"Budi", 20, 3.85};
 
-        c. Designated initialization (C++20, nama member explicit):
-            Mahasiswa m = {.nama = "Budi", .umur = 20, .ipk = 3.85};
-
-        d. Default member values (C++11 ke atas):
-            struct Mahasiswa {
-                string nama  = "Unknown";
-                int    umur  = 0;
-                double ipk   = 0.0;
-            };
-            Mahasiswa m;    // nama = "Unknown", umur = 0, ipk = 0.0
-
-    6. Struct di Memory
-
-        Struct menyimpan member secara BERURUTAN di memory:
-
-        Mahasiswa m = {"Budi", 20, 3.85};
-
-        Memory layout (konseptual):
-        ┌──────────────────┬───────────┬──────────────────┐
-        │  nama ("Budi")   │  umur(20) │   ipk (3.85)     │
-        └──────────────────┴───────────┴──────────────────┘
-        Semua dalam satu blok memory yang berdekatan.
-*/
+            Memory layout (konseptual):
+            ┌──────────────────┬───────────┬──────────────────┐
+            │  nama ("Budi")   │  umur(20) │   ipk (3.85)     │
+            └──────────────────┴───────────┴──────────────────┘
+            Semua dalam satu blok memory yang berdekatan.
+    */
 
     /* MODUL 12.1 - Struct Operations
 
-    1. Passing Struct ke Function
+        1. Passing Struct ke Function
 
-        Seperti tipe data biasa, struct bisa dipass ke function.
-        Ada tiga cara:
+            Seperti tipe data biasa, struct bisa dipass ke function.
+            Ada tiga cara:
 
-        a. Pass by VALUE (copy dibuat — perubahan TIDAK mengubah asli):
-            void tampilkan(Mahasiswa m) { ... }
+            a. Pass by VALUE (copy dibuat — perubahan TIDAK mengubah asli):
+                void tampilkan(Mahasiswa m) { ... }
 
-        b. Pass by REFERENCE (alias — perubahan MENGUBAH asli):
-            void updateIPK(Mahasiswa& m, double ipkBaru) { ... }
+            b. Pass by REFERENCE (alias — perubahan MENGUBAH asli):
+                void updateIPK(Mahasiswa& m, double ipkBaru) { ... }
 
-        c. Pass by CONST REFERENCE (baca saja, efisien, aman):
-            void tampilkan(const Mahasiswa& m) { ... }
+            c. Pass by CONST REFERENCE (baca saja, efisien, aman):
+                void tampilkan(const Mahasiswa& m) { ... }
 
-        ⭐ BEST PRACTICE:
-            - Hanya READ   → const Mahasiswa& m   (efisien + aman)
-            - Perlu MODIFY → Mahasiswa& m
-            - Struct kecil → boleh by value (misal: Titik, WaktuJam)
+            ⭐ BEST PRACTICE:
+                - Hanya READ   → const Mahasiswa& m   (efisien + aman)
+                - Perlu MODIFY → Mahasiswa& m
+                - Struct kecil → boleh by value (misal: Titik, WaktuJam)
 
-    2. Returning Struct dari Function
+        2. Returning Struct dari Function
 
-        Function bisa mengembalikan struct seperti tipe data biasa.
+            Function bisa mengembalikan struct seperti tipe data biasa.
 
-            Mahasiswa buatMahasiswa(string nama, int umur, double ipk) {
-                Mahasiswa m;
-                m.nama = nama;
-                m.umur = umur;
-                m.ipk  = ipk;
-                return m;
-            }
+                Mahasiswa buatMahasiswa(string nama, int umur, double ipk) {
+                    Mahasiswa m;
+                    m.nama = nama;
+                    m.umur = umur;
+                    m.ipk  = ipk;
+                    return m;
+                }
 
-            Mahasiswa mhs = buatMahasiswa("Budi", 20, 3.85);
+                Mahasiswa mhs = buatMahasiswa("Budi", 20, 3.85);
 
-    3. Array of Structs
+        3. Array of Structs
 
-        Bisa membuat array yang setiap elemennya adalah struct!
+            Bisa membuat array yang setiap elemennya adalah struct!
 
-            Mahasiswa kelas[30];    // 30 mahasiswa
-            kelas[0].nama = "Budi";
-            kelas[0].ipk  = 3.85;
+                Mahasiswa kelas[30];    // 30 mahasiswa
+                kelas[0].nama = "Budi";
+                kelas[0].ipk  = 3.85;
 
-        Ini sangat powerful untuk menyimpan banyak data terstruktur.
+            Ini sangat powerful untuk menyimpan banyak data terstruktur.
 
-    4. Nested Structs
+        4. Nested Structs
 
-        Struct bisa punya member yang tipenya struct juga!
+            Struct bisa punya member yang tipenya struct juga!
 
-            struct Alamat {
-                string jalan;
-                string kota;
-                string provinsi;
-            };
+                struct Alamat {
+                    string jalan;
+                    string kota;
+                    string provinsi;
+                };
 
-            struct Pegawai {
-                string nama;
-                int    gaji;
-                Alamat alamat;   ← member berupa struct lain!
-            };
+                struct Pegawai {
+                    string nama;
+                    int    gaji;
+                    Alamat alamat;   ← member berupa struct lain!
+                };
 
-            Pegawai p;
-            p.nama            = "Budi";
-            p.alamat.kota     = "Yogyakarta";
-            p.alamat.provinsi = "DIY";
+                Pegawai p;
+                p.nama            = "Budi";
+                p.alamat.kota     = "Yogyakarta";
+                p.alamat.provinsi = "DIY";
 
-    5. Struct dan sizeof()
+        5. Struct dan sizeof()
 
-        sizeof(struct) = jumlah bytes semua membernya
-        (+ kemungkinan padding untuk alignment di memory)
+            sizeof(struct) = jumlah bytes semua membernya
+            (+ kemungkinan padding untuk alignment di memory)
 
-            sizeof(Titik) → biasanya 16 bytes (2 × double 8 bytes)
-*/
+                sizeof(Titik) → biasanya 16 bytes (2 × double 8 bytes)
+    */
 
     /* MODUL 12.2 - Struct vs Class (Preview)
 
@@ -5384,6 +5384,225 @@ using namespace std;
             Bisa inheritance        ✅ Ya           ✅ Ya
             Konvensi penggunaan     Data sederhana  Objek kompleks
             Kapan dipilih           POD / DTO       Encapsulation
+    */
+
+// Z. Enumerations
+
+    /* MODUL 13.0 - Enum (Unscoped) — Basic Enum
+
+        1. Apa itu Enum?
+
+            Enum (Enumeration) adalah tipe data buatan sendiri yang berisi
+            sekumpulan KONSTANTA BERNAMA (named constants).
+
+            Analogi dunia nyata:
+                Bayangkan lampu lalu lintas — hanya punya 3 kemungkinan:
+                MERAH, KUNING, HIJAU. Tidak ada nilai lain yang valid!
+                Enum sempurna untuk situasi seperti ini.
+
+            Tanpa Enum (tidak jelas, rawan bug):
+                int status = 1;     // 1 itu apa? Aktif? Merah? Benar?
+                if (status == 1) ... // magic number, susah dibaca
+
+            Dengan Enum (jelas dan aman):
+                enum Status { AKTIF, NONAKTIF, PENDING };
+                Status s = AKTIF;
+                if (s == AKTIF) ...  // sangat readable!
+
+        2. Syntax Deklarasi Enum
+
+            enum NamaEnum {
+                NILAI_1,    // otomatis = 0
+                NILAI_2,    // otomatis = 1
+                NILAI_3,    // otomatis = 2
+                ...
+            };
+
+            Contoh:
+                enum Hari {
+                    SENIN,      // = 0
+                    SELASA,     // = 1
+                    RABU,       // = 2
+                    KAMIS,      // = 3
+                    JUMAT,      // = 4
+                    SABTU,      // = 5
+                    MINGGU      // = 6
+                };
+
+            Variabel dari tipe enum:
+                Hari hari1 = SENIN;
+                Hari hari2 = JUMAT;
+
+        3. Nilai Default dan Custom
+
+            Secara default, nilai dimulai dari 0 dan naik +1 tiap elemen.
+            Tapi bisa dikustom:
+
+                enum HttpStatus {
+                    OK          = 200,
+                    NOT_FOUND   = 404,
+                    SERVER_ERROR= 500
+                };
+
+                enum Planet {
+                    MERKURIUS = 1,
+                    VENUS,          // = 2 (otomatis +1 dari sebelumnya)
+                    BUMI,           // = 3
+                    MARS,           // = 4
+                    JUPITER = 100,  // custom lagi
+                    SATURNUS        // = 101
+                };
+
+        4. Implicit Conversion ke int
+
+            Enum (unscoped) OTOMATIS bisa diconvert ke int:
+
+                enum Warna { MERAH, HIJAU, BIRU };
+                Warna w = HIJAU;
+
+                int angka = w;              // ✅ OK — implicit conversion
+                cout << w;                  // Output: 1 (nilai int-nya)
+                cout << (w == 1);           // ✅ bisa dibandingkan dengan int
+
+            Tapi sebaliknya TIDAK otomatis (int ke enum):
+                Warna w2 = 2;               // ❌ ERROR di C++
+                Warna w3 = (Warna)2;        // ✅ perlu explicit cast
+                Warna w4 = static_cast<Warna>(2);  // ✅ C++ style cast
+
+        5. Enum dalam Switch-Case (Use Case Favorit!)
+
+            Enum sangat cocok dipakai bersama switch-case:
+
+                enum Musim { HUJAN, KEMARAU, PANCAROBA };
+                Musim m = HUJAN;
+
+                switch (m) {
+                    case HUJAN:    cout << "Bawa payung!"; break;
+                    case KEMARAU:  cout << "Pakai sunscreen!"; break;
+                    case PANCAROBA:cout << "Waspada cuaca!"; break;
+                }
+
+        6. Masalah Unscoped Enum
+
+            Karena enum (unscoped) nama-namanya masuk ke scope yang sama,
+            bisa terjadi KONFLIK NAMA:
+
+                enum Arah   { UTARA, SELATAN, TIMUR, BARAT };
+                enum Tombol { KIRI, KANAN, ATAS, BAWAH };   // OK
+
+                // Masalah kalau nama sama:
+                enum Warna1 { MERAH, HIJAU };
+                enum Warna2 { MERAH, BIRU };  // ❌ ERROR! MERAH sudah ada!
+
+            Solusi: pakai enum class (lihat 13.2)
+
+        7. Typedef Enum (C-style, jarang dipakai di C++ modern)
+
+                // C-style:
+                typedef enum { JAN=1, FEB, MAR } Bulan;
+
+                // C++ (tidak perlu typedef):
+                enum Bulan { JAN=1, FEB, MAR };
+                Bulan b = JAN;
+    */
+
+    /* MODUL 13.1 - Enum Class (Scoped Enum) — Modern C++
+
+        1. Apa itu Enum Class?
+
+            Diperkenalkan di C++11, enum class adalah versi LEBIH AMAN
+            dan lebih KETAT dari enum biasa.
+
+            Perbedaan utama:
+                - Nama enum tersimpan dalam SCOPE sendiri (tidak bocor ke luar)
+                - TIDAK ada implicit conversion ke int
+                - Lebih type-safe
+
+        2. Syntax
+
+            enum class NamaEnum {
+                NILAI_1,
+                NILAI_2,
+                NILAI_3
+            };
+
+            Akses member WAJIB pakai nama enum + :: (scope resolution):
+
+                enum class Warna { MERAH, HIJAU, BIRU };
+
+                Warna w = Warna::HIJAU;     // ✅ harus tulis Warna::
+                // Warna w = HIJAU;         // ❌ ERROR! Tidak bisa langsung
+
+        3. Tidak Ada Implicit Conversion
+
+            enum class Status { AKTIF, NONAKTIF };
+            Status s = Status::AKTIF;
+
+            int x = s;                      // ❌ ERROR! Tidak bisa implicit
+            int x = (int)s;                 // ✅ explicit C-cast
+            int x = static_cast<int>(s);    // ✅ C++ style (direkomendasikan)
+
+            Ini justru FITUR, bukan bug — mencegah penggunaan salah!
+
+        4. Tidak Ada Konflik Nama
+
+            Karena tersimpan dalam scope sendiri:
+
+                enum class Arah   { UTARA, SELATAN };
+                enum class Tombol { UTARA, SELATAN };   // ✅ OK! Tidak konflik
+
+                Arah a   = Arah::UTARA;     // jelas milik Arah
+                Tombol t = Tombol::UTARA;   // jelas milik Tombol
+
+        5. Underlying Type (Tipe Dasar)
+
+            Secara default, nilai disimpan sebagai int.
+            Bisa diubah ke tipe lain untuk hemat memory atau keperluan khusus:
+
+                enum class Bulan : unsigned char {  // hanya 1 byte!
+                    JAN = 1, FEB, MAR, APR,
+                    MEI, JUN, JUL, AGU,
+                    SEP, OKT, NOV, DES
+                };
+
+                enum class KodeError : long long {  // butuh nilai besar
+                    OK = 0,
+                    FATAL = 9999999999LL
+                };
+
+        6. Enum Class dalam Switch-Case
+
+                enum class Level { MUDAH, SEDANG, SULIT, EXPERT };
+                Level l = Level::SULIT;
+
+                switch (l) {
+                    case Level::MUDAH:  cout << "Untuk pemula"; break;
+                    case Level::SEDANG: cout << "Lumayan"; break;
+                    case Level::SULIT:  cout << "Tantangan"; break;
+                    case Level::EXPERT: cout << "Pro level!"; break;
+                }
+
+        7. Membandingkan Enum Class
+
+                enum class Nilai { A, B, C, D, E };
+                Nilai n = Nilai::B;
+
+                if (n == Nilai::A) cout << "Sempurna!";
+                if (n >= Nilai::C) cout << "Perlu belajar lebih";
+                // ✅ Operator == dan != langsung bisa
+                // ✅ Operator <, >, <=, >= juga bisa
+
+        8. Perbandingan Enum vs Enum Class
+
+            Fitur                   enum (unscoped)     enum class (scoped)
+            ──────────────────────  ─────────────────── ──────────────────────
+            Scope nama              Global (bocor)      Tersimpan dalam enum
+            Akses member            MERAH               Warna::MERAH
+            Implicit ke int         ✅ Ya               ❌ Tidak
+            Konflik nama            Bisa terjadi        Tidak bisa terjadi
+            Type safety             Rendah              Tinggi
+            Direkomendasikan        Kode lama/C         Kode C++ modern
+            C++ version             Sejak awal          C++11+
     */
 
 // MESIN UTAMA
