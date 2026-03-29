@@ -1,8 +1,11 @@
 #include <iostream>
-#include <algorithm>    // untuk array modul -Array Algorrithm
-#include <cstring>      // untuk array modul - Character Array
-#include <iomanip>      // untuk array modul - array multidimensi
-#include <cmath>        // untuk struct modul - struct basics
+#include <algorithm>    // untuk array modul — Array Algorrithm
+#include <cstring>      // untuk array modul — Character Array
+#include <iomanip>      // untuk array modul — array multidimensi
+#include <cmath>        // untuk struct modul — struct basics
+#include <fstream>      // untuk File I/O modul — File I/O
+#include <sstream>      // untuk File I/O modul — stringstream
+#include <filesystem>   // untuk File I/O modul — cek file exists (C++17)
 using namespace std;
 
 // A. Program Pertama
@@ -5603,6 +5606,278 @@ using namespace std;
             Type safety             Rendah              Tinggi
             Direkomendasikan        Kode lama/C         Kode C++ modern
             C++ version             Sejak awal          C++11+
+    */
+
+// AA. File I/O
+
+    /* MODUL 14.0 - Reading Files (ifstream)
+
+        1. Apa itu File I/O?
+
+            Selama ini semua data program kita HILANG setelah program selesai.
+            File I/O memungkinkan program:
+                ✅ MENYIMPAN data ke file (persisten!)
+                ✅ MEMBACA data dari file
+                ✅ Komunikasi antar program via file
+
+            Analogi:
+                cin/cout  = ngobrol langsung (sementara)
+                File I/O  = tulis/baca di buku catatan (permanen)
+
+        2. Header yang Dibutuhkan
+
+            #include <fstream>      // file stream utama
+            #include <sstream>      // string stream (bonus)
+
+            Tiga class utama:
+                ifstream    — input  file stream (MEMBACA file)
+                ofstream    — output file stream (MENULIS file)
+                fstream     — input + output (baca DAN tulis)
+
+        3. Membuka File — ifstream
+
+            Cara 1: Konstruktor langsung
+                ifstream file("nama_file.txt");
+
+            Cara 2: open() terpisah
+                ifstream file;
+                file.open("nama_file.txt");
+
+            ⚠️ Selalu cek apakah file berhasil dibuka!
+                if (!file.is_open()) {
+                    cerr << "Gagal buka file!" << endl;
+                    return;
+                }
+                // atau:
+                if (!file) { ... }   // sama saja
+
+        4. Membaca File
+
+            a. Kata per kata (operator >>):
+                string kata;
+                while (file >> kata) {
+                    cout << kata << " ";
+                }
+
+            b. Baris per baris (getline):
+                string baris;
+                while (getline(file, baris)) {
+                    cout << baris << endl;
+                }
+
+            c. Karakter per karakter (get):
+                char c;
+                while (file.get(c)) {
+                    cout << c;
+                }
+
+            d. Seluruh file ke string (modern):
+                string isi((istreambuf_iterator<char>(file)),
+                            istreambuf_iterator<char>());
+
+        5. Menutup File
+
+            file.close();
+
+            Sebenarnya file otomatis ditutup saat ifstream hancur (RAII).
+            Tapi good practice untuk explicit close() kalau file masih
+            butuh dipakai oleh proses lain.
+
+        6. File Path
+
+            Relatif  : "data.txt"            (dari direktori program)
+            Absolut  : "/home/user/data.txt"  (Linux/Mac)
+                        "C:\\Users\\data.txt"  (Windows)
+
+        7. Mode Buka File (untuk fstream)
+
+            ios::in      — baca
+            ios::out     — tulis (overwrite)
+            ios::app     — append (tambah di akhir)
+            ios::binary  — mode binary
+            ios::trunc   — hapus isi lama saat buka
+            ios::ate     — posisi di akhir file saat buka
+
+            Kombinasi: fstream f("file.txt", ios::in | ios::out);
+    */
+
+    /* MODUL 14.1 - Writing Files (ofstream)
+
+        1. Menulis ke File — ofstream
+
+            ofstream fileOut("output.txt");   // buka/buat file
+            if (!fileOut) {
+                cerr << "Gagal buka file untuk tulis!" << endl;
+                return;
+            }
+
+            fileOut << "Halo, ini teks!" << endl;
+            fileOut << "Baris kedua: " << 42 << endl;
+            fileOut.close();
+
+        2. Overwrite vs Append
+
+            // OVERWRITE (default) — isi lama dihapus:
+            ofstream f1("data.txt");
+            ofstream f2("data.txt", ios::out);      // sama saja
+
+            // APPEND — tambah di akhir file:
+            ofstream f3("data.txt", ios::app);
+
+        3. Menulis Angka dan Format
+
+            ofstream f("angka.txt");
+            f << fixed << setprecision(2);
+            f << "Pi = " << 3.14159 << endl;
+            f << "Total: " << 1000000 << endl;
+
+        4. Pola Umum Write-Then-Read
+
+            // 1. Tulis dulu
+            {
+                ofstream fw("data.txt");
+                fw << "isi data" << endl;
+            }   // fw ditutup otomatis di sini (RAII)
+
+            // 2. Lalu baca
+            {
+                ifstream fr("data.txt");
+                string baris;
+                getline(fr, baris);
+                cout << baris;
+            }
+
+        5. Cek Keberhasilan Operasi
+
+            ofstream f("data.txt");
+            f << "data";
+            if (f.good())  cout << "Tulis berhasil";
+            if (f.fail())  cout << "Ada masalah";
+            if (f.bad())   cout << "Error fatal";
+    */
+
+    /* MODUL 14.2 - fstream & File Positioning
+
+        1. fstream — Baca dan Tulis Sekaligus
+
+            fstream f("data.txt", ios::in | ios::out);
+            // atau
+            fstream f("data.txt", ios::in | ios::out | ios::app);
+
+        2. File Positioning
+
+            Setiap file punya "kursor" yang menunjuk posisi baca/tulis saat ini.
+
+            Untuk membaca (seekg = seek get):
+                file.seekg(0);              // ke awal
+                file.seekg(0, ios::beg);    // ke awal (eksplisit)
+                file.seekg(0, ios::end);    // ke akhir
+                file.seekg(-5, ios::cur);   // mundur 5 byte dari posisi kini
+
+            Cek posisi kursor baca:
+                streampos pos = file.tellg();
+                cout << "Posisi: " << pos << endl;
+
+            Untuk menulis (seekp = seek put):
+                file.seekp(0);
+                file.seekp(0, ios::end);
+
+        3. Ukuran File
+
+            ifstream f("file.txt", ios::ate);   // buka, langsung ke akhir
+            streamsize ukuran = f.tellg();
+            cout << "Ukuran: " << ukuran << " bytes" << endl;
+
+        4. State Flags
+
+            flag        arti
+            ─────────── ───────────────────────────────────────
+            good()      Semua OK, siap operasi
+            eof()       Sudah sampai akhir file (End Of File)
+            fail()      Operasi gagal (format salah, dll)
+            bad()       Error fatal (disk penuh, dll)
+            clear()     Reset semua error flags
+
+            // Pattern aman setelah loop baca:
+            file.clear();       // reset flags
+            file.seekg(0);      // kembali ke awal
+
+        5. Binary Files (Pengenalan)
+
+            Untuk menyimpan data non-teks (gambar, audio, binary protocol):
+
+                ofstream f("data.bin", ios::binary);
+                int nilai = 12345;
+                f.write(reinterpret_cast<char*>(&nilai), sizeof(nilai));
+
+                ifstream fr("data.bin", ios::binary);
+                int hasilBaca;
+                fr.read(reinterpret_cast<char*>(&hasilBaca), sizeof(hasilBaca));
+
+            Binary lebih cepat dan presisi, tapi tidak bisa dibaca manusia.
+    */
+
+    /* MODUL 14.3 - String Stream (sstream)
+
+        1. Apa itu Stringstream?
+
+            stringstream adalah "file" di memory — baca/tulis ke STRING,
+            bukan ke file sungguhan. Sangat berguna untuk:
+                ✅ Konversi tipe data (int ↔ string)
+                ✅ Parsing baris CSV atau data terformat
+                ✅ Format string sebelum di-print/ditulis
+                ✅ Tokenizing (split string)
+
+        2. Konversi Angka ke String
+
+            #include <sstream>
+            stringstream ss;
+            int nilai = 42;
+            ss << nilai;
+            string hasil = ss.str();    // "42"
+
+            // Atau pakai to_string() (lebih singkat, C++11):
+            string s = to_string(nilai);
+
+        3. Konversi String ke Angka
+
+            stringstream ss("3.14");
+            double d;
+            ss >> d;    // d = 3.14
+
+            // Atau pakai stoi(), stof(), stod() (C++11):
+            int i = stoi("42");
+            double x = stod("3.14");
+
+        4. Parsing Baris Terformat (CSV)
+
+            string baris = "Budi,20,3.85";
+            stringstream ss(baris);
+            string nama, umurStr, ipkStr;
+
+            getline(ss, nama,   ',');   // "Budi"
+            getline(ss, umurStr,',');   // "20"
+            getline(ss, ipkStr, ',');   // "3.85"
+
+            int    umur = stoi(umurStr);
+            double ipk  = stod(ipkStr);
+
+        5. Tokenizing (Split String)
+
+            string kalimat = "satu dua tiga empat";
+            stringstream ss(kalimat);
+            string token;
+            while (ss >> token) {
+                cout << token << endl;
+            }
+
+        6. Build String Terformat
+
+            stringstream ss;
+            ss << "Nama: " << nama << endl;
+            ss << "Umur: " << umur << " tahun" << endl;
+            ss << fixed << setprecision(2) << "IPK: " << ipk << endl;
+            string laporan = ss.str();
     */
 
 // MESIN UTAMA
