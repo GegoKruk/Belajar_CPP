@@ -6,6 +6,7 @@
 #include <fstream>      // untuk File I/O modul — File I/O
 #include <sstream>      // untuk File I/O modul — stringstream
 #include <filesystem>   // untuk File I/O modul — cek file exists (C++17)
+#include <climits>      // untuk exception modul — LLONG_MAX, SIZE_MAX
 using namespace std;
 
 // A. Program Pertama
@@ -5878,6 +5879,577 @@ using namespace std;
             ss << "Umur: " << umur << " tahun" << endl;
             ss << fixed << setprecision(2) << "IPK: " << ipk << endl;
             string laporan = ss.str();
+    */
+
+// AB. Exception Handling
+
+    /* MODUL 15.0 - Pengenalan Exception Handling
+
+        1. Apa itu Exception?
+
+            Exception (pengecualian) adalah kondisi TIDAK NORMAL yang terjadi
+            saat program berjalan (runtime), yang mengganggu alur normal program.
+
+            Contoh kondisi tidak normal:
+                - Pembagian dengan nol  → hasil tidak terdefinisi
+                - File tidak ditemukan  → tidak bisa dibaca
+                - Input angka tapi user ketik huruf → format salah
+                - Array diakses di luar batas → undefined behavior
+                - Memori habis (bad_alloc) → new gagal
+                - Konversi string salah (stoi("abc")) → invalid_argument
+
+        2. Masalah Tanpa Exception Handling
+
+            Tanpa exception handling, error ditangani dengan cara lama yang
+            bermasalah:
+
+            a. Return code (nilai balik untuk menandakan error):
+
+                int bagi(int a, int b) {
+                    if (b == 0) return -1;   // ← kode error khusus
+                    return a / b;
+                }
+
+                int hasil = bagi(10, 0);
+                if (hasil == -1) { ... }     // harus cek SETIAP kali
+
+                Masalah:
+                    ❌ Nilai -1 bisa juga hasil valid
+                    ❌ Mudah lupa cek return code
+                    ❌ Nested calls makin rumit
+                    ❌ Tidak bisa dipakai untuk constructor
+
+            b. Global error flag (seperti errno di C):
+
+                errno = 0;
+                sqrt(-1);
+                if (errno == EDOM) { ... }
+
+                Masalah:
+                    ❌ Global state — tidak thread-safe
+                    ❌ Mudah lupa reset
+
+        3. Solusi: Exception Handling
+
+            C++ menyediakan mekanisme exception handling yang:
+                ✅ Memisahkan kode normal dari kode penanganan error
+                ✅ Tidak bisa "diabaikan" seperti return code
+                ✅ Bekerja lintas function call (stack unwinding)
+                ✅ Tipe-safe — bisa throw/catch tipe apapun
+                ✅ Bisa dipakai di constructor dan destructor
+
+        4. Tiga Keyword Utama
+
+            try     — blok kode yang mungkin menghasilkan error
+            throw   — melempar (membangkitkan) exception
+            catch   — menangkap dan menangani exception
+
+            Pola dasar:
+
+                try {
+                    // kode yang mungkin error
+                    throw SomethingError("pesan error");
+                }
+                catch (TipeError& e) {
+                    // tangani error di sini
+                    cout << e.what();
+                }
+
+        5. Analogi Dunia Nyata
+
+            Bayangkan bermain bola:
+                try    = bermain bola di lapangan
+                throw  = kamu jatuh dan cedera (kejadian tidak normal!)
+                catch  = perawat medis menangani cedera
+
+            Alur normal (tidak ada exception):
+                try → main bola → selesai → lanjut aktivitas berikutnya
+
+            Alur dengan exception:
+                try → main bola → jatuh! → throw exception
+                → catch → perawat tangani → lanjut (atau keluar lapangan)
+
+        6. Stack Unwinding
+
+            Saat exception di-throw, C++ secara otomatis:
+                1. Menghentikan eksekusi di titik throw
+                2. "Melepas" (unwind) stack frame satu per satu
+                3. Memanggil destruktor semua objek lokal yang sudah dibuat
+                4. Mencari catch yang cocok di call stack
+
+            Ini menjamin tidak ada resource leak — bahkan saat exception!
+            (Inilah mengapa RAII + exception sangat powerful)
+
+        7. Hirarki Exception Standard C++
+
+            std::exception                  ← base class semua exception
+            ├── std::logic_error            ← kesalahan logika program
+            │   ├── std::invalid_argument   ← argumen tidak valid
+            │   ├── std::domain_error       ← domain matematika salah
+            │   ├── std::length_error       ← panjang melebihi batas
+            │   └── std::out_of_range       ← indeks/nilai di luar range
+            └── std::runtime_error          ← error saat runtime
+                ├── std::overflow_error     ← overflow aritmatika
+                ├── std::underflow_error    ← underflow aritmatika
+                ├── std::range_error        ← hasil di luar range
+                └── std::system_error       ← error sistem operasi
+
+            Exception khusus (tidak turun dari logic_error/runtime_error):
+                std::bad_alloc      ← new gagal alokasi memori
+                std::bad_cast       ← dynamic_cast gagal
+                std::bad_typeid     ← typeid pada null pointer
+    */
+
+    /* MODUL 15.1 - Try, Throw, Catch — Mekanisme Dasar
+
+        1. Blok Try
+
+            Blok try membungkus kode yang MUNGKIN melempar exception.
+            Kode di dalam try berjalan normal hingga ada yang throw.
+
+                try {
+                    // kode normal
+                    int hasil = bagi(10, 2);    // tidak throw → OK
+                    int error = bagi(10, 0);    // throw! → langsung lompat ke catch
+                    cout << "Baris ini TIDAK dieksekusi";
+                }
+
+        2. Keyword throw
+
+            throw melempar sebuah objek sebagai exception.
+            Bisa throw tipe apapun: int, string, struct, class.
+
+                throw 42;                       // throw integer
+                throw "error message";          // throw C-string
+                throw string("pesan error");    // throw std::string
+                throw runtime_error("pesan");   // throw exception class ← BEST PRACTICE
+                throw invalid_argument("bad");  // throw exception class
+
+            Setelah throw:
+                - Eksekusi langsung berhenti di titik itu
+                - C++ cari catch yang cocok di call stack
+                - Destruktor semua objek lokal dipanggil (stack unwind)
+
+        3. Blok Catch
+
+            catch menangkap exception yang dilempar oleh throw.
+            Harus ditulis tepat setelah blok try.
+
+                catch (int e) {
+                    cout << "Caught int: " << e;
+                }
+
+                catch (const string& e) {
+                    cout << "Caught string: " << e;
+                }
+
+                catch (const runtime_error& e) {
+                    cout << "Runtime error: " << e.what();
+                }
+
+                catch (...) {
+                    // Catch-all: tangkap SEMUA tipe exception
+                    cout << "Unknown exception!";
+                }
+
+            Urutan catch PENTING:
+                - Dicocokkan dari atas ke bawah
+                - Catch yang lebih spesifik harus LEBIH DULU
+                - catch(...) selalu paling TERAKHIR
+
+        4. Multiple Catch Blocks
+
+            Satu try bisa diikuti banyak catch:
+
+                try {
+                    // kode
+                }
+                catch (const invalid_argument& e) {  // paling spesifik dulu
+                    cout << "Invalid arg: " << e.what();
+                }
+                catch (const logic_error& e) {       // parent class
+                    cout << "Logic error: " << e.what();
+                }
+                catch (const exception& e) {         // base class semua
+                    cout << "Exception: " << e.what();
+                }
+                catch (...) {                        // catch-all paling terakhir
+                    cout << "Unknown!";
+                }
+
+        5. Re-throw Exception
+
+            Bisa tangkap exception lalu lempar ulang (untuk logging, dll):
+
+                catch (const exception& e) {
+                    cerr << "LOG: " << e.what() << endl;
+                    throw;      // ← re-throw exception yang sama
+                }
+
+        6. Exception dalam Nested Function
+
+            throw bisa terjadi di function manapun di call stack.
+            C++ akan "naik" ke atas mencari catch yang cocok.
+
+                void level3() { throw runtime_error("dari level 3"); }
+                void level2() { level3(); }     // tidak ada catch di sini
+                void level1() { level2(); }     // tidak ada catch di sini
+
+                try {
+                    level1();                   // exception "menggelembung" ke sini
+                }
+                catch (const runtime_error& e) {
+                    cout << e.what();           // ← tertangkap di sini
+                }
+
+            Jika tidak ada catch yang cocok di seluruh call stack:
+                → std::terminate() dipanggil → program CRASH
+
+        7. Fungsi what()
+
+            Semua class turunan std::exception punya fungsi what():
+
+                catch (const exception& e) {
+                    cout << e.what();   // pesan error string
+                }
+
+            what() mengembalikan const char* (C-string) berisi pesan error.
+    */
+
+    /* MODUL 15.2 - Standard Exception Classes
+
+        1. std::exception — Base Class
+
+            #include <stdexcept>
+
+            Semua exception standar C++ mewarisi dari std::exception.
+            Punya satu fungsi virtual: what() → const char*
+
+                catch (const exception& e) {
+                    cout << e.what();
+                }
+
+        2. std::logic_error dan Turunannya
+
+            Logic error = kesalahan yang SEHARUSNYA bisa dicegah programmer.
+            Bisa dideteksi sebelum runtime (saat desain/testing).
+
+            a. invalid_argument — argumen yang diberikan tidak valid:
+                stoi("abc")         → throw invalid_argument
+                stod("xyz")         → throw invalid_argument
+                throw invalid_argument("Usia tidak boleh negatif");
+
+            b. out_of_range — nilai di luar rentang yang diizinkan:
+                string s = "hello";
+                s.at(10)            → throw out_of_range   (index > size)
+                vector<int> v = {1,2,3};
+                v.at(5)             → throw out_of_range
+                throw out_of_range("Index melebihi batas");
+
+            c. length_error — ukuran/panjang melebihi maksimum:
+                string s;
+                s.resize(string::max_size() + 1);   → throw length_error
+
+            d. domain_error — input di luar domain matematika:
+                throw domain_error("sqrt tidak bisa untuk nilai negatif");
+
+        3. std::runtime_error dan Turunannya
+
+            Runtime error = kesalahan yang hanya bisa dideteksi saat program jalan.
+            Tidak bisa diprediksi saat compile time.
+
+            a. runtime_error — error umum saat runtime:
+                throw runtime_error("File tidak bisa dibuka");
+                throw runtime_error("Koneksi database gagal");
+
+            b. overflow_error — hasil terlalu besar:
+                throw overflow_error("Nilai melebihi kapasitas tipe data");
+
+            c. underflow_error — hasil terlalu kecil:
+                throw underflow_error("Nilai terlalu kecil");
+
+            d. range_error — hasil di luar range yang diizinkan:
+                throw range_error("Hasil perhitungan di luar jangkauan");
+
+        4. std::bad_alloc
+
+            Otomatis dilempar oleh operator new saat alokasi memori gagal:
+
+                try {
+                    int* arr = new int[999999999999];   // kemungkinan gagal!
+                    delete[] arr;
+                }
+                catch (const bad_alloc& e) {
+                    cerr << "Memori habis: " << e.what() << endl;
+                }
+
+        5. std::bad_cast
+
+            Dilempar oleh dynamic_cast<> saat cast gagal (ke referensi):
+
+                class Base { virtual ~Base(){} };
+                class Derived : public Base {};
+
+                Base* b = new Base();
+                try {
+                    Derived& d = dynamic_cast<Derived&>(*b);  // cast gagal!
+                }
+                catch (const bad_cast& e) {
+                    cerr << "Cast gagal: " << e.what() << endl;
+                }
+
+        6. Cara Construct Exception Standard
+
+            Semua menerima string pesan di konstruktor:
+
+                throw logic_error("pesan");
+                throw runtime_error("pesan");
+                throw invalid_argument("pesan");
+                throw out_of_range("pesan");
+                throw overflow_error("pesan");
+
+            Retrieve pesan: e.what()
+    */
+
+    /* MODUL 15.3 - Custom Exception Classes
+
+        1. Mengapa Buat Custom Exception?
+
+            Exception standar bagus, tapi seringkali kita butuh:
+                ✅ Pesan error yang lebih spesifik untuk domain kita
+                ✅ Data tambahan (kode error, lokasi, konteks)
+                ✅ Hierarki exception sesuai aplikasi kita
+                ✅ Bisa di-catch spesifik per jenis error domain
+
+        2. Cara Paling Sederhana — Warisi std::exception
+
+            class MyException : public exception {
+            public:
+                const char* what() const noexcept override {
+                    return "My custom error message";
+                }
+            };
+
+            try {
+                throw MyException();
+            }
+            catch (const MyException& e) {
+                cout << e.what();
+            }
+            catch (const exception& e) {
+                // juga tertangkap di sini kalau perlu
+            }
+
+        3. Warisi std::runtime_error (cara umum)
+
+            Mewarisi runtime_error lebih praktis karena bisa pass pesan
+            lewat konstruktor:
+
+                class DatabaseError : public runtime_error {
+                public:
+                    DatabaseError(const string& msg)
+                        : runtime_error(msg) {}
+                };
+
+                class ConnectionError : public DatabaseError {
+                public:
+                    ConnectionError(const string& host)
+                        : DatabaseError("Gagal konek ke: " + host) {}
+                };
+
+                throw ConnectionError("localhost:5432");
+                // e.what() → "Gagal konek ke: localhost:5432"
+
+        4. Custom Exception dengan Data Tambahan
+
+            class HttpException : public runtime_error {
+            private:
+                int statusCode_;
+                string url_;
+            public:
+                HttpException(int code, const string& url)
+                    : runtime_error("HTTP " + to_string(code) + " - " + url),
+                    statusCode_(code), url_(url) {}
+
+                int    statusCode() const { return statusCode_; }
+                string url()        const { return url_; }
+            };
+
+            try {
+                throw HttpException(404, "/halaman-tidak-ada");
+            }
+            catch (const HttpException& e) {
+                cout << "Status : " << e.statusCode() << endl;
+                cout << "URL    : " << e.url() << endl;
+                cout << "Pesan  : " << e.what() << endl;
+            }
+
+        5. Hierarki Custom Exception (Best Practice Besar)
+
+            Membangun hierarki memungkinkan catch yang fleksibel:
+
+                class AppException : public runtime_error {
+                public:
+                    AppException(const string& msg) : runtime_error(msg) {}
+                };
+
+                class ValidationError : public AppException {
+                public:
+                    ValidationError(const string& field, const string& reason)
+                        : AppException("Validasi gagal [" + field + "]: " + reason),
+                        field_(field) {}
+                    string field() const { return field_; }
+                private:
+                    string field_;
+                };
+
+                class NetworkError : public AppException { ... };
+                class DatabaseError : public AppException { ... };
+
+                // Bisa catch spesifik:
+                catch (const ValidationError& e) { ... }  // hanya validasi
+                catch (const AppException& e)    { ... }  // semua app error
+                catch (const exception& e)       { ... }  // semua exception
+
+        6. noexcept — Fungsi yang Tidak Boleh Throw
+
+            Tandai fungsi yang dijamin tidak throw exception:
+
+                int tambah(int a, int b) noexcept {
+                    return a + b;   // dijamin tidak throw
+                }
+
+            Kegunaan noexcept:
+                ✅ Optimasi compiler (tidak perlu stack unwinding overhead)
+                ✅ Dokumentasi — "fungsi ini aman, tidak throw"
+                ✅ Wajib untuk beberapa situasi (move constructor, dll)
+                ✅ Jika noexcept function ternyata throw → std::terminate()
+
+            Cek apakah ekspresi noexcept:
+                noexcept(tambah(1,2))   → true
+                noexcept(bagi(1,0))     → false (kalau bagi bisa throw)
+    */
+
+    /* MODUL 15.4 - Best Practices & Pola Umum
+
+        1. Throw by Value, Catch by Const Reference
+
+            // ✅ BENAR — throw object, catch sebagai const ref
+            throw runtime_error("pesan");
+            catch (const runtime_error& e) { ... }
+
+            // ❌ SALAH — catch by value (membuat salinan)
+            catch (runtime_error e) { ... }
+
+            // ❌ SALAH — catch by pointer (komplikasi ownership)
+            catch (runtime_error* e) { ... }
+
+            Mengapa catch by const reference?
+                - Tidak membuat salinan (efisien)
+                - Polimorfisme tetap bekerja (virtual what())
+                - Tidak bisa modifikasi exception yang ditangkap
+
+        2. Urutan Catch — Dari Spesifik ke Umum
+
+            // ✅ BENAR
+            catch (const invalid_argument& e) { ... }  // paling spesifik
+            catch (const logic_error& e)       { ... }  // parent-nya
+            catch (const exception& e)         { ... }  // base class
+            catch (...)                        { ... }  // catch-all terakhir
+
+            // ❌ SALAH — exception sudah tertangkap oleh parent sebelum anak
+            catch (const exception& e)         { ... }  // terlalu umum di atas
+            catch (const runtime_error& e)     { ... }  // tidak pernah tercapai!
+
+        3. Jangan Abaikan Exception (Exception Safety)
+
+            Tiga level exception safety:
+
+            a. No-throw guarantee (noexcept):
+                Dijamin tidak pernah throw exception.
+                Contoh: destruktor, swap, move operation
+
+            b. Strong guarantee:
+                Kalau throw, state objek TIDAK BERUBAH (rollback).
+                Contoh: copy-then-swap idiom
+
+            c. Basic guarantee:
+                Kalau throw, tidak ada resource leak, tapi state mungkin berubah.
+                Ini level minimal yang harus dipenuhi
+
+            d. No guarantee (❌ hindari!):
+                Throw bisa menyebabkan resource leak atau corrupt state.
+
+        4. RAII + Exception = Resource Safety
+
+            RAII (Resource Acquisition Is Initialization) memastikan
+            resource selalu dibebaskan, bahkan saat exception:
+
+                // ❌ BERBAHAYA — kalau exception, ptr leak!
+                int* ptr = new int[100];
+                prosesData(ptr);        // kalau ini throw...
+                delete[] ptr;           // ...baris ini tidak dieksekusi!
+
+                // ✅ AMAN — unique_ptr otomatis hapus saat scope berakhir/exception
+                auto ptr = make_unique<int[]>(100);
+                prosesData(ptr.get());  // exception? ptr tetap terhapus!
+
+        5. Exception dalam Constructor
+
+            Constructor tidak punya return value, jadi tidak bisa return kode error.
+            Exception adalah satu-satunya cara memberitahu kegagalan konstruksi:
+
+                class FileReader {
+                public:
+                    FileReader(const string& nama) {
+                        file_.open(nama);
+                        if (!file_) {
+                            throw runtime_error("Tidak bisa buka: " + nama);
+                        }
+                    }
+                private:
+                    ifstream file_;
+                };
+
+                try {
+                    FileReader fr("tidak_ada.txt");  // throw di constructor!
+                }
+                catch (const runtime_error& e) {
+                    cout << e.what();
+                }
+                // Objek fr tidak pernah selesai dibuat → tidak ada resource leak
+
+        6. Kapan Menggunakan Exception vs Return Code
+
+            Gunakan EXCEPTION untuk:
+                ✅ Error yang "tidak seharusnya terjadi" (exceptional case)
+                ✅ Error dari constructor
+                ✅ Error yang tidak bisa diabaikan
+                ✅ Error yang terjadi jauh di dalam call stack
+                ✅ Error dari library yang dipakai orang lain
+
+            Gunakan RETURN CODE / optional untuk:
+                ✅ Error yang "biasa terjadi" dan diharapkan (expected failure)
+                ✅ Kode yang sangat performance-critical
+                ✅ Fungsi sederhana level rendah
+                ✅ Konteks yang tidak boleh throw (interrupt handler, dll)
+
+        7. Anti-Pattern yang Harus Dihindari
+
+            // ❌ Catch dan buang exception — jangan pernah!
+            catch (...) { }     // "swallowing" exception
+
+            // ❌ Throw dari destruktor — sangat berbahaya!
+            ~MyClass() { throw SomeError(); }   // bisa terminate program!
+
+            // ❌ Exception specification lama (C++11 deprecated)
+            void f() throw(int);    // jangan pakai ini
+
+            // ❌ Throw pointer ke objek lokal
+            catch (SomeError* e)    // siapa yang delete?
+
+            // ❌ Catch terlalu umum di tempat yang salah
+            catch (exception& e) { return; }   // menelan semua error diam-diam
     */
 
 // MESIN UTAMA
