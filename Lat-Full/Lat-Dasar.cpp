@@ -2280,1307 +2280,785 @@ using namespace std;
     */
 
 // U. Array
-    /* Modul 8.1-8.2 - Fundamental & Basic
-            1. Apa itu Array?
-                Array adalah kumpulan data dengan tipe data yang sama yang di simpan berurutan dalam memory 
-                menggunakan index, dapat diisi, diubah, dipanggil, dan di operasikan lainnya
-            
-            2. Fungsi array?
-                Mennyimpan data dengan tipe data yang sama secara berurutan
-                sehingga TIDAK BOROS VARIABEL, cukup tuliskan 1 dan di isi dengan berbagai macam nilai dengan tipe yang sama
+    /* Modul U.0 — Pengantar Array
+        ╔══════════════════════════════════════════════════════════╗
+        ║                    BAB U — ARRAY                         ║
+        ╠══════════════════════════════════════════════════════════╣
+        ║  U.0   Pengantar Array                                   ║
+        ║  U.1   Fundamental & Deklarasi                           ║
+        ║  U.2   Inisialisasi Array                                ║
+        ║  U.3   Indexing, Akses, dan Modifikasi                   ║
+        ║  U.4   Array Size & sizeof()                             ║
+        ║  U.5   Traversing Array (Looping)                        ║
+        ║  U.6   Basic Operations (Total, Rata2, Max, Min)         ║
+        ║  U.7   Array Algorithm (Searching & Sorting)             ║
+        ║  U.8   Array Manipulation (Reverse, Rotate, Duplicate)   ║
+        ║  U.9   Character Array (C-Style String)                  ║
+        ║  U.10  Array Multidimensi (2D & 3D)                      ║
+        ║  U.11  Array + Function (Pass, Return, Utility)          ║
+        ╚══════════════════════════════════════════════════════════╝
 
-            3. Karakteristik Array?
-                - Contiguous    - bersebelahan di memory (BERURUTAN)
-                - Fixed size    - ukuran tetap (ga bisa resize)
-                - Same type     - semua elemen tipe data sama
-                - Random access - akses langsung dengan index
-                - Start from 0  - Index array itu dimulai dari 0
+        📚 APA ITU ARRAY?
+            Array adalah kumpulan data dengan TIPE DATA YANG SAMA yang disimpan
+            secara BERURUTAN dalam memory, dan dapat diakses menggunakan INDEX.
 
-            4. Bentuk Deklarasi Array?
-                tipe_data nama_array[ukurannya];
+        🎯 MENGAPA BUTUH ARRAY?
+            ✅ Hemat variabel  : Tidak perlu deklarasi variabel satu-satu
+            ✅ Terorganisir    : Data sejenis dikumpulkan dalam satu wadah
+            ✅ Looping-friendly: Bisa diproses dengan loop secara efisien
+            ✅ Random access   : Bisa akses elemen manapun langsung pakai index
 
-                contoh:
-                    int dataNilai[10];      ---> Artinya dataNilai dapat menyimpan 10 data dengan tipe data integer
+            Tanpa Array:
+                int nilai1 = 85, nilai2 = 90, nilai3 = 78, nilai4 = 92, nilai5 = 88;
 
-            5. Cara Initialization Array? 
-                a. List Initialization (Complete)
-                    int nilai[5] = {1,2,3,4,5};     ---> Langsung di isi di tempat
+            Dengan Array:
+                int nilai[5] = {85, 90, 78, 92, 88};  ---> Jauh lebih ringkas!
 
-                b. Partial Initialization
-                    int nilai[5] = {80,90};         ---> Maka index 2-4 otomatis diisi/menjadi 0
+        🏗️  KARAKTERISTIK ARRAY
+            - Contiguous    : Elemen disimpan bersebelahan di memory (berurutan)
+            - Fixed size    : Ukuran array TETAP, tidak bisa di-resize setelah deklarasi
+            - Same type     : Semua elemen WAJIB bertipe data sama
+            - Random access : Akses langsung ke elemen manapun menggunakan index
+            - Zero-indexed  : Index DIMULAI dari 0, bukan 1
 
-                c. Zero Initialization 
-                    int nilai[5] = {0}              ---> Maka isinya akan 0 semua dari index 0-4
+        📌 GAMBARAN MEMORY
+            int nilai[5] = {85, 90, 78, 92, 88};
 
-                d. Omit Size (auto-detect)
-                    int nilai[] = {10,20,30,40,50}; ---> Ukuran Otimatis mengikuti isinya yaitu 5
+            Index:  [  0  ] [  1  ] [  2  ] [  3  ] [  4  ]
+            Value:  [  85 ] [  90 ] [  78 ] [  92 ] [  88 ]
 
-                e. No Initialization (DANGER!)
-                    int nilai[5];                   ---> Akan error
-
-                f. Uniform Initialization (C++11)
-                    int nilai[5] {85, 90, 78, 92, 88};  ---> Tanpa (=) Lebih modern, lebih aman (prevent narrowing)
-
-            6. Aturan Indexing?
-                Start from 0  - Index array itu dimulai dari 0 - BUKAN DARI 1
-
-                KESALAHAN:
-                    int nilai[5] = {85, 90, 78, 92, 88};
-
-                    cout << nilai[5];   --->  OUT OF BOUNDS!
-                                        ---> Index valid: 0-4
-                                        ---> nilai[5] tidak ada!
-                                        ---> Undefined behavior! Bahaya!
-
-            7. Array Size?
-                a. Menggunakan sizeof()
-                    int nilai[5] = {85, 90, 78, 92, 88};
-
-                    int sizeByte - sizeof(nilai);                     ---> 20 Bytes (5 x 4 Bytes)
-                    int length - sizeof(nilai) / sizeof(nilai[0]);    ---> 5 Bytes
-
-                    Keterangan :
-                        sizeof(nilai) = total bytes array
-                        sizeof(nilai[0]) = bytes per element
-
-                b. Menggunakan CONST
-                    const int SIZE = 5;
-                    int nilai[SIZE] = {85, 90, 78, 92, 88};
-
-                    Keternagan:
-                        Tanpa Const pun bisa, cuma TIDAK STANDARD
-
-            8. Akses dan Modifikasi isi Array?
-                a. Read(Access)
-                    int nilai[3] = {85, 90, 78};
-
-                    int pertama = nilai[0];     ---> Read nilai[0] -> 85
-                    cout << nilai[1];           ---> Read nilai[1] -> 90
-
-                b. Write(Modify)
-                    int nilai[3] = {85, 90, 78};
-
-                    nilai[0] = 100;             ---> Ubah nilai[0] dari 85 jadi 100
-                    nilai[1] = nilai[1] + 5;    ---> Tambah 5, dari 90 jadi 95
-                    nilai[2]++;                 ---> Increment, dari 78 jadi 79
-
-                                                ---> Hasil akhir: {100, 95, 79}
-
-            9. Traversing Array (Looping)
-                a. For Loop (Index-based)
-                    int nilai[5] = {85, 90, 78, 92, 88};
-
-                    // Print semua elemen
-                    for (int i = 0; i < 5; i++) {
-                        cout << "nilai[" << i << "] = " << nilai[i] << endl;
-                    }
-                B. Range-based For Loop (C++11) - Lebih simple!
-                    cppint nilai[5] = {85, 90, 78, 92, 88};
-
-                    // Print semua elemen (tidak perlu index!)
-                    for (int n : nilai) {
-                        cout << n << endl;
-                    }
-                C. While Loop (Jarang, tapi bisa)
-                    cppint nilai[5] = {85, 90, 78, 92, 88};
-
-                    int i = 0;
-                    while (i < 5) {
-                        cout << nilai[i] << endl;
-                        i++;
-                    }
-
-            10. Basic Operations
-                - Mencari Nilai Total
-                - Mencari Rata2
-                - Mencari Maximum
-                - Mencari Minimum
-                - Menghitung elemen dengan kondisi (misal berapa nilai yang lolos)
-                - Searching
+            nilai[0] = 85   (elemen PERTAMA, index 0)
+            nilai[4] = 88   (elemen TERAKHIR, index 4)
+            nilai[5] = ???  (OUT OF BOUNDS! Tidak ada! BAHAYA!)
     */
 
-        void caraInisialisasi(){
-                //List Initialization (Complete)
-                    int array1[5] = {1,2,3,4,5};     
-                    
-                //Partial Initialization
-                    int array2[5] = {80,90};         
+    /* Modul U.1 — Fundamental & Deklarasi
+        📚 DEKLARASI ARRAY
 
-                //Zero Initialization 
-                    int array3[5] = {0};        
-                
-                //Omit Size (auto-detect)
-                    int array4[] = {10,20,30,40,50}; 
-                
-                //No Initialization (DANGER!)
-                    int array5[5];              
-                
-                //Uniform Initialization (C++11)
-                    int array6[5] {85, 90, 78, 92, 88};  
-        }
+        1. Sintaks Dasar
+            tipe_data nama_array[ukuran];
 
-        void sizeArray(){
-            int nilai[5] = {1, 2, 3, 4, 5};
+            Keterangan:
+                tipe_data  : Tipe data semua elemen (int, double, char, bool, dll)
+                nama_array : Nama variabel array (ikuti aturan penamaan variabel)
+                ukuran     : Jumlah elemen yang bisa ditampung (HARUS angka positif)
 
-            // 1. Menghitung total memori yang dipakai array (5 elemen * 4 byte)
-            int totalByte = sizeof(nilai);              // Hasil: 20
-            
-            // 2. Menghitung ukuran memori per satu elemen saja
-            int bytePerElemen = sizeof(nilai[0]);      // Hasil: 4 (karena int = 4 byte)
-            
-            // 3. Menghitung JUMLAH ELEMEN (Panjang Array)
-            int jumlahElemen = sizeof(nilai) / sizeof(nilai[0]); // Hasil: 5 (20 / 4)
+        2. Contoh Deklarasi
+            int     dataNilai[10];      ---> Bisa simpan 10 data int
+            double  suhuHarian[30];     ---> Bisa simpan 30 data double
+            char    nama[50];           ---> Bisa simpan 50 karakter
+            bool    statusHadir[40];    ---> Bisa simpan 40 data bool
+            string  daftarNama[25];     ---> Bisa simpan 25 string
 
-            cout << "\n==========================================" << endl;
-            cout << "|         ARRAY - MODUL 8.1-8.2          |" << endl;
-            cout << "==========================================" << endl;
-            
-            cout << "\n==========[Detail Memory]==========" << endl;
-            cout << "Total Byte Array (5 int) : " << totalByte << " Byte" << endl;
-            cout << "Ukuran 1 Elemen (int)    : " << bytePerElemen << " Byte" << endl;
-            cout << "Jumlah Elemen (Panjang)  : " << jumlahElemen << " Elemen" << endl;
+        3. Ukuran Array WAJIB Diketahui Saat Compile
+            ✅ Pakai literal angka      : int arr[5];
+            ✅ Pakai const / constexpr  : const int N = 5;  int arr[N];
+            ❌ Pakai variabel biasa     : int n = 5;  int arr[n];  ---> Tidak standard C++
+                                          (bisa jalan di beberapa compiler tapi VLA, hindari!)
 
-            cout << "\nRumus Jumlah Elemen = sizeof(array) / sizeof(array[0])" << endl;
-        }
+        ⚠️  ATURAN PENTING
+            - Ukuran array TIDAK BISA berubah setelah dideklarasikan (fixed size)
+            - Kalau butuh ukuran dinamis -> gunakan std::vector (dibahas di modul STL)
+    */
 
-        void accessModifyArray() {
-            int nilai[5] = {1, 2, 3, 4, 5};
+    /* Modul U.2 — Inisialisasi Array
+        📚 CARA-CARA INISIALISASI ARRAY
 
-            cout << "\n========== [ ACCESS & MODIFY ] ==========" << endl;
+        1. List Initialization (Complete)
+            Mengisi SEMUA elemen sekaligus saat deklarasi.
 
-            // --- READ / ACCESS ---
-            cout << "[Step 1] Membaca Element (Read):" << endl;
-            // Mengakses langsung menggunakan index (dimulai dari 0)
-            cout << "  > Index 0: " << nilai[0] << endl;
-            cout << "  > Index 1: " << nilai[1] << endl;
-            cout << "  > Index 2: " << nilai[2] << endl;
+                int nilai[5] = {85, 90, 78, 92, 88};
+                            ---> Semua 5 elemen langsung terisi
 
-            // --- WRITE / MODIFY ---
-            cout << "\n[Step 2] Mengubah Element (Modify):" << endl;
-            nilai[0] = 100; // Menimpa nilai lama
-            nilai[1] = 200;
-            nilai[2] = 300;
+        2. Partial Initialization
+            Mengisi SEBAGIAN elemen. Sisanya otomatis diisi 0 oleh compiler.
 
-            cout << "  > Update Index 0: " << nilai[0] << " (Berubah!)" << endl;
-            cout << "  > Update Index 1: " << nilai[1] << " (Berubah!)" << endl;
-            cout << "  > Update Index 2: " << nilai[2] << " (Berubah!)" << endl;
-        }
+                int nilai[5] = {80, 90};
+                            ---> nilai[0]=80, nilai[1]=90, nilai[2..4]=0
 
-        void traversingArrayLoop() {
-            int nilaiSiswa[10] = {90, 80, 85, 78, 77, 78, 90, 88, 85, 95};
-            
-            // Menghitung jumlah elemen secara otomatis
-            int n = sizeof(nilaiSiswa) / sizeof(nilaiSiswa[0]);
+        3. Zero Initialization
+            Mengisi SEMUA elemen dengan nilai 0.
 
-            cout << "\n========== [ TRAVERSING ARRAY ] ==========" << endl;
+                int nilai[5] = {0};
+                            ---> Semua elemen jadi 0
 
-            // 1. FOR LOOP (Index-based) - Standar & Fleksibel
-            cout << "\n1. For Loop (Index-based):" << endl;
-            for (int i = 0; i < n; i++) {
-                cout << "   Data ke-" << (i + 1) << " [Index " << i << "]: " << nilaiSiswa[i] << endl;
-            }
+        4. Omit Size (Auto-Detect)
+            Ukuran array dihitung OTOMATIS dari jumlah elemen yang diberikan.
 
-            // 2. RANGE-BASED FOR LOOP (C++11) - Modern & Clean
-            cout << "\n2. Range-Based Loop (Modern C++):" << endl;
-            cout << "   Values: ";
-            for (int nilai : nilaiSiswa) {
-                cout << "[" << nilai << "] ";
-            }
-            cout << endl;
+                int nilai[] = {10, 20, 30, 40, 50};
+                            ---> Compiler otomatis tahu ukurannya = 5
 
-            // 3. WHILE LOOP - Manual control
-            cout << "\n3. While Loop:" << endl;
-            int j = 0;
-            while (j < n) {
-                cout << "   Siswa #" << (j + 1) << ": " << nilaiSiswa[j] << endl;
-                j++;
-            }
-        }
+        5. No Initialization (DANGER!) ⚠️
+            Deklarasi tanpa isi. Elemen berisi NILAI SAMPAH (garbage value)!
 
-        void demoArrayFundamentalBasic(){
-            caraInisialisasi();
-            sizeArray();
-            accessModifyArray();
-            traversingArrayLoop();
-        }
+                int nilai[5];
+                            ---> isi tidak jelas, BAHAYA kalau langsung dipakai!
+                            ---> Selalu inisialisasi sebelum dipakai!
 
-    /* Modul 8.3 - Array Algorithm
-        
-        Apa itu algoritma array?
-            algoritma array adlaah teknik untuk memanipulasi/memproses data dalam array
+        6. Uniform Initialization (C++11 Modern)
+            Cara modern tanpa tanda =. Lebih aman karena mencegah narrowing conversion.
+
+                int nilai[5] {85, 90, 78, 92, 88};
+                            ---> Tanpa tanda =, lebih modern dan lebih aman
+
+        📌 RINGKASAN
+            Cara                        Contoh                          Keterangan
+            ─────────────────────────── ──────────────────────────────  ─────────────────────────
+            List (Complete)             int a[3] = {1, 2, 3};           Semua terisi manual
+            Partial                     int a[5] = {1, 2};              Sisanya otomatis 0
+            Zero                        int a[5] = {0};                 Semua jadi 0
+            Omit Size                   int a[] = {1, 2, 3};            Ukuran otomatis = 3
+            No Init (JANGAN!)           int a[5];                       Isi = garbage!
+            Uniform (C++11)             int a[5] {1, 2, 3, 4, 5};      Modern, tanpa =
+    */
+
+    /* Modul U.3 — Indexing, Akses, dan Modifikasi
+        📚 INDEXING ARRAY
+
+        1. Aturan Dasar Indexing
+            - Index SELALU dimulai dari 0
+            - Index terakhir = ukuran - 1
+            - Array berukuran N -> index valid: 0 sampai N-1
+
+                int nilai[5] = {85, 90, 78, 92, 88};
+                Index valid  : nilai[0], nilai[1], nilai[2], nilai[3], nilai[4]
+                TIDAK VALID  : nilai[5], nilai[-1], nilai[10]
+
+        2. Read / Akses Elemen
+            Baca nilai elemen menggunakan nama_array[index].
+
+                int nilai[3] = {85, 90, 78};
+
+                int pertama = nilai[0];     ---> pertama = 85
+                cout << nilai[1];           ---> Output: 90
+                int x = nilai[2] + 5;       ---> x = 83
+
+        3. Write / Modifikasi Elemen
+            Ubah nilai elemen menggunakan operator penugasan (=).
+
+                int nilai[3] = {85, 90, 78};
+
+                nilai[0] = 100;             ---> Ubah index 0 dari 85 jadi 100
+                nilai[1] = nilai[1] + 5;    ---> Tambah 5, dari 90 jadi 95
+                nilai[2]++;                 ---> Increment, dari 78 jadi 79
+
+                Hasil akhir: {100, 95, 79}
+
+        ⚠️  OUT OF BOUNDS — BAHAYA TERBESAR ARRAY!
+            Mengakses index di luar batas array = OUT OF BOUNDS
+
+                int arr[5] = {1, 2, 3, 4, 5};
+                cout << arr[5];     ---> ❌ UNDEFINED BEHAVIOR!
+                cout << arr[-1];    ---> ❌ UNDEFINED BEHAVIOR!
+
+            Konsekuensi:
+                - Program bisa crash
+                - Bisa baca/tulis memory milik variabel lain
+                - Bug yang sangat sulit ditemukan
+                - Tidak ada error message dari compiler!
+
+            ✅ Selalu pastikan index antara 0 sampai ukuran-1 sebelum akses!
+    */
+
+    /* Modul U.4 — Array Size & sizeof()
+        📚 MENGETAHUI UKURAN ARRAY
+
+        1. sizeof() untuk Array
+            sizeof() mengembalikan jumlah BYTE yang dipakai, bukan jumlah elemen.
+
+                int nilai[5] = {85, 90, 78, 92, 88};
+
+                sizeof(nilai)           ---> 20 bytes  (5 elemen × 4 byte per int)
+                sizeof(nilai[0])        ---> 4 bytes   (ukuran 1 elemen int)
+                sizeof(nilai) / sizeof(nilai[0])  ---> 5  (jumlah elemen = panjang array)
+
+            Rumus panjang array:
+                int panjang = sizeof(namaArray) / sizeof(namaArray[0]);
+
+        2. Gunakan CONST untuk Ukuran Array
+            Best practice: simpan ukuran dalam konstanta agar mudah diubah.
+
+                const int SIZE = 5;
+                int nilai[SIZE] = {85, 90, 78, 92, 88};
+
+                Keuntungan:
+                    - Mudah mengubah ukuran (cukup ubah nilai SIZE di satu tempat)
+                    - Lebih mudah dibaca daripada angka ajaib (magic number)
+                    - Lebih aman dari salah ketik ukuran
+
+        3. sizeof() vs Panjang Array — Jangan Tertukar!
+            int arr[5];
+            sizeof(arr)         = 20 bytes  (total memori)
+            sizeof(arr[0])      = 4 bytes   (per elemen)
+            sizeof(arr)/sizeof(arr[0]) = 5  (jumlah elemen) ← ini yang sering dibutuhkan
+
+        ⚠️  PERHATIAN: sizeof() di Dalam Function!
+            Kalau array dikirim ke function sebagai parameter,
+            sizeof(arr) di dalam function akan mengembalikan ukuran POINTER (4 atau 8 byte),
+            BUKAN ukuran array asli. Ini jebakan yang sering mengecoh!
+            -> Solusi: kirim ukuran sebagai parameter terpisah (dibahas di Modul U.11)
+    */
+
+    /* Modul U.5 — Traversing Array (Looping)
+        📚 CARA MENELUSURI ARRAY
+
+        Traversing = mengunjungi setiap elemen array satu per satu menggunakan loop.
+
+        1. For Loop (Index-based) — Paling Umum
+            Cocok saat butuh INDEX elemen (untuk modifikasi, perbandingan, dsb).
+
+                int nilai[5] = {85, 90, 78, 92, 88};
+                int n = sizeof(nilai) / sizeof(nilai[0]);   // n = 5
+
+                for (int i = 0; i < n; i++) {
+                    cout << "nilai[" << i << "] = " << nilai[i] << endl;
+                }
+
+        2. Range-based For Loop (C++11) — Paling Simple
+            Tidak perlu index. Cocok hanya untuk READ (membaca isi array).
+
+                int nilai[5] = {85, 90, 78, 92, 88};
+
+                for (int n : nilai) {
+                    cout << n << endl;
+                }
+
+                Catatan:
+                    - Tidak bisa modifikasi elemen asli (pakai referensi untuk modif)
+                    - Untuk modifikasi: for (int &n : nilai) { n *= 2; }
+
+        3. While Loop
+            Jarang dipakai untuk array biasa, tapi bisa untuk kondisi tertentu.
+
+                int nilai[5] = {85, 90, 78, 92, 88};
+                int i = 0;
+                while (i < 5) {
+                    cout << nilai[i] << endl;
+                    i++;
+                }
+
+        📌 MANA YANG DIPILIH?
+            Butuh index elemen          -> For Loop biasa
+            Hanya baca tanpa index      -> Range-based for (C++11), lebih ringkas
+            Kondisi berhenti bervariasi -> While Loop
+    */
+
+    /* Modul U.6 — Basic Operations
+        📚 OPERASI DASAR PADA ARRAY
+
+        1. Mencari Total (Sum)
+            Jumlahkan semua elemen dengan akumulator.
+
+                int nilai[5] = {85, 90, 78, 92, 88};
+                int total = 0;
+                for (int i = 0; i < 5; i++) {
+                    total += nilai[i];
+                }
+                // total = 433
+
+        2. Mencari Rata-rata
+            Total dibagi jumlah elemen. HATI-HATI integer division!
+
+                double rata = (double)total / 5;    // rata = 86.6
+                // Wajib cast ke double agar tidak terjadi integer division!
+
+        3. Mencari Nilai Maksimum
+            Anggap elemen pertama sebagai max sementara, lalu bandingkan dengan semua.
+
+                int maks = nilai[0];
+                for (int i = 1; i < 5; i++) {
+                    if (nilai[i] > maks) {
+                        maks = nilai[i];
+                    }
+                }
+                // maks = 92
+
+        4. Mencari Nilai Minimum
+            Sama seperti mencari max, tapi cari yang lebih kecil.
+
+                int mini = nilai[0];
+                for (int i = 1; i < 5; i++) {
+                    if (nilai[i] < mini) {
+                        mini = nilai[i];
+                    }
+                }
+                // mini = 78
+
+        5. Menghitung Elemen dengan Kondisi
+            Hitung berapa elemen yang memenuhi syarat tertentu.
+
+                int lulusCount = 0;
+                for (int i = 0; i < 5; i++) {
+                    if (nilai[i] >= 80) {
+                        lulusCount++;
+                    }
+                }
+                // lulusCount = berapa siswa yang nilai >= 80
+
+        ⚠️  JEBAKAN INTEGER DIVISION
+            int total = 433;
+            double rata = total / 5;        ---> ❌ Hasil: 86.0 (bukan 86.6!)
+            double rata = (double)total / 5; ---> ✅ Hasil: 86.6 (benar)
+    */
+
+    /* Modul U.7 — Array Algorithm: Searching & Sorting
+        📚 SEARCHING (PENCARIAN)
 
         ===================[ BAGIAN 1 - SEARCHING / MENCARI ] =====================
-            1. Sequential Search (Linear Search)
-                a. Sequential Search NON-SENTINEL 
 
-                    - Proses:
-                        Pengulangan dari elemen ke-1 sampai n
-                        Pada setiap pengulangan, bandingkan data[i] dengan yang dicari
-                        Jika sama -> data ditemukan
-                        Jika sampai akhir tidak sama -> data tidak ada
+        1. Sequential Search (Linear Search)
+            Cek satu per satu dari awal sampai akhir.
+            Cocok untuk data TIDAK TERURUT.
 
-                    - Pengecekan:
-                        i < n               -> belum sampai akhir
-                        arr[i] != target    -> belum ketemu
-                    
-                b. Sequential Search SENTINEL 
-                    - Proses:
-                        Simpan target di arr[n] (posisi sentinel)
-                        Loop dari i=0, cek arr[i] != target
-                        Jika ketemu:
-                            Jika i < n -> data DITEMUKAN di posisi i
-                            Jika i == n -> data TIDAK ADA (yang ketemu sentinel)
-                    
-                    - Kondisi Loop:
-                        while (arr[i] != target)  // Hanya 1 kondisi!
+            a. Sequential Search Non-Sentinel
+                - Proses:
+                    Loop dari i=0 sampai i<n
+                    Pada setiap pengulangan, bandingkan arr[i] dengan yang dicari
+                    Jika sama -> data ditemukan
+                    Jika sampai akhir tidak sama -> data tidak ada
 
-            2. Binary Search
-                    - KONSEP:
-                        Jika arr[i] SUDAH LEBIH BESAR dari target,
-                        maka TIDAK PERLU lanjut cek sisanya!
-                        (karena data terurut, sisanya pasti lebih besar lagi)
-                    
-                    - Proses:
-                        Loop dari awal
-                        Jika arr[i] == target -> FOUND
-                        Jika arr[i] > target -> STOP! (tidak akan ketemu)
-                        Jika arr[i] < target -> lanjut
-                    
+                - Kondisi:
+                    i < n               -> belum sampai akhir
+                    arr[i] != target    -> belum ketemu
 
-            ========== BEST PRACTICES ==========
-                KAPAN PAKAI SEARCHING APA?
-            
-            1. Data TIDAK TERURUT & KECIL (<100):
+            b. Sequential Search SENTINEL
+                - Konsep:
+                    Tambahkan nilai target di index ke-n (posisi sentinel)
+                    sehingga loop PASTI berhenti (tidak perlu cek 2 kondisi sekaligus)
+
+                - Proses:
+                    Simpan target di arr[n] (posisi sentinel)
+                    Loop dari i=0, cek arr[i] != target
+                    Jika ketemu:
+                        i < n  -> data DITEMUKAN di posisi i
+                        i == n -> data TIDAK ADA (yang ketemu cuma sentinel)
+
+                - Keuntungan:
+                    Hanya 1 kondisi di loop -> sedikit lebih efisien
+
+                - Kondisi Loop:
+                    while (arr[i] != target)  // Hanya 1 kondisi!
+
+        2. Binary Search
+            Jauh lebih efisien, tapi DATA HARUS SUDAH TERURUT (sorted).
+
+            - Konsep:
+                Jika arr[mid] SUDAH LEBIH BESAR dari target,
+                tidak perlu lanjut cek sisanya!
+                (karena data terurut, sisanya pasti lebih besar lagi)
+
+            - Proses:
+                left = 0, right = n-1
+                mid = (left + right) / 2
+                Jika arr[mid] == target -> FOUND!
+                Jika arr[mid] < target  -> cari di kanan (left = mid + 1)
+                Jika arr[mid] > target  -> cari di kiri  (right = mid - 1)
+                Ulangi sampai left > right (tidak ketemu)
+
+            - Kelebihan  : Jauh lebih cepat O(log n) vs O(n) linear search
+            - Kelemahan  : Data HARUS terurut terlebih dahulu
+
+        📌 KAPAN PAKAI SEARCHING APA?
+            1. Data TIDAK TERURUT & KECIL (<100)
                 -> Sequential Non-Sentinel
-            
-            2. Data TIDAK TERURUT & Butuh EFISIENSI:
-                -> Sequential Sentinel (fewer checks)
-            
-            3. Data TERURUT & KECIL-MEDIUM:
-                -> Sequential Sorted (early termination)
-            
-            4. Data TERURUT & BESAR (>1000):
-                -> Binary Search (FASTEST!)
-            
-            TIPS:
-            Sentinel        : Siapkan array[n+1] untuk space ekstra
-            Binary          : Pastikan data SORTED dulu
-            Production      : Pakai std::find() atau std::binary_search()
-            Always validate : check bounds, check sorted
 
-        ===================[ BAGIAN 2 - SHORTING / MENGURUTKAN ] =====================
-            Apa itu sorting?
-            Sorting itu adalah teknik mengurutkan data, entah itu dari kecil ke besar atau sebaliknya
-                - Kecil ke Besar ---> Ascending
-                - Besar ke Kecil ---> Descending
+            2. Data TIDAK TERURUT & Butuh EFISIENSI
+                -> Sequential Sentinel (fewer checks per iterasi)
 
-            Fungsinya?
-                - Agar Search lebih cepat karena data sudah terurut
-                - Mudah dibaca dan dipahami
-                - Mudah menemukan duplikat
+            3. Data TERURUT & BESAR (>1000)
+                -> Binary Search (PALING CEPAT!)
 
-            1. Bubble Short
-                - Konsep
-                    Membandingkan 2 elemen bersebelahan, jika salah urutan akan di swap
-                    Elemen terbesar akan berada di akhir (belakang)
-                    Nama Bubble short sendiri bisa di bayangkan seperti gelembung udara yang naik dari bawah air
+            Tips:
+                Sentinel        : Siapkan array[n+1] untuk space ekstra
+                Binary          : Pastikan data SORTED dulu sebelum search
+                Production      : Pakai std::find() atau std::binary_search() dari STL
 
-                - Proses
-                    Initial: [64, 34, 25, 12, 22]
-                    
-                    Pass 1: Compare & swap adjacent
-                            [34, 25, 12, 22, 64]  ← 64 bubble up ke akhir
-                    
-                    Pass 2: [25, 12, 22, 34, 64]  ← 34 bubble up
-                    
-                    Pass 3: [12, 22, 25, 34, 64]  ← 25 in place
-                    
-                    Pass 4: [12, 22, 25, 34, 64]  ← sorted!
 
-            2. Selection Short
-                - Konsep
-                    "SELECT" yang berarti pilih, yaitu dengan memilih elemen terkecil dari seluruh elemen array 
-                    lalu dipindah ke paling depan, berulang sampai ke semua array terurutkan
+        ===================[ BAGIAN 2 - SORTING / MENGURUTKAN ] =====================
+        📚 SORTING (PENGURUTAN)
 
-                - Proses
-                    Pass 1: Cari min dari semua elemen -> swap dengan posisi 0
-                    Pass 2: Cari min dari sisa array -> swap dengan posisi 1
-                    Pass 3: Cari min dari sisa array -> swap dengan posisi 2
-                    ...
-                    Sampai semua sorted
+        Sorting = mengurutkan elemen array, bisa dari kecil ke besar (Ascending)
+                  atau dari besar ke kecil (Descending).
 
-                - Visualisasi
-                    Initial: [64, 25, 12, 22, 11]
-                    
-                    Pass 1: min=11 (index 4)
-                            Swap 11 ↔ 64
-                            [11, 25, 12, 22, 64]  ← 11 FIXED
-                    
-                    Pass 2: min=12 (index 2)
-                            Swap 12 ↔ 25
-                            [11, 12, 25, 22, 64]  ← 12 FIXED
-                    
-                    Pass 3: min=22 (index 3)
-                            Swap 22 ↔ 25
-                            [11, 12, 22, 25, 64]  ← 22 FIXED
-                    
-                    Pass 4: min=25 (already in place)
-                            [11, 12, 22, 25, 64]  ← sorted!
+        Fungsinya:
+            - Agar Binary Search bisa dipakai (wajib sorted)
+            - Data lebih mudah dibaca dan dipahami
+            - Mudah menemukan duplikat
 
-            3. Insertion Short
-                - Konsep
-                    Sorting seperti sort KARTU REMI di tangan.
-                    Ambil elemen satu per satu, SISIPKAN di posisi yang benar.
+        1. Bubble Sort
+            - Konsep:
+                Membandingkan 2 elemen bersebelahan, jika salah urutan -> SWAP.
+                Elemen terbesar akan "menggelembung" naik ke posisi paling akhir.
 
-                - Proses
-                    Visualisasi:
-                    Initial: [12, 11, 13, 5, 6]
-                    
-                    Iter 1: key=11
-                            Insert 11 ke sorted part [12]
-                            [11, 12] | 13, 5, 6  ← 11 inserted
-                    
-                    Iter 2: key=13
-                            13 sudah di posisi benar
-                            [11, 12, 13] | 5, 6
-                    
-                    Iter 3: key=5
-                            Geser 13, 12, 11 ke kanan
-                            Insert 5 di awal
-                            [5, 11, 12, 13] | 6
-                    
-                    Iter 4: key=6
-                            Geser 13, 12, 11 ke kanan
-                            Insert 6 setelah 5
-                            [5, 6, 11, 12, 13]  ← sorted!
+            - Proses & Visualisasi:
+                Initial : [64, 34, 25, 12, 22]
 
-            KAPAN PAKAI YANG MANA?
-            
-                Small array (<50)   :   Any is OK
-                Nearly sorted       :   INSERTION ⭐⭐
-                Minimize swaps      :   SELECTION
-                Learning/Teaching   :   BUBBLE (easiest)
-                Large array (>1000) :   DON'T USE THESE! 
-                                        Use std::sort() instead
-            
-            PRODUCTION CODE WARNING! ⚠️
-            
-                Ketiga sorting ini (Bubble/Selection/Insertion) adalah
-                untuk LEARNING PURPOSE!
-                
-                Untuk PRODUCTION code dengan data besar (>1000):
-                    ❌ JANGAN pakai Bubble/Selection/Insertion
-                    ✅ Pakai: Quick Sort, Merge Sort, Heap Sort
-                    ✅ Atau: std::sort() dari STL (nanti di modul STL)
+                Pass 1  : [34, 25, 12, 22, 64]  <- 64 bubble up ke akhir
+                Pass 2  : [25, 12, 22, 34, 64]  <- 34 bubble up
+                Pass 3  : [12, 22, 25, 34, 64]  <- 25 bubble up
+                Pass 4  : [12, 22, 25, 34, 64]  <- sorted!
 
-        ===================[ BAGIAN 3 - MANIPULATION ] =====================
-            1. Reverse Array (Balik Urutan)
-                - Konsep
-                    Balik urutan array dari belakang ke depan.
+            - Kompleksitas: O(n²)
 
-                - Proses
-                    Cara Kerja:
-                    - Pointer left di awal (index 0)
-                    - Pointer right di akhir (index n-1)
-                    - Swap arr[left] dengan arr[right]
-                    - Geser left ke kanan, right ke kiri
-                    - Ulangi sampai left >= right
+        2. Selection Sort
+            - Konsep:
+                "SELECT" elemen TERKECIL dari seluruh sisa array,
+                lalu pindahkan ke posisi paling depan. Ulangi.
 
-            2. Rotate Array
-                a. LEFT ROTATE:
-                    Geser semua elemen ke kiri.
-                    Elemen pertama jadi terakhir.
-                    
-                    Visualisasi:
-                        [1, 2, 3, 4, 5]  -> rotate left ->  [2, 3, 4, 5, 1]
-                
-                b. RIGHT ROTATE:
-                    Geser semua elemen ke kanan.
-                    Elemen terakhir jadi pertama.
-                    
-                    Visualisasi:
-                        [1, 2, 3, 4, 5]  -> rotate right ->  [5, 1, 2, 3, 4]
+            - Proses & Visualisasi:
+                Initial : [64, 25, 12, 22, 11]
 
-            3. Remove Duplicate
-                - Konsep
-                    Hilangkan elemen yang duplikat, keep yang unik.
+                Pass 1  : min=11 (index 4), Swap 11 ↔ 64
+                          [11, 25, 12, 22, 64]  <- 11 FIXED
 
-                - Proeses
-                    Cara Kerja:
-                    - uniqueIndex = 0 (posisi elemen unik terakhir)
-                    - Loop dari i=1 sampai n-1
-                    - Jika arr[i] != arr[uniqueIndex]:
-                        . Berarti arr[i] adalah elemen baru (unique)
-                        . uniqueIndex++
-                        . arr[uniqueIndex] = arr[i]
-                    - Return uniqueIndex + 1 (new size)
+                Pass 2  : min=12 (index 2), Swap 12 ↔ 25
+                          [11, 12, 25, 22, 64]  <- 12 FIXED
 
-        ===================[ BAGIAN 4 - FREQUENCY ] =====================
-            1. Frequency Count (Hitung Kemunculan)
-            
-                - Konsep
-                    Hitung berapa kali setiap elemen muncul dalam array.
-                
-                    METHOD 1: Nested Loop (General, untuk semua data)
-                        Kode:
-                            void countFrequency(int arr[], int n) {
-                                bool visited[n] = {false};
-                                
-                                for (int i = 0; i < n; i++) {
-                                    if (visited[i]) continue;
-                                    
-                                    int count = 1;
-                                    for (int j = i + 1; j < n; j++) {
-                                        if (arr[i] == arr[j]) {
-                                            count++;
-                                            visited[j] = true;
-                                        }
-                                    }
-                                    
-                                    cout << arr[i] << " appears " << count << " times" << endl;
-                                }
-                            }
-                        
-                        Keterangan:
-                            - Time: O(n²)
-                            - Space: O(n) untuk array visited
-                            - Bekerja untuk semua jenis data
-                
-                    METHOD 2: Frequency Array (untuk angka kecil)
-                        Kode:
-                            void countFrequencyArray(int arr[], int n, int maxValue) {
-                                int freq[maxValue + 1] = {0};
-                                
-                                // Count occurrences
-                                for (int i = 0; i < n; i++) {
-                                    freq[arr[i]]++;
-                                }
-                                
-                                // Print non-zero frequencies
-                                for (int i = 0; i <= maxValue; i++) {
-                                    if (freq[i] > 0) {
-                                        cout << i << " appears " << freq[i] << " times" << endl;
-                                    }
-                                }
-                            }
-                    
-                    Keterangan:
-                        - Time: O(n + maxValue)
-                        - Space: O(maxValue)
-                        - Hanya untuk angka 0 sampai maxValue
-                        - Lebih cepat dari nested loop
+                Pass 3  : min=22 (index 3), Swap 22 ↔ 25
+                          [11, 12, 22, 25, 64]  <- 22 FIXED
 
-            2. Find Duplicates (Cari Yang Duplikat)
-            
-                - KONSEP:
-                    Cari elemen mana saja yang muncul lebih dari sekali.
-                
-                    Kode:
-                        void findDuplicates(int arr[], int n) {
-                            bool found = false;
-                            
-                            for (int i = 0; i < n; i++) {
-                                for (int j = i + 1; j < n; j++) {
-                                    if (arr[i] == arr[j]) {
-                                        cout << arr[i] << " is duplicate" << endl;
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            
-                            if (!found) {
-                                cout << "No duplicates found" << endl;
-                            }
-                        }
+                Pass 4  : min=25 (sudah di tempat)
+                          [11, 12, 22, 25, 64]  <- sorted!
+
+            - Kompleksitas: O(n²), minimal swap dibanding Bubble
+
+        3. Insertion Sort
+            - Konsep:
+                Seperti mengurutkan kartu remi di tangan.
+                Ambil elemen satu per satu, SISIPKAN di posisi yang benar
+                di antara elemen-elemen yang sudah terurut.
+
+            - Proses & Visualisasi:
+                Initial : [12, 11, 13, 5, 6]
+
+                Iter 1  : key=11, insert ke sorted part [12]
+                          [11, 12] | 13, 5, 6
+
+                Iter 2  : key=13, sudah di posisi benar
+                          [11, 12, 13] | 5, 6
+
+                Iter 3  : key=5, geser 13, 12, 11 ke kanan
+                          [5, 11, 12, 13] | 6
+
+                Iter 4  : key=6, geser 13, 12, 11 ke kanan, insert setelah 5
+                          [5, 6, 11, 12, 13]  <- sorted!
+
+            - Kompleksitas: O(n²), sangat cepat untuk data yang "hampir terurut"
+
+        📌 KAPAN PAKAI YANG MANA?
+            Small array (<50)   :   Any is OK
+            Nearly sorted       :   INSERTION SORT ⭐⭐ (paling efisien)
+            Minimize swaps      :   SELECTION SORT
+            Learning/Teaching   :   BUBBLE SORT (paling mudah dipahami)
+            Large array (>1000) :   JANGAN PAKAI KETIGA INI!
+                                    Pakai std::sort() dari STL
+
+        ⚠️  PRODUCTION CODE WARNING!
+            Bubble Sort, Selection Sort, dan Insertion Sort adalah untuk LEARNING PURPOSE.
+            Untuk data besar di production code:
+                ❌ Jangan pakai ketiga sorting di atas
+                ✅ Pakai std::sort() dari <algorithm> — jauh lebih cepat O(n log n)
     */
 
-        void cetakArray(int arr[], int n){
-            cout << "[ ";
-            for(int i = 0; i < n; i++){
-                cout << arr[i];
-                if(i < n-1) cout << ", ";
-            }
-            cout << " ]" << endl;
-        }
+    /* Modul U.8 — Array Manipulation
+        📚 MANIPULASI ARRAY
 
-        void searchingArray(){
+        ===================[ BAGIAN 3 - MANIPULATION ] =====================
 
-            cout << "\n==========================================" << endl;
-            cout << "|            ARRAY - MODUL 8.3           |" << endl;
-            cout << "==========================================" << endl;
+        1. Reverse Array (Balik Urutan)
+            - Konsep:
+                Balik urutan array sehingga elemen terakhir jadi pertama.
 
-            cout << "\n=========[Searching Array]=========" << endl;
-            
-            int nilaiDicari = 85;
-            const int n = 10;
-            int nilaiSiswa[n] = {
-                90,80,85,78,77,78,90,88,85,95
-            };
-            cout << "\nData Array Nilai Siswa : " << endl;
-            cetakArray(nilaiSiswa, n);
-            cout << "Data Array yang Dicari : " << nilaiDicari << endl;
-            
-            cout << "\n1. Sequential Search Non-Sentinel" << endl;
-            {
-                bool ketemu = false;
-                for(int i = 0; i < n; i++){
-                    if(nilaiSiswa[i] == nilaiDicari){
-                        cout << "   Ketemu di index " << i << endl;
-                        ketemu = true;
-                    }
-                }
-                if(!ketemu) cout << "   Tidak ditemukan" << endl;
-            }
+            - Proses:
+                - Gunakan dua pointer: left (dari awal) dan right (dari akhir)
+                - Swap arr[left] dengan arr[right]
+                - Geser left ke kanan, right ke kiri
+                - Ulangi sampai left >= right
 
-            cout << "\n2. Sequential Search Sentinel" << endl;
-            {
-                int nilaiSiswaSentinel[11];
-                for(int i = 0; i < n; i++) nilaiSiswaSentinel[i] = nilaiSiswa[i];
-                nilaiSiswaSentinel[n] = nilaiDicari;   // pasang sentinel di index n
+            - Visualisasi:
+                Before: [1, 2, 3, 4, 5]
+                         ^           ^
+                        left        right
+                After : [5, 4, 3, 2, 1]
 
-                int i = 0;
-                while(nilaiSiswaSentinel[i] != nilaiDicari) i++;
+        2. Rotate Array
+            a. LEFT ROTATE (Geser Kiri)
+                - Konsep:
+                    Semua elemen geser ke kiri satu posisi.
+                    Elemen PERTAMA dipindah ke posisi TERAKHIR.
 
-                if(i < n)
-                    cout << "   Ketemu di index " << i << endl;
-                else
-                    cout << "   Tidak ditemukan (yang ketemu adalah sentinel)" << endl;
-            }
+                - Visualisasi:
+                    Before: [1, 2, 3, 4, 5]
+                    After : [2, 3, 4, 5, 1]
 
-            
-            cout << "\n3. Binary Search (data harus sorted)" << endl;
-            {
-                int nilaiSiswaSorted[10] = {77, 78, 78, 80, 85, 85, 88, 90, 90, 95};
-                cout << "   Data sorted : "; cetakArray(nilaiSiswaSorted, n);
+                - Proses:
+                    Simpan data[0] ke temp
+                    Geser semua elemen ke kiri: data[i] = data[i+1]
+                    Taruh temp di posisi terakhir
 
-                int left = 0, right = n - 1, hasilIdx = -1;
-                while(left <= right){
-                    int mid = (left + right) / 2;
-                    if(nilaiSiswaSorted[mid] == nilaiDicari){
-                        hasilIdx = mid;
-                        break;
-                    } else if(nilaiSiswaSorted[mid] < nilaiDicari){
-                        left = mid + 1;
-                    } else {
-                        right = mid - 1;
-                    }
-                }
-                if(hasilIdx != -1)
-                    cout << "   Ketemu di index " << hasilIdx << endl;
-                else
-                    cout << "   Tidak ditemukan" << endl;
-            }
-        }
+            b. RIGHT ROTATE (Geser Kanan)
+                - Konsep:
+                    Semua elemen geser ke kanan satu posisi.
+                    Elemen TERAKHIR dipindah ke posisi PERTAMA.
 
-        void sortingArray(){
-            cout << "\n=========[Sorting Array]=========" << endl;
+                - Visualisasi:
+                    Before: [1, 2, 3, 4, 5]
+                    After : [5, 1, 2, 3, 4]
 
-            const int n = 10;
-            int nilaiSiswa[n] = {
-                90,80,85,78,77,78,90,88,85,95
-            };
-            cout << "\nData Array Nilai Siswa : " << endl;
-            cetakArray(nilaiSiswa, n);
+                - Proses:
+                    Simpan data[n-1] ke temp
+                    Geser semua elemen ke kanan: data[i] = data[i-1]
+                    Taruh temp di posisi pertama
 
-            cout << "\n0. Standard Sort Library" << endl;
-            {
-                sort(nilaiSiswa, nilaiSiswa + n); 
-                cetakArray(nilaiSiswa, n);
-            }  
+        3. Remove Duplicate (Hapus Duplikat)
+            - Syarat: Array HARUS sudah sorted terlebih dahulu!
 
-            cout << "\n1. Bubble Short" << endl;
-            {
-                for (int i = 0; i < n; i++){
-                    for (int j = 1; j < n; j++){
-                        if (nilaiSiswa[j-1] > nilaiSiswa[j]){
-                            int temp = nilaiSiswa[j-1];
-                            nilaiSiswa[j-1] = nilaiSiswa[j];
-                            nilaiSiswa[j] = temp;
-                        }
-                    }
-                }
-                cout << "Hasil Bubble Sort : " << endl;
-                cetakArray(nilaiSiswa, n);
-            }
+            - Konsep:
+                Hilangkan elemen yang duplikat, pertahankan yang unik.
 
-            cout << "\n2. Selection Short (Ascending)" << endl;
-            {
-                for (int i = 0; i < n - 1; i++){            // i = "Slot" yang mau diisi (si pendek nomor 1, 2, dst)
-                    
-                    int minIndex = i;                       // Anggap posisi 'i' adalah yang terkecil sementara
+            - Proses (Two-pointer technique):
+                - uniqueIndex = 0 (penunjuk posisi elemen unik terakhir)
+                - Loop dari i=1 sampai n-1
+                - Jika arr[i] != arr[uniqueIndex]:
+                    . arr[i] adalah elemen BARU dan UNIK
+                    . uniqueIndex++
+                    . arr[uniqueIndex] = arr[i]   <- pindahkan ke depan
+                - Kalau sama -> skip (ini duplikat, buang)
+                - New size = uniqueIndex + 1
 
-                    for (int j = i + 1; j < n; j++){        // j = "Detektif" yang nyari di sisa barisan
-                        if(nilaiSiswa[j] < nilaiSiswa[minIndex]){
-                            minIndex = j;                   // "Eh, ketemu yang lebih kecil! Catat index-nya!"
-                        }
-                    }
-                    
-                    // Eksekusi Tukar Nasib (Hanya dilakukan SEKALI setelah detektif selesai tugasnya)
-                    int temp = nilaiSiswa[i];
-                    nilaiSiswa[i] = nilaiSiswa[minIndex];
-                    nilaiSiswa[minIndex] = temp;
-                }
+            - Visualisasi:
+                Before: [1, 1, 2, 3, 3, 4, 5, 5]  size=8
+                After : [1, 2, 3, 4, 5]            size=5
 
-                cout << "Hasil Selection Sort" << endl;
-                cetakArray(nilaiSiswa, n);
-            }
 
-            cout << "\n3. Insertion Sort" << endl;
-            {
-                for (int i = 1; i < n; i++) { 
-                    int key = nilaiSiswa[i]; // 1. "Eh, ambil kartu ini dulu (simpan di kantong)"
-                    int j = i - 1;           // 2. "Siap-siap bandingin sama kartu di sebelah kirinya"
-    
-                    // 3. SELAMA kartu di kiri lebih gede dari kartu di kantong...
-                    while (j >= 0 && nilaiSiswa[j] > key) {
-                        nilaiSiswa[j + 1] = nilaiSiswa[j]; // 4. "Geser kartu gede itu ke kanan (kasih ruang)"
-                        j--;                               // 5. "Cek lagi kartu lebih kiri lagi, ada yang gede lagi gak?"
-                    }
-    
-                    nilaiSiswa[j + 1] = key; // 6. "Nah, lubangnya ketemu! Masukkan kartu dari kantong ke sini"
-    
-                    cout << "Hasil Insertion Sort" << endl;
-                    cetakArray(nilaiSiswa, n);
-                }
-            }
-        }
+        ===================[ BAGIAN 4 - FREQUENCY ] =====================
 
-        void manipulationArray(){
-            int asal[5] = {30, 10, 50, 20, 40};
-            int tujuan[5];
+        4. Frequency Count (Hitung Kemunculan)
+            - Konsep:
+                Hitung berapa kali setiap elemen muncul dalam array.
 
-            // 1. COPY: Salin 'asal' ke 'tujuan'
-            copy(asal, asal + 5, tujuan);
+            METHOD 1: Nested Loop (untuk semua jenis data)
+                - Loop luar: pilih elemen ke-i sebagai acuan
+                - Loop dalam: hitung berapa kali elemen itu muncul di sisanya
+                - Gunakan array visited[] untuk menandai yang sudah dihitung
+                - Time: O(n²), Space: O(n)
 
-            // 2. SORT: Urutkan array 'asal' (10, 20, 30, 40, 50)
-            sort(asal, asal + 5);
+            METHOD 2: Frequency Array (untuk angka kecil)
+                - Buat array freq[] berukuran maxValue+1, isi semua 0
+                - Loop data: freq[arr[i]]++
+                - Elemen dengan freq[i] > 0 berarti muncul sebanyak freq[i] kali
+                - Time: O(n + maxValue), Space: O(maxValue)
+                - Lebih cepat, tapi hanya untuk angka 0 sampai maxValue
 
-            // 3. REVERSE: Balik urutannya (50, 40, 30, 20, 10)
-            reverse(asal, asal + 5);
+        5. Find Duplicates (Cari Elemen Duplikat)
+            - Konsep:
+                Cari elemen mana saja yang muncul lebih dari satu kali.
 
-            // 4. REPLACE: Ganti angka 30 jadi 99
-            replace(asal, asal + 5, 30, 99);
+            - Proses (Nested Loop):
+                Loop i dari 0 sampai n-1
+                Loop j dari i+1 sampai n-1
+                Jika arr[i] == arr[j] -> arr[i] adalah duplikat!
+    */
 
-            // 5. FILL: Setel semua isi 'tujuan' jadi 0
-            fill(tujuan, tujuan + 5, 0);
+    /* Modul U.9 — Character Array (C-Style String)
+        📚 CHARACTER ARRAY
 
-            cout << "\n=========[Manipulasi Array]=========" << endl;
+        1. Apa itu Character Array?
+            Adalah array yang menyimpan kumpulan karakter (char).
+            Ini adalah cara LAMA (C-style) untuk menyimpan teks/string.
+            Berbeda dengan std::string yang modern dan lebih mudah.
 
-            const int n = 5;
-            int arr[n] = {1, 2, 3, 4, 5};
-            cout << "\nData Awal : ";
-            cetakArray(arr, n);
+        2. Dua Cara Menyimpan Teks di C++
+            a. Character Array (C-Style String) — Cara jadul, perlu hati-hati
+            b. std::string                      — Cara modern, lebih mudah & aman
 
-            // ===== 1. REVERSE ARRAY =====
-            cout << "\n1. Reverse Array (Balik Urutan)" << endl;
-            {
-                int data[5] = {1, 2, 3, 4, 5};
-                cout << "   Sebelum : "; cetakArray(data, 5);
-
-                // Cara kerja: tukar elemen paling kiri & kanan, gerak ke tengah
-                //   left                             right
-                //    v                               v
-                //   [1]   [2]   [3]   [4]   [5]
-                //
-                // Step 1: swap(data[0], data[4]) -> [5, 2, 3, 4, 1]   left=1, right=3
-                // Step 2: swap(data[1], data[3]) -> [5, 4, 3, 2, 1]   left=2, right=2
-                // Step 3: left >= right -> BERHENTI
-
-                int left = 0;
-                int right = 4;
-
-                while(left < right){
-                    // Tukar elemen kiri & kanan
-                    int temp    = data[left];
-                    data[left]  = data[right];
-                    data[right] = temp;
-
-                    left++;     // Geser kiri ke dalam
-                    right--;    // Geser kanan ke dalam
-                }
-
-                cout << "   Sesudah : "; cetakArray(data, 5);
-            }
-
-            // ===== 2. ROTATE LEFT =====
-            cout << "\n2. Rotate Left (Elemen Pertama Pindah ke Akhir)" << endl;
-            {
-                int data[5] = {1, 2, 3, 4, 5};
-                cout << "   Sebelum : "; cetakArray(data, 5);
-
-                // Cara kerja:
-                //   Simpan data[0] dulu -> temp = 1
-                //   Geser semua elemen ke KIRI satu posisi
-                //   Taruh temp di posisi terakhir
-                //
-                //   [1]  [2]  [3]  [4]  [5]
-                //    ↓
-                //   temp = 1
-                //   [2]  [3]  [4]  [5]  [_]   ← geser kiri
-                //   [2]  [3]  [4]  [5]  [1]   ← taruh temp di akhir
-
-                int temp = data[0];                     // Simpan elemen pertama
-                for(int i = 0; i < 4; i++){
-                    data[i] = data[i + 1];              // Geser semua ke kiri
-                }
-                data[4] = temp;                         // Taruh di posisi terakhir
-
-                cout << "   Sesudah : "; cetakArray(data, 5);
-            }
-
-            // ===== 3. ROTATE RIGHT =====
-            cout << "\n3. Rotate Right (Elemen Terakhir Pindah ke Depan)" << endl;
-            {
-                int data[5] = {1, 2, 3, 4, 5};
-                cout << "   Sebelum : "; cetakArray(data, 5);
-
-                // Cara kerja: kebalikan rotate left
-                //   Simpan data[4] dulu -> temp = 5
-                //   Geser semua elemen ke KANAN satu posisi
-                //   Taruh temp di posisi pertama
-                //
-                //   [1]  [2]  [3]  [4]  [5]
-                //                        ↓
-                //                      temp = 5
-                //   [_]  [1]  [2]  [3]  [4]   ← geser kanan
-                //   [5]  [1]  [2]  [3]  [4]   ← taruh temp di awal
-
-                int temp = data[4];                     // Simpan elemen terakhir
-                for(int i = 4; i > 0; i--){
-                    data[i] = data[i - 1];              // Geser semua ke kanan
-                }
-                data[0] = temp;                         // Taruh di posisi pertama
-
-                cout << "   Sesudah : "; cetakArray(data, 5);
-            }
-
-            // ===== 4. REMOVE DUPLICATE (array SUDAH sorted) =====
-            cout << "\n4. Remove Duplicate (array harus sorted dulu)" << endl;
-            {
-                int data[8] = {1, 1, 2, 3, 3, 4, 5, 5};
-                int size = 8;
-                cout << "   Sebelum : "; cetakArray(data, size);
-
-                // Cara kerja:
-                //   uniqueIndex = 0  (penunjuk posisi elemen unik terakhir)
-                //   Loop dari i = 1:
-                //     Kalau data[i] != data[uniqueIndex] -> elemen BARU, unik!
-                //       uniqueIndex++
-                //       data[uniqueIndex] = data[i]   ← pindahkan ke depan
-                //     Kalau sama -> skip (duplikat, buang)
-                //
-                //   data = [1, 1, 2, 3, 3, 4, 5, 5]
-                //          uniqueIdx=0
-                //   i=1 : data[1]=1 == data[0]=1 -> skip
-                //   i=2 : data[2]=2 != data[0]=1 -> uniqueIdx=1, data[1]=2
-                //   i=3 : data[3]=3 != data[1]=2 -> uniqueIdx=2, data[2]=3
-                //   i=4 : data[4]=3 == data[2]=3 -> skip
-                //   i=5 : data[5]=4 != data[2]=3 -> uniqueIdx=3, data[3]=4
-                //   ... dst
-                //   Hasil : [1, 2, 3, 4, 5]  newSize = uniqueIdx+1 = 5
-
-                int uniqueIdx = 0;
-                for(int i = 1; i < size; i++){
-                    if(data[i] != data[uniqueIdx]){     // Elemen baru ketemu
-                        uniqueIdx++;
-                        data[uniqueIdx] = data[i];      // Pindah ke posisi unik berikutnya
-                    }
-                    // Kalau sama -> tidak dilakukan apa-apa (otomatis terbuang)
-                }
-                int newSize = uniqueIdx + 1;            // Ukuran baru setelah duplikat dihapus
-
-                cout << "   Sesudah : "; cetakArray(data, newSize);
-                cout << "   Ukuran  : " << size << " -> " << newSize << endl;
-            }
-        }
-
-        void demoArrayAlgorithm(){
-            searchingArray();
-            sortingArray();
-            manipulationArray();
-        }
-
-    /* Modul 8.4 - Charcter Array
-
-        1. Apa itu character Array?
-                Adalah tempat untuk menyimpan kumpulan karakter (char)
-                ini adalah cara lama (C-Style) untuk menyimpan teks/string
-
-        2. Dua cara menyimpan teks
-            a. Character Array (C-Style String) - Cara jadul
-            a. std::string                      - Cara Modern, Lebih mudah
-
-        3. Null Terminator
-            Adalah penanda berakhirnya sebuah string, dengan karakter khusus '\0' (NULL/NOL)
-            '\0' tidak tampil dilayar, tapi wajib
-            ---> Letaknya ada di index terakhir sebuah array
+        3. Null Terminator ('\0') — WAJIB!
+            Adalah penanda berakhirnya sebuah string, menggunakan karakter khusus '\0'.
+            '\0' tidak tampil di layar, tapi WAJIB ada di akhir setiap char array.
 
             Visualisasi:
                 char nama[6] = "Gega";
 
-                    Index:  [ 0 ] [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]
-                    Value:  [ G ] [ e ] [ g ] [ a ] [\0 ] [   ]
+                Index:  [ 0 ] [ 1 ] [ 2 ] [ 3 ] [ 4 ] [ 5 ]
+                Value:  [ G ] [ e ] [ g ] [ a ] [\0 ] [   ]
 
-            NB : 
-                Harus melebihi 1 index untuk tempat null terminator ini
-                Ukuran Array = Panjang Teks + 1 (untuk \0)
-                    "Gega" = 4 huruf -> butuh char[5] (minimal)
+            Aturan:
+                Ukuran Array = Panjang Teks + 1 (satu slot untuk \0)
+                "Gega" = 4 huruf -> butuh char[5] (minimal!)
 
-                Kalau ukuran array kurang dan \0 tidak termuat:
-                    -> cout akan terus baca memory sampai ketemu \0 acak
-                    -> Output GARBAGE (karakter aneh)
-                    -> UNDEFINED BEHAVIOR!
-        
-        4. Deklarasi dan Inialisasi
-            a. Deklarasi
-                Seperti array pada umumnya
-                char namaArray[ukurannya];
+            Akibat jika \0 tidak ada:
+                -> cout akan terus baca memory sampai ketemu \0 acak
+                -> Output GARBAGE (karakter aneh)
+                -> UNDEFINED BEHAVIOR yang sulit di-debug!
 
-                contoh:
-                    char nama[10];                       ---> Bisa menyimpan 9 huruf + 1 \0
-                    char kota[6] = "Jogja";              ---> Otomatis tambah \0 di akhir
-                    char huruf[3] = {'A','B','C'};       ---> BAHAYA! Tidak ada \0!
-                    char huruf[4] = {'A','B','C','\0'};  ---> Aman, ada \0
+        4. Deklarasi dan Inisialisasi
+            a. Dengan ukuran eksplisit
+                char kota[6] = "Jogja";              ---> 5 huruf + 1 \0 = pas
+                char huruf[4] = {'A','B','C','\0'};  ---> Per karakter, \0 manual!
+                char huruf[3] = {'A','B','C'};       ---> BAHAYA! Tidak ada \0!
 
-            b. Cara Inisialisasi (String Literal):
-                    Dengan ukuran eksplisit:
-                        char nama[6] = "Gega";           ---> Size 6, isi "Gega" + \0 + sisa 0
+            b. Omit size (auto-detect):
+                char nama[] = "Gega";                ---> Otomatis size 5 (4 + \0)
 
-                    Omit size (auto-detect):        
-                        char nama[] = "Gega";            ---> Otomatis size 5 (4 + \0)
-
-                    Uniform Init (C++11):       
-                        char nama[]{"Gega"};             ---> Modern style
+            c. Uniform Init (C++11):
+                char nama[]{"Gega"};                 ---> Modern style
 
         5. Input dan Output
             a. Output dengan cout:
-                    char nama[] = "Gega";
-                    cout << nama;                        ---> Output: Gega (cout baca sampai \0)
+                char nama[] = "Gega";
+                cout << nama;            ---> Output: Gega (cout baca sampai \0)
 
             b. Input dengan cin:
-                    char nama[20];
-                    cin >> nama;                         ---> Input sampai SPASI (stop di spasi)
+                char nama[20];
+                cin >> nama;             ---> Input sampai SPASI (stop di spasi!)
+                                         ---> "Gega Ramadhan" -> hanya simpan "Gega"
 
-                    Masalah cin:
-                        Kalau input "Gega Ramadhan" -> nama hanya berisi "Gega"
-                        Sisanya ("Ramadhan") tertinggal di buffer!
+            c. Input kalimat dengan cin.getline():
+                char nama[50];
+                cin.getline(nama, 50);   ---> Input sampai ENTER, termasuk spasi!
+                                         ---> "Gega Ramadhan" -> tersimpan lengkap
 
-            c. Input Kalimat dengan cin.getline():
-                    char nama[50];
-                    cin.getline(nama, 50);              ---> Input sampai ENTER, termasuk spasi
+                Perbedaan penting:
+                    cin.getline(arr, size)  -> untuk char array (C-style)
+                    getline(cin, str)        -> untuk std::string (C++ modern)
 
-                    Syntax cin.getline():
-                        cin.getline(namaArray, ukuranMax);
-                        cin.getline(namaArray, ukuranMax, delimiterKhusus);
-
-                    ----------------------------------------------------------------------------
-                    |Perbedaan cin.getline() vs getline():                                     |
-                    |        cin.getline(arr, size)        ---> untuk char array (C-style)     |
-                    |        getline(cin, str)             ---> untuk std::string (C++ modern) |
-                    ----------------------------------------------------------------------------
-
-        6. Library CSTRING
-            jika ingin mengoperasikan/memanipulasi character array maka butuh library csting
-
-            Nama :
-                #include <cstring>
+        6. Library <cstring> — Fungsi Manipulasi Char Array
+            Untuk memanipulasi character array, butuh #include <cstring>
 
             Fungsi            Kegunaan                            Contoh
-            -----------------------------------------------------------------------
+            ─────────────────────────────────────────────────────────────────────
             strlen(s)         Panjang string (tanpa \0)           strlen("Gega") = 4
             strcpy(dst, src)  Copy string src ke dst              strcpy(a, b)
-            strcat(dst, src)  Sambung src ke belakang dst         strcat(a, b)
+            strcat(dst, src)  Sambung src ke belakang dst         strcat(a, " Ramadhan")
             strcmp(s1, s2)    Bandingkan dua string               strcmp(a, b)
             strchr(s, c)      Cari karakter c dalam s             strchr(s, 'a')
-            strstr(s1, s2)    Cari substring s2 dalam s1          strstr(s, "ga")
+            strstr(s1, s2)    Cari substring s2 dalam s1          strstr(s, "ega")
 
             Detail strcmp():
                 Return 0    -> s1 == s2 (sama persis)
                 Return < 0  -> s1 < s2  (s1 lebih kecil secara ASCII)
                 Return > 0  -> s1 > s2  (s1 lebih besar secara ASCII)
 
-                JANGAN pakai == untuk bandingan char array!
-                    char a[] = "Halo";
-                    char b[] = "Halo";
-                    if (a == b)              // ❌ SALAH! Ini bandingin ALAMAT memory, bukan isinya!
-                    if (strcmp(a, b) == 0)   // ✅ BENAR! Ini bandingin ISINYA
+            ❌ JANGAN bandingkan char array dengan == !
+                char a[] = "Halo";
+                char b[] = "Halo";
+                if (a == b)              // ❌ SALAH! Ini bandingkan ALAMAT memory!
+                if (strcmp(a, b) == 0)   // ✅ BENAR! Ini bandingkan ISINYA
 
-        7. Perbandingan Character Array dan String
-
+        7. Perbandingan Character Array vs std::string
             Aspek           char Array (C-style)        std::string (C++ Modern)
-            ---------------------------------------------------------------------
+            ──────────────────────────────────────────────────────────────────────
             Deklarasi       char s[20] = "Halo";        string s = "Halo";
-            Ukuran          Fixed (harus tentukan)       Dynamic (otomatis)
+            Ukuran          Fixed (harus tentukan)       Dynamic (otomatis resize)
             Panjang         strlen(s)                    s.length() / s.size()
-            Gabung          strcat(s1, s2)               s1 + s2 atau s1 += s2
-            Bandingkan      strcmp(s1,s2) == 0           s1 == s2 (langsung)
+            Gabung          strcat(s1, s2)               s1 + s2  atau  s1 += s2
+            Bandingkan      strcmp(s1,s2) == 0           s1 == s2 (langsung!)
             Input           cin.getline(s, size)         getline(cin, s)
-            Null terminator Wajib dikelola manual        Otomatis
+            Null terminator Wajib dikelola manual        Otomatis dikelola
             Safety          Rawan buffer overflow        Lebih aman
 
             Kapan pakai char array?
                 - Interoperasi dengan fungsi C (printf, scanf, library lama)
-                - Low-level programming / embedded
-                - Saat tidak bisa pakai std::string
+                - Low-level programming / embedded system
+                - Saat tidak bisa memakai std::string
     */
-        
-        // -------[ HELPER: cetak char array per karakter dengan index ]-------
-            void cetakCharArray(char arr[]){
-                int len = strlen(arr);
-                cout << "   Index : ";
-                for(int i = 0; i < len; i++) cout << "[ " << i << " ] ";
-                cout << endl;
-                cout << "   Value : ";
-                for(int i = 0; i < len; i++) cout << "[ " << arr[i] << " ] ";
-                cout << " [\0]" << endl;
-            }
 
-            void demoCharacterArray(){
-            cout << "\n==========================================" << endl;
-            cout << "|         ARRAY - MODUL 8.4              |" << endl;
-            cout << "|         Character Array                |" << endl;
-            cout << "==========================================" << endl;
-
-
-            // =====================================================================
-            // 1. CARA MENYIMPAN TEKS
-            // =====================================================================
-            cout << "\n===[ 1. Dua Cara Menyimpan Teks ]===" << endl;
-            {
-                // Cara modern - std::string
-                string text1 = "Gega Ramadhan";
-
-                // Cara C-style - char array (harus tentukan ukuran, ingat +1 untuk \0)
-                char text2[] = "Gega Ramadhan";   // auto-detect size = 13 + 1 = 14
-
-                cout << "   std::string  : " << text1 << "  (size dinamis)" << endl;
-                cout << "   char array[] : " << text2 << "  (size = " << sizeof(text2) << " bytes, termasuk \0)" << endl;
-            }
-
-
-            // =====================================================================
-            // 2. DEKLARASI & INISIALISASI
-            // =====================================================================
-            cout << "\n===[ 2. Deklarasi & Inisialisasi ]===" << endl;
-            {
-                // a. Ukuran eksplisit - wajib cukup untuk isi + \0
-                char kota[6] = "Jogja";           // 5 huruf + 1 \0 = pas ukuran 6
-
-                // b. Auto-detect size - compiler hitung sendiri
-                char nama[] = "Gega";             // otomatis jadi char[5]
-
-                // c. Uniform Init C++11
-                char negara[]{"Indonesia"};       // modern style, sama saja
-
-                // d. Per karakter - \0 WAJIB ditulis manual!
-                char huruf[4] = {'A','B','C','\0'};
-
-                cout << "   char kota[6]      = \"" << kota   << "\"  (size=" << sizeof(kota)   << ")" << endl;
-                cout << "   char nama[]       = \"" << nama   << "\"   (size=" << sizeof(nama)   << ")" << endl;
-                cout << "   char negara[]     = \"" << negara << "\" (size=" << sizeof(negara) << ")" << endl;
-                cout << "   char huruf[4]     = \"" << huruf  << "\"   (size=" << sizeof(huruf)  << ")" << endl;
-            }
-
-
-            // =====================================================================
-            // 3. NULL TERMINATOR - VISUALISASI MEMORY
-            // =====================================================================
-            cout << "\n===[ 3. Null Terminator - Visualisasi Memory ]===" << endl;
-            {
-                char kata[] = "Halo";
-                cout << "   char kata[] = \"Halo\"" << endl;
-                cetakCharArray(kata);
-                cout << "   strlen(kata) = " << strlen(kata) << "  (tidak hitung \0)" << endl;
-                cout << "   sizeof(kata) = " << sizeof(kata) << "  (hitung \0)" << endl;
-            }
-
-
-            // =====================================================================
-            // 4. AKSES PER KARAKTER + LOOP
-            // =====================================================================
-            cout << "\n===[ 4. Akses Per Karakter + Loop ]===" << endl;
-            {
-                char kata[] = "Belajar";
-
-                // Akses langsung lewat index
-                cout << "   kata[0] = '" << kata[0] << "'  (karakter pertama)" << endl;
-                cout << "   kata[6] = '" << kata[6] << "'  (karakter terakhir)" << endl;
-
-                // Loop pakai index
-                cout << "   For loop       : ";
-                for(int i = 0; i < (int)strlen(kata); i++) cout << kata[i] << " ";
-                cout << endl;
-
-                // Loop sampai ketemu \0 (cara C-style)
-                cout << "   Loop s/d \\0   : ";
-                for(int i = 0; kata[i] != '\0'; i++) cout << kata[i] << " ";
-                cout << endl;
-
-                // Range-based for (C++11)
-                cout << "   Range-based    : ";
-                for(char c : kata) if(c != '\0') cout << c << " ";
-                cout << endl;
-            }
-
-
-            // =====================================================================
-            // 5. INPUT & OUTPUT
-            // =====================================================================
-            cout << "\n===[ 5. Input & Output ]===" << endl;
-            {
-                char contohCin[20]     = "Gega";        // simulasi input cin >> (stop di spasi)
-                char contohGetline[50] = "Gega Ramadhan"; // simulasi cin.getline (termasuk spasi)
-
-                cout << "   cin >> nama          : \"" << contohCin     << "\"  (stop di spasi)" << endl;
-                cout << "   cin.getline(nama,50) : \"" << contohGetline << "\"  (ambil semua)" << endl;
-                cout << "   NB: pakai cin.getline() untuk input yang ada spasinya!" << endl;
-            }
-
-
-            // =====================================================================
-            // 6. FUNGSI CSTRING
-            // =====================================================================
-            cout << "\n===[ 6. Fungsi <cstring> ]===" << endl;
-
-            // --- strlen ---
-            cout << "\n   [strlen] - Hitung Panjang" << endl;
-            {
-                char s[] = "Halo Dunia";
-                cout << "   strlen(\"" << s << "\") = " << strlen(s) << endl;
-            }
-
-            // --- strcpy ---
-            cout << "\n   [strcpy] - Salin String" << endl;
-            {
-                char src[] = "C++ Keren";
-                char dst[20];                     // dst harus cukup besar!
-                strcpy(dst, src);
-                cout << "   src = \"" << src << "\"" << endl;
-                cout << "   dst setelah strcpy = \"" << dst << "\"" << endl;
-            }
-
-            // --- strcat ---
-            cout << "\n   [strcat] - Sambung String" << endl;
-            {
-                char depan[30] = "Halo, ";        // ukuran harus cukup untuk hasil akhir
-                char belakang[] = "Gaes!";
-                strcat(depan, belakang);
-                cout << "   Hasil strcat = \"" << depan << "\"" << endl;
-            }
-
-            // --- strcmp ---
-            cout << "\n   [strcmp] - Bandingkan String" << endl;
-            {
-                char p1[] = "rahasia123";
-                char p2[] = "rahasia123";
-                char p3[] = "salahpass";
-
-                int cmp12 = strcmp(p1, p2);
-                int cmp13 = strcmp(p1, p3);
-
-                cout << "   strcmp(p1, p2) = " << cmp12 << "  -> " << (cmp12 == 0 ? "SAMA ✓" : "BEDA ✗") << endl;
-                cout << "   strcmp(p1, p3) = " << cmp13 << "  -> " << (cmp13 == 0 ? "SAMA ✓" : "BEDA ✗") << endl;
-                cout << "   ⚠ Jangan pakai == untuk bandingin char array!" << endl;
-
-                // Simulasi login
-                cout << "   Simulasi login: ";
-                if(strcmp(p1, p2) == 0) cout << "Login BERHASIL ✓" << endl;
-                else                    cout << "Password SALAH ✗" << endl;
-            }
-
-            // --- strchr ---
-            cout << "\n   [strchr] - Cari Karakter dalam String" << endl;
-            {
-                char kalimat[] = "Belajar C++";
-                char* hasil = strchr(kalimat, 'a');
-                cout << "   Cari 'a' dalam \"" << kalimat << "\"" << endl;
-                if(hasil) cout << "   Ketemu! Sisa string dari sana: \"" << hasil << "\"" << endl;
-                else      cout << "   Tidak ditemukan" << endl;
-            }
-
-            // --- strstr ---
-            cout << "\n   [strstr] - Cari Substring" << endl;
-            {
-                char kalimat[] = "Saya suka belajar C++";
-                char* hasil = strstr(kalimat, "belajar");
-                cout << "   Cari \"belajar\" dalam \"" << kalimat << "\"" << endl;
-                if(hasil) cout << "   Ketemu! Sisa string dari sana: \"" << hasil << "\"" << endl;
-                else      cout << "   Tidak ditemukan" << endl;
-            }
-
-            // =====================================================================
-            // 7. CHAR ARRAY vs STD::STRING
-            // =====================================================================
-            cout << "\n===[ 7. Char Array vs std::string ]===" << endl;
-            {
-                // char array
-                char cArr[30] = "Char Array";
-                strcat(cArr, " + tambah");         // sambung pakai strcat
-                int panjangC = strlen(cArr);
-
-                // std::string
-                string sStr = "std::string";
-                sStr += " + tambah";               // sambung pakai +=
-                int panjangS = sStr.length();
-
-                cout << "   char[]      : \"" << cArr << "\"  panjang=" << panjangC << endl;
-                cout << "   std::string : \"" << sStr << "\"  panjang=" << panjangS << endl;
-
-                // Konversi std::string -> char array
-                string asal = "Konversi ke char[]";
-                char buf[50];
-                strcpy(buf, asal.c_str());         // c_str() ubah string jadi const char*
-                cout << "   Konversi string -> char[] : \"" << buf << "\"" << endl;
-            }
-
-            // =====================================================================
-            // 8. ARRAY OF STRINGS (2D Char Array)
-            // =====================================================================
-            cout << "\n===[ 8. Array of Strings (2D Char Array) ]===" << endl;
-            {
-                // Tiap baris = satu string, kolom = max panjang string + \0
-                char buah[5][10] = {
-                    "Apel",
-                    "Mangga",
-                    "Jeruk",
-                    "Anggur",
-                    "Melon"
-                };
-
-                cout << "   Daftar buah:" << endl;
-                for(int i = 0; i < 5; i++){
-                    cout << "   [" << i << "] " << buah[i]
-                        << "  (panjang=" << strlen(buah[i]) << ")" << endl;
-                }
-
-                // Sorting nama buah pakai strcmp + bubble sort
-                cout << "   Sorted (A-Z):" << endl;
-                for(int i = 0; i < 4; i++){
-                    for(int j = 0; j < 4 - i; j++){
-                        if(strcmp(buah[j], buah[j+1]) > 0){
-                            char temp[10];
-                            strcpy(temp,    buah[j]);
-                            strcpy(buah[j], buah[j+1]);
-                            strcpy(buah[j+1], temp);
-                        }
-                    }
-                }
-                for(int i = 0; i < 5; i++){
-                    cout << "   [" << i << "] " << buah[i] << endl;
-                }
-            }
-        }
-
-    /* Modul 8.5 - Array Multidimensi
-
-        1. Apa itu array multidimensi?
-            adalah array yang memiliki lebih dari satu dimensi/index
-
-        2. Analogi :
-            - 1D        ---> Seperti Barisan        : [85, 90, 78, 92]
-            - 2D        ---> Seperti Tabel 2x2      : 4 siswa × 5 mata pelajaran
-            - 3D        ---> Seperti Kubus/rubix    : lantai × baris × kolom
-            - nD        ---> Teoritis
-
-        3. Kegunaan
-            - 1D Array  ---> Untuk penyimanan yang simple
-            - 2D Array  ---> Paling umum, seperti tabel / matriks / grid
-            - 3D Array  ---> Lebih jarang, seperti kubus / data per waktu
-            - nD Array  ---> Teoritis, jarang dipakai langsung
+    /* Modul U.10 — Array Multidimensi (2D & 3D)
+        📚 ARRAY MULTIDIMENSI
 
         ===================[ BAGIAN 1 - ARRAY 2 DIMENSI ] =====================
-            1. Deklarasi 
-                tipe_data namaArray[baris][kolom];
 
-            2. Visualisasi Memory 2D:
-                int nilai[3][4]:
+        1. Apa itu Array 2D?
+            Array dengan dua dimensi: BARIS dan KOLOM.
+            Bayangkan seperti TABEL atau MATRIKS.
+            Analogi: Meja di bioskop -> [baris ke-?][kursi ke-?]
 
-                            Kolom 0  Kolom 1  Kolom 2  Kolom 3
-                Baris 0 [   [0][0]   [0][1]   0][2]    [0][3] ]
-                Baris 1 [   [1][0]   [1][1]   1][2]    [1][3] ]
-                Baris 2 [   [2][0]   [2][1]   2][2]    [2][3] ]
+        2. Deklarasi Array 2D:
+            tipe_data nama[BARIS][KOLOM];
 
-                Di memory, disimpan BERURUTAN (row-major order):
-                    [0][0] -> [0][1] -> [0][2] -> [0][3] -> [1][0] -> [1][1] -> ...
+            Contoh:
+                int matriks[3][4];       ---> 3 baris, 4 kolom = 12 elemen total
 
-            3. Inisialisasi Array 2D:
-                a. List Initialization Lengkap:
-                    int matriks[2][3] = {
-                        {1, 2, 3},      ---> Baris 0
-                        {4, 5, 6}       ---> Baris 1
-                    };
+        3. Inisialisasi Array 2D:
+            a. List Initialization (Lengkap, per baris):
+                int matriks[2][3] = {
+                    {10, 20, 30},    // Baris 0
+                    {40, 50, 60}     // Baris 1
+                };
 
-                b. Tanpa kurung kurawal dalam (flat):
-                    int matriks[2][3] = {1, 2, 3, 4, 5, 6};     ---> Sama saja
+            b. Flat (sama saja, tanpa kurung kurawal dalam):
+                int matriks[2][3] = {10, 20, 30, 40, 50, 60};
 
-                c. Partial Initialization:
-                    int matriks[2][3] = {{1, 2}, {4}};          ---> Sisanya otomatis 0
+            c. Partial (sisanya otomatis 0):
+                int matriks[2][3] = {{10, 20}, {40}};
 
-                d. Zero Initialization:
-                    int matriks[3][3] = {0};                    ---> Semua elemen jadi 0
+            d. Zero Initialization (semua jadi 0):
+                int matriks[2][3] = {0};
 
-                e. Omit Baris (auto-detect), tapi KOLOM wajib:
-                    int matriks[][3] = {{1,2,3},{4,5,6}};       ---> Baris otomatis 2
+            e. Omit baris (kolom WAJIB ditulis):
+                int matriks[][3] = {{7, 8, 9}, {10, 11, 12}};
 
-            4. Akses Elemen Array 2D:
-                int matriks[2][3] = {{10, 20, 30}, {40, 50, 60}};
+        4. Akses Elemen Array 2D:
+            nama_array[indeks_baris][indeks_kolom]
 
-                Baca:
-                    cout << matriks[0][1];  ---> Output: 20  (baris 0, kolom 1)
-                    cout << matriks[1][2];  ---> Output: 60  (baris 1, kolom 2)
+            Baca:
+                cout << matriks[0][1];  ---> Output: 20  (baris 0, kolom 1)
+                cout << matriks[1][2];  ---> Output: 60  (baris 1, kolom 2)
 
-                Tulis:
-                    matriks[0][0] = 99;     ---> Ubah elemen [0][0] jadi 99
+            Tulis:
+                matriks[0][0] = 99;     ---> Ubah elemen [0][0] jadi 99
 
-            5. Iterasi Array 2D (Nested Loop):
-                Wajib nested for loop: loop luar untuk baris, loop dalam untuk kolom.
+        5. Iterasi Array 2D (Nested Loop):
+            Wajib nested for loop: loop luar untuk BARIS, loop dalam untuk KOLOM.
 
                 for (int i = 0; i < baris; i++) {
                     for (int j = 0; j < kolom; j++) {
-                        cout << matriks[i][j];
+                        cout << matriks[i][j] << " ";
                     }
+                    cout << endl;
                 }
 
-        ===================[ BAGIAN 2 - OPERASI MATRIX ARRAY ] =====================
-        1. Penjumlahan Matriks:
-                Syarat: Ukuran matriks A == ukuran matriks B
-                Rumus:  C[i][j] = A[i][j] + B[i][j]
+        ===================[ BAGIAN 2 - OPERASI MATRIKS ] =====================
 
-            2. Perkalian Matriks:
-                Syarat: Kolom A == Baris B
-                Rumus:  C[i][j] = Σ (A[i][k] * B[k][j])
+        6. Penjumlahan Matriks:
+            Syarat: Ukuran matriks A == ukuran matriks B
+            Rumus:  C[i][j] = A[i][j] + B[i][j]
 
-                Contoh: A[2][3] × B[3][2] -> Hasil C[2][2]
+        7. Perkalian Matriks:
+            Syarat: Jumlah KOLOM matriks A == Jumlah BARIS matriks B
+            Rumus:  C[i][j] = Σ (A[i][k] * B[k][j])
 
-            3. Transpose Matriks:
-                Tukar baris dan kolom.
-                Rumus: B[j][i] = A[i][j]
+            Contoh: A[2][3] × B[3][2] -> Hasil C[2][2]
 
-                Contoh:
-                    A = [1, 2, 3]     Transpose A = [1, 4]
-                        [4, 5, 6]                   [2, 5]
-                                                    [3, 6]
+        8. Transpose Matriks:
+            Tukar baris dan kolom (baris jadi kolom, kolom jadi baris).
+            Rumus: B[j][i] = A[i][j]
+
+            Contoh:
+                A = [1, 2, 3]     Transpose A = [1, 4]
+                    [4, 5, 6]                   [2, 5]
+                                                [3, 6]
 
         ===================[ BAGIAN 3 - ARRAY 3 DIMENSI ] =====================
-            1. Deklarasi Array 3D:
-                tipe_data nama[DEPTH][BARIS][KOLOM];
 
-                Analogi:
-                    Depth  = lantai gedung
-                    Baris  = baris kursi tiap lantai
-                    Kolom  = kolom kursi tiap baris
+        9. Deklarasi Array 3D:
+            tipe_data nama[DEPTH][BARIS][KOLOM];
 
-                Contoh:
-                    int gedung[3][4][5];    ---> 3 lantai, 4 baris, 5 kolom = 60 elemen
+            Analogi:
+                Depth  = lantai gedung
+                Baris  = baris kursi tiap lantai
+                Kolom  = nomor kursi tiap baris
 
-            2. Akses Elemen 3D:
+            Contoh:
+                int gedung[3][4][5];    ---> 3 lantai, 4 baris, 5 kolom = 60 elemen
+
+        10. Akses Elemen 3D:
                 gedung[lantai][baris][kolom]
 
                 Contoh:
                     gedung[0][1][2] = 10;   ---> Lantai 0, Baris 1, Kolom 2 = 10
 
-            3. Iterasi Array 3D (Triple Nested Loop):
+        11. Iterasi Array 3D (Triple Nested Loop):
                 for (int d = 0; d < depth; d++) {
                     for (int i = 0; i < baris; i++) {
                         for (int j = 0; j < kolom; j++) {
@@ -3589,748 +3067,134 @@ using namespace std;
                     }
                 }
 
-        ===================[ BAGIAN 4 - TIPS & UKURAN ] =====================
-            1. Cara Hitung Ukuran (sizeof):
+        ===================[ BAGIAN 4 - TIPS & SIZEOF 2D ] =====================
+
+        12. Cara Hitung Ukuran Array 2D (sizeof):
                 int grid[3][4];
+
                 sizeof(grid)                        ---> 48 bytes (3×4×4)
-                sizeof(grid[0])                     ---> 16 bytes (1 baris = 4×4)
+                sizeof(grid[0])                     ---> 16 bytes (1 baris = 4 int)
                 sizeof(grid[0][0])                  ---> 4 bytes  (1 elemen int)
+                sizeof(grid) / sizeof(grid[0][0])   ---> 12 elemen (3 × 4)
 
-                Jumlah elemen:
-                    total = sizeof(grid) / sizeof(grid[0][0])   ---> 12 elemen
-
-            2. Konstanta untuk Ukuran (Best Practice):
+        13. Best Practice — Gunakan Konstanta untuk Ukuran:
                 const int BARIS = 3, KOLOM = 3;
-                int matriks[BARIS][KOLOM];          ---> Lebih mudah diubah & dibaca
+                int matriks[BARIS][KOLOM];
+
+                Lebih mudah diubah dan lebih mudah dibaca!
     */
 
-        // -------[ HELPER: cetak matriks 2D dengan border rapi ]-------
-            void cetakMatriks(int mat[][4], int baris, int kolom, string label = ""){
-                if(label != "") cout << "   " << label << endl;
-                cout << "   +";
-                for(int j = 0; j < kolom; j++) cout << "------+";
-                cout << endl;
-                for(int i = 0; i < baris; i++){
-                    cout << "   |";
-                    for(int j = 0; j < kolom; j++){
-                        cout << "  " << setw(3) << mat[i][j] << " |";
-                    }
-                    cout << "  <- Baris " << i << endl;
-                    cout << "   +";
-                    for(int j = 0; j < kolom; j++) cout << "------+";
-                    cout << endl;
-                }
-            }
+    /* Modul U.11 — Array + Function
+        📚 ARRAY DAN FUNCTION
 
-            void cetakMatriks3x3(int mat[3][3], int baris, int kolom, string label = ""){
-                if(label != "") cout << "   " << label << endl;
-                cout << "   +";
-                for(int j = 0; j < kolom; j++) cout << "------+";
-                cout << endl;
-                for(int i = 0; i < baris; i++){
-                    cout << "   |";
-                    for(int j = 0; j < kolom; j++){
-                        cout << "  " << setw(3) << mat[i][j] << " |";
-                    }
-                    cout << "  <- Baris " << i << endl;
-                    cout << "   +";
-                    for(int j = 0; j < kolom; j++) cout << "------+";
-                    cout << endl;
-                }
-            }
+        ===================[ MODUL U.11a - PASS ARRAY KE FUNCTION ] =====================
 
-            void demoArrayMultidimensi(){
-            cout << "\n==========================================" << endl;
-            cout << "|         ARRAY - MODUL 8.5              |" << endl;
-            cout << "|         Array Multidimensi             |" << endl;
-            cout << "==========================================" << endl;
+        1. Konsep Dasar — Array Selalu Pass by Pointer!
+            Saat array dipass ke function, yang dikirim adalah POINTER (alamat memori),
+            BUKAN salinan seperti variabel biasa.
 
+            Konsekuensi PENTING:
+                -> Perubahan di dalam function AKAN mempengaruhi array ASLI
+                -> Ini OTOMATIS seperti pass by reference, khusus untuk array
+                -> Tidak perlu tanda & karena array sudah otomatis jadi pointer
 
-            // =====================================================================
-            // 1. DEKLARASI & INISIALISASI ARRAY 2D
-            // =====================================================================
-            cout << "\n===[ 1. Deklarasi & Inisialisasi Array 2D ]===" << endl;
-            {
-                // a. List Initialization Lengkap
-                int A[2][3] = {
-                    {1, 2, 3},    // Baris 0
-                    {4, 5, 6}     // Baris 1
-                };
+        2. Syntax Pass Array ke Function:
+            // Cara 1: Pakai []  (paling umum dan jelas)
+            void namaFunction(int arr[], int size) { ... }
 
-                // b. Flat (sama saja, tanpa kurung kurawal dalam)
-                int B[2][3] = {1, 2, 3, 4, 5, 6};
+            // Cara 2: Pakai pointer (sama saja di balik layar)
+            void namaFunction(int* arr, int size) { ... }
 
-                // c. Partial - sisanya otomatis 0
-                int C[2][3] = {{10, 20}, {40}};
+            // Cara 3: Pakai referensi dengan ukuran tetap (C++11)
+            void namaFunction(int (&arr)[5]) { ... }   ---> Hanya untuk ukuran FIXED
 
-                // d. Zero Initialization - semua jadi 0
-                int D[2][3] = {0};
+        3. Kenapa Harus Kirim SIZE Juga?
+            Karena saat array menjadi parameter, sizeof() tidak bisa diandalkan!
 
-                // e. Omit baris (auto-detect), KOLOM wajib ditulis
-                int E[][3] = {{7, 8, 9}, {10, 11, 12}};
+            sizeof(arr) di DALAM function  = sizeof pointer (4 atau 8 byte), BUKAN ukuran array!
+            sizeof(arr) di LUAR function   = ukuran array asli (misalnya 20 byte untuk int[5])
 
-                cout << "   A[2][3] list init    : ";
-                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << A[i][j] << " "; cout << "| "; }
-                cout << endl;
+            -> Ukuran array WAJIB dikirim sebagai parameter terpisah!
 
-                cout << "   B[2][3] flat         : ";
-                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << B[i][j] << " "; cout << "| "; }
-                cout << endl;
+        4. Protect Array dari Perubahan — pakai const:
+            void tampilArray(const int arr[], int size) { ... }
+                -> arr tidak bisa diubah di dalam function
+                -> Compiler akan error kalau kita coba ubah isinya
 
-                cout << "   C[2][3] partial      : ";
-                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << C[i][j] << " "; cout << "| "; }
-                cout << "  (sisanya auto=0)" << endl;
+        ===================[ MODUL U.11b - RETURN ARRAY DARI FUNCTION ] =====================
 
-                cout << "   D[2][3] zero init    : ";
-                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << D[i][j] << " "; cout << "| "; }
-                cout << endl;
+        5. C++ Tidak Bisa Return Array Secara Langsung
+            int[] buatArray() { ... }   ---> ❌ TIDAK VALID di C++
 
-                cout << "   E[][3] omit baris    : ";
-                for(int i=0;i<2;i++){ for(int j=0;j<3;j++) cout << E[i][j] << " "; cout << "| "; }
-                cout << endl;
-            }
-
-
-            // =====================================================================
-            // 2. VISUALISASI MEMORY (INDEX & AKSES)
-            // =====================================================================
-            cout << "\n===[ 2. Visualisasi Index & Akses Elemen ]===" << endl;
-            {
-                int mat[3][4] = {
-                    {10, 20, 30, 40},
-                    {50, 60, 70, 80},
-                    {90,100,110,120}
-                };
-
-                // Tampil dengan header kolom
-                cout << "   mat[3][4]:" << endl;
-                cout << "            Kol[0] Kol[1] Kol[2] Kol[3]" << endl;
-                cout << "         +-------+------+------+------+" << endl;
-                for(int i = 0; i < 3; i++){
-                    cout << "   Baris[" << i << "] |";
-                    for(int j = 0; j < 4; j++) cout << "  " << setw(3) << mat[i][j] << "  |";
-                    cout << endl;
-                    cout << "         +-------+------+------+------+" << endl;
-                }
-
-                cout << "\n   Akses langsung:" << endl;
-                cout << "   mat[0][0] = " << mat[0][0] << "   (baris 0, kolom 0)" << endl;
-                cout << "   mat[1][2] = " << mat[1][2] << "   (baris 1, kolom 2)" << endl;
-                cout << "   mat[2][3] = " << mat[2][3] << "  (baris 2, kolom 3)" << endl;
-
-                // Modifikasi
-                mat[1][1] = 999;
-                cout << "\n   Setelah mat[1][1] = 999 :" << endl;
-                cout << "            Kol[0] Kol[1] Kol[2] Kol[3]" << endl;
-                cout << "         +-------+------+------+------+" << endl;
-                for(int i = 0; i < 3; i++){
-                    cout << "   Baris[" << i << "] |";
-                    for(int j = 0; j < 4; j++) cout << "  " << setw(3) << mat[i][j] << "  |";
-                    cout << endl;
-                    cout << "         +-------+------+------+------+" << endl;
-                }
-            }
-
-
-            // =====================================================================
-            // 3. CONTOH NYATA: TABEL NILAI SISWA
-            // =====================================================================
-            cout << "\n===[ 3. Contoh Nyata: Tabel Nilai Siswa ]===" << endl;
-            {
-                const int JML_SISWA = 4;
-                const int JML_MAPEL = 4;
-
-                string namaSiswa[JML_SISWA] = {"Andi  ", "Budi  ", "Cici  ", "Dina  "};
-                string namaMapel[JML_MAPEL] = {"MTK", "IPA", "IPS", "ING"};
-
-                int nilai[JML_SISWA][JML_MAPEL] = {
-                    {85, 90, 78, 92},   // Andi
-                    {70, 88, 95, 80},   // Budi
-                    {92, 75, 85, 88},   // Cici
-                    {78, 82, 90, 95}    // Dina
-                };
-
-                // Header tabel
-                cout << "   +----------+-----+-----+-----+-----+--------+" << endl;
-                cout << "   | Nama     | MTK | IPA | IPS | ING | Rata2  |" << endl;
-                cout << "   +----------+-----+-----+-----+-----+--------+" << endl;
-
-                int idxTerbaik = 0;
-                double rataMax = 0;
-
-                for(int i = 0; i < JML_SISWA; i++){
-                    int total = 0;
-                    cout << "   | " << namaSiswa[i] << " |";
-                    for(int j = 0; j < JML_MAPEL; j++){
-                        cout << "  " << nilai[i][j] << " |";
-                        total += nilai[i][j];
-                    }
-                    double rata = (double)total / JML_MAPEL;
-                    cout << " " << fixed << setprecision(1) << rata << "  |" << endl;
-                    cout << "   +----------+-----+-----+-----+-----+--------+" << endl;
-
-                    if(rata > rataMax){ rataMax = rata; idxTerbaik = i; }
-                }
-
-                cout << "\n   Siswa terbaik: " << namaSiswa[idxTerbaik]
-                     << " (rata-rata: " << rataMax << ")" << endl;
-            }
-
-
-            // =====================================================================
-            // 4. OPERASI MATRIKS
-            // =====================================================================
-            cout << "\n===[ 4. Operasi Matriks ]===" << endl;
-            {
-                int A[3][3] = {{1,2,3},{4,5,6},{7,8,9}};
-                int B[3][3] = {{9,8,7},{6,5,4},{3,2,1}};
-                int C[3][3] = {0};
-
-                // --- Penjumlahan ---
-                cout << "\n   [Penjumlahan] C = A + B  (C[i][j] = A[i][j] + B[i][j])" << endl;
-                for(int i=0;i<3;i++)
-                    for(int j=0;j<3;j++)
-                        C[i][j] = A[i][j] + B[i][j];
-
-                // Tampil A | + | B | = | C
-                cout << "       Matriks A          +    Matriks B          =    Matriks C" << endl;
-                for(int i=0;i<3;i++){
-                    cout << "   [";
-                    for(int j=0;j<3;j++) cout << setw(3) << A[i][j];
-                    cout << " ]";
-                    cout << (i==1 ? "  +  " : "     ");
-                    cout << "[";
-                    for(int j=0;j<3;j++) cout << setw(3) << B[i][j];
-                    cout << " ]";
-                    cout << (i==1 ? "  =  " : "     ");
-                    cout << "[";
-                    for(int j=0;j<3;j++) cout << setw(3) << C[i][j];
-                    cout << " ]" << endl;
-                }
-
-                // --- Transpose ---
-                cout << "\n   [Transpose] B = A^T  (B[j][i] = A[i][j])" << endl;
-                int T[3][3] = {0};
-                for(int i=0;i<3;i++)
-                    for(int j=0;j<3;j++)
-                        T[j][i] = A[i][j];
-
-                cout << "       Matriks A          ->    Transpose A" << endl;
-                for(int i=0;i<3;i++){
-                    cout << "   [";
-                    for(int j=0;j<3;j++) cout << setw(3) << A[i][j];
-                    cout << " ]";
-                    cout << (i==1 ? "  ->  " : "     ");
-                    cout << "[";
-                    for(int j=0;j<3;j++) cout << setw(3) << T[i][j];
-                    cout << " ]" << endl;
-                }
-
-                // --- Perkalian Matriks ---
-                cout << "\n   [Perkalian] C = A x B  (C[i][j] = sum A[i][k]*B[k][j])" << endl;
-                int P[3][3] = {0};
-                for(int i=0;i<3;i++)
-                    for(int j=0;j<3;j++)
-                        for(int k=0;k<3;k++)
-                            P[i][j] += A[i][k] * B[k][j];
-
-                cout << "       Matriks A          x    Matriks B          =    Matriks C" << endl;
-                for(int i=0;i<3;i++){
-                    cout << "   [";
-                    for(int j=0;j<3;j++) cout << setw(3) << A[i][j];
-                    cout << " ]";
-                    cout << (i==1 ? "  x  " : "     ");
-                    cout << "[";
-                    for(int j=0;j<3;j++) cout << setw(3) << B[i][j];
-                    cout << " ]";
-                    cout << (i==1 ? "  =  " : "     ");
-                    cout << "[";
-                    for(int j=0;j<3;j++) cout << setw(4) << P[i][j];
-                    cout << " ]" << endl;
-                }
-            }
-
-
-            // =====================================================================
-            // 5. ARRAY 3 DIMENSI
-            // =====================================================================
-            cout << "\n===[ 5. Array 3 Dimensi ]===" << endl;
-            {
-                // Analogi: data suhu 2 kota, 3 hari, 2 waktu (pagi/sore)
-                // suhu[kota][hari][waktu]
-                int suhu[2][3][2] = {
-                    { {28,33}, {27,32}, {29,34} },   // Kota 0: Jogja
-                    { {31,36}, {30,35}, {32,37} }    // Kota 1: Jakarta
-                };
-
-                string namaKota[2]  = {"Jogja  ", "Jakarta"};
-                string namaHari[3]  = {"Senin ", "Selasa", "Rabu  "};
-                string namaWaktu[2] = {"Pagi", "Sore"};
-
-                cout << "   Data suhu[2 kota][3 hari][2 waktu]:" << endl;
-                cout << "   +-----------+--------+--------+--------+" << endl;
-                cout << "   | Kota      | Senin  | Selasa | Rabu   |" << endl;
-                cout << "   +-----------+--------+--------+--------+" << endl;
-
-                for(int k = 0; k < 2; k++){
-                    for(int w = 0; w < 2; w++){
-                        cout << "   | " << namaKota[k] << " " << namaWaktu[w] << " |";
-                        for(int h = 0; h < 3; h++){
-                            cout << " " << setw(3) << suhu[k][h][w] << "°C  |";
-                        }
-                        cout << endl;
-                    }
-                    cout << "   +-----------+--------+--------+--------+" << endl;
-                }
-
-                // Akses langsung
-                cout << "\n   Akses langsung suhu[1][2][0] (Jakarta, Rabu, Pagi) = "
-                    << suhu[1][2][0] << "°C" << endl;
-            }
-
-
-            // =====================================================================
-            // 6. SIZEOF ARRAY 2D
-            // =====================================================================
-            cout << "\n===[ 6. sizeof() pada Array 2D ]===" << endl;
-            {
-                int grid[3][4];
-
-                int totalBytes  = sizeof(grid);
-                int bytesBaris  = sizeof(grid[0]);
-                int bytesElemen = sizeof(grid[0][0]);
-                int jmlElemen   = totalBytes / bytesElemen;
-
-                cout << "   Array int grid[3][4]:" << endl;
-                cout << "   +-----------------------------+----------+" << endl;
-                cout << "   | sizeof(grid)                | " << setw(4) << totalBytes  << " bytes |  (total semua)" << endl;
-                cout << "   | sizeof(grid[0])             | " << setw(4) << bytesBaris  << " bytes |  (1 baris)" << endl;
-                cout << "   | sizeof(grid[0][0])          | " << setw(4) << bytesElemen << " bytes |  (1 elemen int)" << endl;
-                cout << "   | Jumlah elemen               | " << setw(4) << jmlElemen   << "       |  (3 x 4)" << endl;
-                cout << "   +-----------------------------+----------+" << endl;
-                cout << "   Rumus jumlah elemen = sizeof(grid) / sizeof(grid[0][0])" << endl;
-            }
-        }
-
-    /* Modul 8.6-8.10 - Array + Function = Advance
-
-        ===================[ MODUL 8.6 - PASS ARRAY KE FUNCTION ] =====================
-            1. Konsep Dasar
-                Saat array dipass ke function, yang dikirim adalah POINTER (alamat memori),
-                bukan SALINAN seperti variabel biasa.
-
-                Konsekuensi PENTING:
-                    -> Perubahan di dalam function AKAN mempengaruhi array ASLI
-                    -> Ini seperti pass by reference, tapi khusus untuk array
-                    -> Tidak perlu tanda & karena array sudah otomatis jadi pointer
-
-            2. Syntax Pass Array ke Function:
-                // Cara 1: Pakai []
-                void namaFunction(int arr[], int size) { ... }
-
-                // Cara 2: Pakai pointer (sama saja di balik layar)
-                void namaFunction(int* arr, int size) { ... }
-
-                // Cara 3: Pakai referensi dengan ukuran tetap (C++11)
-                void namaFunction(int (&arr)[5]) { ... }   ---> Hanya untuk ukuran FIXED
-
-                Kenapa harus kirim SIZE juga?
-                    Karena saat array jadi parameter, sizeof() tidak bisa diandalkan.
-                    sizeof(arr) di dalam function = sizeof pointer (4/8 byte), BUKAN ukuran array!
-                    Jadi ukuran array WAJIB dikirim sebagai parameter terpisah.
-
-            3. Protect Array dari Perubahan - pakai const:
-                void tampilArray(const int arr[], int size) { ... }
-                    ---> arr tidak bisa diubah di dalam function
-
-        ===================[ MODUL 8.7 - RETURN ARRAY DARI FUNCTION ] =====================
-            1. Cara Return Array:
-                C++ tidak bisa return array secara langsung.
-                Ada beberapa solusi:
-
-                a. Return lewat parameter (pass by reference / pointer) ← Paling umum
-                    void isiArray(int arr[], int size) {
-                        for (int i = 0; i < size; i++) arr[i] = i * 2;
-                    }
-
-                b. Return pointer ke static array ← Hati-hati, array harus static!
-                    int* buatArray() {
-                        static int arr[5] = {1,2,3,4,5};
-                        return arr;
-                    }
-
-                c. Return menggunakan std::array atau std::vector ← Modern C++
-                    (dibahas lebih lanjut di modul STL)
-
-            2. Kenapa Tidak Bisa Return Array Biasa?
-                int[] buatArray() { ... }   ---> ❌ TIDAK VALID di C++
-                
+            Kenapa?
                 Karena array lokal akan dihapus dari memory saat function selesai.
-                Return pointer ke local array = UNDEFINED BEHAVIOR (bahaya!)
+                Return pointer ke local array = UNDEFINED BEHAVIOR (sangat bahaya!)
 
-        ===================[ MODUL 8.8 - FUNCTION UNTUK ALGORITMA ARRAY ] =====================
-            Fungsi-fungsi utility yang sering dibuat untuk array:
+        6. Solusi Return Array:
+            a. Return lewat parameter (paling umum & aman)
+                void isiArray(int arr[], int size) {
+                    for (int i = 0; i < size; i++) arr[i] = i * 2;
+                }
+                // Ubah array asli langsung dari dalam function
 
+            b. Return pointer ke static array (hati-hati!)
+                int* buatArray() {
+                    static int arr[5] = {1, 2, 3, 4, 5};   // WAJIB static!
+                    return arr;
+                }
+                // Array HARUS static! Local array biasa akan dihapus saat function selesai
+
+            c. Gunakan std::array atau std::vector (modern C++)
+                Akan dibahas lebih lanjut di modul STL.
+
+        ===================[ MODUL U.11c - UTILITY FUNCTIONS ] =====================
+
+        7. Fungsi-Fungsi Utility yang Sering Dibuat untuk Array:
             a. Tampil Array        : void tampilArray(arr, size)
             b. Hitung Total        : int totalArray(arr, size)
-            c. Cari Nilai Max/Min  : int maxArray(arr, size)
-            d. Linear Search       : int cariElemen(arr, size, target)
-            e. Isi Array           : void isiArray(arr, size)
-            f. Sorting             : void sortArray(arr, size)
+            c. Cari Nilai Max      : int maxArray(arr, size)
+            d. Cari Nilai Min      : int minArray(arr, size)
+            e. Hitung Rata-rata    : double rataArray(arr, size)
+            f. Linear Search       : int cariElemen(arr, size, target)
+            g. Isi Array           : void isiArray(arr, size)
+            h. Sort Array          : void sortArray(arr, size)
 
-        ===================[ MODUL 8.9 - PASS ARRAY 2D KE FUNCTION ] =====================
-            1. Syntax Pass Array 2D:
-                Kolom WAJIB dicantumkan, baris boleh dikosongkan.
+        ===================[ MODUL U.11d - PASS ARRAY 2D KE FUNCTION ] =====================
 
-                // Cara 1: Eksplisit baris & kolom
-                void tampilMatriks(int mat[3][3], int baris, int kolom) { ... }
+        8. Syntax Pass Array 2D ke Function:
+            KOLOM WAJIB dicantumkan, baris boleh dikosongkan.
 
-                // Cara 2: Baris dikosongkan
-                void tampilMatriks(int mat[][3], int baris, int kolom) { ... }
+            // Cara 1: Eksplisit baris & kolom
+            void tampilMatriks(int mat[3][3], int baris, int kolom) { ... }
 
-                Kenapa kolom wajib?
-                    Compiler butuh tahu kolom untuk hitung offset memory:
-                    mat[i][j] = *(mat + i*KOLOM + j)
-                    Kalau kolom tidak diketahui -> compiler tidak bisa hitung lokasi elemen!
+            // Cara 2: Baris dikosongkan (lebih fleksibel)
+            void tampilMatriks(int mat[][3], int baris, int kolom) { ... }
 
-        ===================[ MODUL 8.10 - ARRAY SEBAGAI GLOBAL ] =====================
-            1. Global Array:
-                Dideklarasikan di luar semua function -> bisa diakses semua function.
+        9. Kenapa Kolom Wajib Dicantumkan?
+            Compiler butuh tahu jumlah kolom untuk menghitung offset memory:
+                mat[i][j] = *(mat + i*KOLOM + j)
+
+            Kalau kolom tidak diketahui -> compiler tidak bisa hitung lokasi elemen!
+            -> WAJIB cantumkan jumlah kolom saat pass array 2D ke function
+
+        ===================[ MODUL U.11e - GLOBAL ARRAY ] =====================
+
+        10. Global Array
+            Dideklarasikan di LUAR semua function -> bisa diakses dari function manapun.
 
                 int skorGlobal[5] = {0};    // Di luar main() dan function lain
 
-                Kapan pakai global array?
-                    ✅ Data yang dipakai banyak function berbeda
-                    ✅ Lookup table (data konstan yang sering dipakai)
-                    ❌ Hindari untuk data yang seharusnya lokal (rawan bug)
+            Kapan pakai global array?
+                ✅ Data yang dipakai banyak function berbeda
+                ✅ Lookup table (data konstan yang sering diakses)
+                ❌ Hindari untuk data yang seharusnya lokal (rawan bug tersembunyi!)
 
+            ⚠️  Bahaya Global Array:
+                Karena bisa diakses dari mana saja, function lain bisa mengubah
+                atau mereset isinya tanpa sepengetahuan function yang memakainya.
+                Ini bisa menyebabkan bug yang sangat sulit dilacak!
     */
     
-        // ==================[ GLOBAL ARRAY - Modul 8.10 ]==================
-        // Dideklarasikan di luar semua function -> bisa diakses function manapun
-            int skorPemain[5] = {70, 85, 60, 90, 75};   // Global array skor 5 pemain
-
-            void tampilSkorGlobal(){
-                cout << "   [ ";
-                for(int i = 0; i < 5; i++){
-                    cout << "P" << i+1 << ":" << skorPemain[i];
-                    if(i < 4) cout << "  ";
-                }
-                cout << " ]" << endl;
-            }
-
-            void tambahBonusGlobal(int bonus){
-                for(int i = 0; i < 5; i++) skorPemain[i] += bonus;
-            }
-
-            void resetSkorGlobal(){
-        for(int i = 0; i < 5; i++) skorPemain[i] = 0;
-    }
-
-        // ==================[ HELPER FUNCTIONS - Modul 8.8 ]==================
-        // Kumpulan utility function untuk array - bisa dipakai ulang kapanpun!
-
-            // Tampil isi array (const -> tidak bisa ubah isi dari dalam function)
-            void tampilArr(const int arr[], int size, string label = ""){
-                if(label != "") cout << "   " << label << endl;
-                cout << "   [ ";
-                for(int i = 0; i < size; i++){
-                    cout << arr[i];
-                    if(i < size-1) cout << ", ";
-                }
-                cout << " ]" << endl;
-            }
-
-            // Hitung total semua elemen
-            int totalArr(const int arr[], int size){
-                int total = 0;
-                for(int i = 0; i < size; i++) total += arr[i];
-                return total;
-            }
-
-            // Hitung rata-rata
-            double rataArr(const int arr[], int size){
-                return (double)totalArr(arr, size) / size;
-            }
-
-            // Cari nilai maksimum
-            int maxArr(const int arr[], int size){
-                int maks = arr[0];
-                for(int i = 1; i < size; i++)
-                    if(arr[i] > maks) maks = arr[i];
-                return maks;
-            }
-
-            // Cari nilai minimum
-            int minArr(const int arr[], int size){
-                int mini = arr[0];
-                for(int i = 1; i < size; i++)
-                    if(arr[i] < mini) mini = arr[i];
-                return mini;
-            }
-
-            // Linear search -> return index, atau -1 kalau tidak ketemu
-            int cariArr(const int arr[], int size, int target){
-                for(int i = 0; i < size; i++)
-                    if(arr[i] == target) return i;
-                return -1;
-            }
-
-            // Bubble sort ascending (array ASLI akan berubah!)
-            void sortArr(int arr[], int size){
-                for(int i = 0; i < size-1; i++)
-                    for(int j = 0; j < size-i-1; j++)
-                        if(arr[j] > arr[j+1]) swap(arr[j], arr[j+1]);
-            }
-
-            // Isi array dengan kelipatan (return via parameter - Modul 8.7)
-            void isiKelipatanArr(int arr[], int size, int kelipatan){
-                for(int i = 0; i < size; i++) arr[i] = (i+1) * kelipatan;
-            }
-
-            // Return pointer ke static array tabel perkalian (Modul 8.7)
-            int* tabelKali(int angka){
-            static int hasil[10];
-            for(int i = 0; i < 10; i++) hasil[i] = angka * (i+1);
-            return hasil;
-        }
-
-        // ==================[ HELPER 2D - Modul 8.9 ]==================
-
-            // Tampil matriks 2D - kolom WAJIB dicantumkan di parameter
-            void tampilMatriks2D(const int mat[][3], int baris, int kolom, string label = ""){
-                if(label != "") cout << "   " << label << endl;
-                cout << "   +";
-                for(int j = 0; j < kolom; j++) cout << "------+";
-                cout << endl;
-                for(int i = 0; i < baris; i++){
-                    cout << "   |";
-                    for(int j = 0; j < kolom; j++) cout << "  " << setw(3) << mat[i][j] << " |";
-                    cout << endl;
-                    cout << "   +";
-                    for(int j = 0; j < kolom; j++) cout << "------+";
-                    cout << endl;
-                }
-            }
-
-            // Hitung total matriks 2D
-            int totalMatriks2D(const int mat[][3], int baris, int kolom){
-                int total = 0;
-                for(int i = 0; i < baris; i++)
-                    for(int j = 0; j < kolom; j++)
-                        total += mat[i][j];
-                return total;
-            }
-
-            // Cari max di matriks 2D + catat posisinya
-            int maxMatriks2D(const int mat[][3], int baris, int kolom, int &idxBaris, int &idxKolom){
-                int maks = mat[0][0];
-                idxBaris = 0; idxKolom = 0;
-                for(int i = 0; i < baris; i++)
-                    for(int j = 0; j < kolom; j++)
-                        if(mat[i][j] > maks){
-                            maks = mat[i][j];
-                            idxBaris = i; idxKolom = j;
-                        }
-                return maks;
-            }
-
-        // ==================[ DEMO FUNCTION ]==================
-            void demoArrayFunction(){
-            cout << "\n==========================================" << endl;
-            cout << "|         ARRAY - MODUL 8.6-8.10        |" << endl;
-            cout << "|         Array + Function               |" << endl;
-            cout << "==========================================" << endl;
-
-
-            // =================================================================
-            // MODUL 8.6 - PASS ARRAY KE FUNCTION
-            // =================================================================
-            cout << "\n===[ Modul 8.6: Pass Array ke Function ]===" << endl;
-            {
-                int data[6] = {30, 10, 50, 20, 40, 60};
-
-                cout << "\n   Konsep: array dipass sebagai POINTER, bukan salinan!" << endl;
-                cout << "   -> Perubahan di dalam function = ubah array ASLI" << endl;
-
-                // --- Cara 1: pakai [] ---
-                cout << "\n   [Cara 1 - pakai int arr[]]" << endl;
-                tampilArr(data, 6, "Data awal:");
-
-                // --- Cara 2: pakai const -> array aman, tidak bisa diubah ---
-                cout << "\n   [Cara 2 - pakai const int arr[] -> array TERLINDUNGI]" << endl;
-                cout << "   Cukup tampil saja, tidak bisa modif dari dalam function" << endl;
-                tampilArr(data, 6, "Data (via const arr[]):");
-
-                // --- Bukti: array asli BERUBAH kalau tidak pakai const ---
-                cout << "\n   [Bukti: tanpa const -> array asli IKUT BERUBAH]" << endl;
-                int bukti[5] = {1, 2, 3, 4, 5};
-                cout << "   Sebelum di-pass ke function: "; 
-                tampilArr(bukti, 5);
-
-                // Fungsi inline kecil untuk demo efek samping
-                auto gandakan = [](int arr[], int n){ for(int i=0;i<n;i++) arr[i]*=2; };
-                gandakan(bukti, 5);
-
-                cout << "   Sesudah  di-pass ke function (semua x2): ";
-                tampilArr(bukti, 5);
-                cout << "   Array asli BERUBAH! Itulah kenapa pakai const kalau tidak mau diubah." << endl;
-
-                // --- Kenapa harus kirim SIZE ---
-                cout << "\n   [Kenapa WAJIB kirim SIZE sebagai parameter terpisah?]" << endl;
-                cout << "   sizeof(arr) di DALAM function = " << sizeof(int*) << " bytes (sizeof pointer!)" << endl;
-                cout << "   sizeof(arr) di LUAR function  = " << sizeof(data) << " bytes (sizeof array asli)" << endl;
-                cout << "   -> Compiler kehilangan info ukuran saat array jadi parameter!" << endl;
-            }
-
-
-            // =================================================================
-            // MODUL 8.7 - RETURN ARRAY DARI FUNCTION
-            // =================================================================
-            cout << "\n===[ Modul 8.7: Return Array dari Function ]===" << endl;
-            {
-                cout << "\n   C++ TIDAK BISA return array secara langsung." << endl;
-                cout << "   Solusinya ada 2 cara:" << endl;
-
-                // --- Cara a: return lewat parameter (paling umum) ---
-                cout << "\n   [Cara A: Return lewat Parameter (void + ubah array di dalam)]" << endl;
-                int kelipatanTiga[6];
-                isiKelipatanArr(kelipatanTiga, 6, 3);
-                tampilArr(kelipatanTiga, 6, "Kelipatan 3 (1x3..6x3):");
-
-                int kelipatanTujuh[6];
-                isiKelipatanArr(kelipatanTujuh, 6, 7);
-                tampilArr(kelipatanTujuh, 6, "Kelipatan 7 (1x7..6x7):");
-
-                // --- Cara b: return pointer ke static array ---
-                cout << "\n   [Cara B: Return Pointer ke Static Array]" << endl;
-                cout << "   Array HARUS static! Local array akan dihapus saat function selesai." << endl;
-
-                int angka = 8;
-                int* tabel = tabelKali(angka);
-                cout << "   Tabel perkalian " << angka << ":" << endl;
-                cout << "   +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
-                cout << "   |";
-                for(int i = 0; i < 10; i++) cout << setw(2) << angka << "x" << i+1 << " |";
-                cout << endl;
-                cout << "   |";
-                for(int i = 0; i < 10; i++) cout << "  " << setw(2) << tabel[i] << " |";
-                cout << endl;
-                cout << "   +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+" << endl;
-            }
-
-
-            // =================================================================
-            // MODUL 8.8 - UTILITY FUNCTIONS
-            // =================================================================
-            cout << "\n===[ Modul 8.8: Utility Functions untuk Array ]===" << endl;
-            {
-                int nilai[8] = {85, 92, 70, 88, 95, 60, 78, 84};
-                int n = 8;
-
-                tampilArr(nilai, n, "Data nilai siswa:");
-
-                cout << "\n   +-------------------+----------+" << endl;
-                cout << "   | Operasi           | Hasil    |" << endl;
-                cout << "   +-------------------+----------+" << endl;
-                cout << "   | totalArr()        | " << setw(8) << totalArr(nilai, n)        << " |" << endl;
-                cout << "   | rataArr()         | " << setw(7) << fixed << setprecision(2) << rataArr(nilai, n) << "  |" << endl;
-                cout << "   | maxArr()          | " << setw(8) << maxArr(nilai, n)          << " |" << endl;
-                cout << "   | minArr()          | " << setw(8) << minArr(nilai, n)          << " |" << endl;
-                cout << "   +-------------------+----------+" << endl;
-
-                // Linear search
-                cout << "\n   [cariArr() - Linear Search]" << endl;
-                int targets[3] = {88, 95, 100};
-                for(int t : targets){
-                    int pos = cariArr(nilai, n, t);
-                    if(pos != -1)
-                        cout << "   Cari " << setw(3) << t << " -> Ketemu  di index [" << pos << "]" << endl;
-                    else
-                        cout << "   Cari " << setw(3) << t << " -> Tidak ditemukan" << endl;
-                }
-
-                // Sort
-                cout << "\n   [sortArr() - Bubble Sort Ascending]" << endl;
-                int nilaiCopy[8] = {85, 92, 70, 88, 95, 60, 78, 84};
-                tampilArr(nilaiCopy, n, "Sebelum sort:");
-                sortArr(nilaiCopy, n);
-                tampilArr(nilaiCopy, n, "Sesudah sort:");
-            }
-
-
-            // =================================================================
-            // MODUL 8.9 - PASS ARRAY 2D KE FUNCTION
-            // =================================================================
-            cout << "\n===[ Modul 8.9: Pass Array 2D ke Function ]===" << endl;
-            {
-                cout << "\n   Aturan: KOLOM wajib dicantumkan, baris boleh dikosongkan." << endl;
-                cout << "   -> Compiler butuh tahu kolom untuk hitung offset memory" << endl;
-                cout << "   -> mat[i][j] = *(mat + i*KOLOM + j)" << endl;
-
-                int mat[3][3] = {
-                    {10, 20, 30},
-                    {40, 50, 60},
-                    {70, 80, 90}
-                };
-
-                cout << "\n   [tampilMatriks2D(mat, 3, 3)]" << endl;
-                tampilMatriks2D(mat, 3, 3);
-                cout << "   Total semua elemen : " << totalMatriks2D(mat, 3, 3) << endl;
-
-                // Cari max + posisinya
-                int iBaris, iKolom;
-                int maks = maxMatriks2D(mat, 3, 3, iBaris, iKolom);
-                cout << "   Nilai maksimum     : " << maks
-                     << " (ada di [" << iBaris << "][" << iKolom << "])" << endl;
-
-                // Demo pass array 2D lalu dimodifikasi
-                cout << "\n   [Demo: function boleh modifikasi matriks kalau tidak pakai const]" << endl;
-                auto kaliDua2D = [](int m[][3], int b, int k){
-                    for(int i=0;i<b;i++) for(int j=0;j<k;j++) m[i][j] *= 2;
-                };
-                cout << "   Sebelum dikali 2:" << endl;
-                tampilMatriks2D(mat, 3, 3);
-                kaliDua2D(mat, 3, 3);
-                cout << "   Sesudah dikali 2 (array asli berubah!):" << endl;
-                tampilMatriks2D(mat, 3, 3);
-            }
-
-
-            // =================================================================
-            // MODUL 8.10 - GLOBAL ARRAY
-            // =================================================================
-            cout << "\n===[ Modul 8.10: Global Array ]===" << endl;
-            {
-                cout << "\n   Global array bisa diakses & dimodifikasi dari function MANAPUN." << endl;
-                cout << "   Pakai untuk: data yang dibutuhkan banyak function" << endl;
-                cout << "   Hindari   : kalau data seharusnya lokal (rawan bug tersembunyi)" << endl;
-
-                cout << "\n   [Skor awal 5 pemain (global array)]" << endl;
-                tampilSkorGlobal();
-
-                cout << "\n   tambahBonusGlobal(10) - semua pemain dapat +10" << endl;
-                tambahBonusGlobal(10);
-                tampilSkorGlobal();
-
-                cout << "\n   tambahBonusGlobal(5)  - semua pemain dapat +5 lagi" << endl;
-                tambahBonusGlobal(5);
-                tampilSkorGlobal();
-
-                // Cari pemain dengan skor tertinggi dari global array
-                int idxJuara = 0;
-                for(int i = 1; i < 5; i++)
-                    if(skorPemain[i] > skorPemain[idxJuara]) idxJuara = i;
-                cout << "\n   Pemain terbaik : Pemain " << idxJuara+1
-                     << " dengan skor " << skorPemain[idxJuara] << endl;
-
-                cout << "\n   resetSkorGlobal() - reset semua ke 0" << endl;
-                resetSkorGlobal();
-                tampilSkorGlobal();
-                cout << "   Itulah bahayanya global: function lain bisa reset tanpa sepengetahuan kamu!" << endl;
-            }
-        }
-
 // V. String C++ & - C-Style String
 
     /* MODUL 9.0 - Difference & Cheat Sheet
