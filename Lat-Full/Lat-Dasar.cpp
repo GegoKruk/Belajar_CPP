@@ -2967,17 +2967,17 @@ using namespace std;
     */
         
         // -------[ HELPER: cetak char array per karakter dengan index ]-------
-        void cetakCharArray(char arr[]){
-            int len = strlen(arr);
-            cout << "   Index : ";
-            for(int i = 0; i < len; i++) cout << "[ " << i << " ] ";
-            cout << endl;
-            cout << "   Value : ";
-            for(int i = 0; i < len; i++) cout << "[ " << arr[i] << " ] ";
-            cout << " [\0]" << endl;
-        }
+            void cetakCharArray(char arr[]){
+                int len = strlen(arr);
+                cout << "   Index : ";
+                for(int i = 0; i < len; i++) cout << "[ " << i << " ] ";
+                cout << endl;
+                cout << "   Value : ";
+                for(int i = 0; i < len; i++) cout << "[ " << arr[i] << " ] ";
+                cout << " [\0]" << endl;
+            }
 
-        void demoCharacterArray(){
+            void demoCharacterArray(){
             cout << "\n==========================================" << endl;
             cout << "|         ARRAY - MODUL 8.4              |" << endl;
             cout << "|         Character Array                |" << endl;
@@ -3345,42 +3345,42 @@ using namespace std;
                 int matriks[BARIS][KOLOM];          ---> Lebih mudah diubah & dibaca
     */
 
-                // -------[ HELPER: cetak matriks 2D dengan border rapi ]-------
-        void cetakMatriks(int mat[][4], int baris, int kolom, string label = ""){
-            if(label != "") cout << "   " << label << endl;
-            cout << "   +";
-            for(int j = 0; j < kolom; j++) cout << "------+";
-            cout << endl;
-            for(int i = 0; i < baris; i++){
-                cout << "   |";
-                for(int j = 0; j < kolom; j++){
-                    cout << "  " << setw(3) << mat[i][j] << " |";
-                }
-                cout << "  <- Baris " << i << endl;
+        // -------[ HELPER: cetak matriks 2D dengan border rapi ]-------
+            void cetakMatriks(int mat[][4], int baris, int kolom, string label = ""){
+                if(label != "") cout << "   " << label << endl;
                 cout << "   +";
                 for(int j = 0; j < kolom; j++) cout << "------+";
                 cout << endl;
-            }
-        }
-
-        void cetakMatriks3x3(int mat[3][3], int baris, int kolom, string label = ""){
-            if(label != "") cout << "   " << label << endl;
-            cout << "   +";
-            for(int j = 0; j < kolom; j++) cout << "------+";
-            cout << endl;
-            for(int i = 0; i < baris; i++){
-                cout << "   |";
-                for(int j = 0; j < kolom; j++){
-                    cout << "  " << setw(3) << mat[i][j] << " |";
+                for(int i = 0; i < baris; i++){
+                    cout << "   |";
+                    for(int j = 0; j < kolom; j++){
+                        cout << "  " << setw(3) << mat[i][j] << " |";
+                    }
+                    cout << "  <- Baris " << i << endl;
+                    cout << "   +";
+                    for(int j = 0; j < kolom; j++) cout << "------+";
+                    cout << endl;
                 }
-                cout << "  <- Baris " << i << endl;
+            }
+
+            void cetakMatriks3x3(int mat[3][3], int baris, int kolom, string label = ""){
+                if(label != "") cout << "   " << label << endl;
                 cout << "   +";
                 for(int j = 0; j < kolom; j++) cout << "------+";
                 cout << endl;
+                for(int i = 0; i < baris; i++){
+                    cout << "   |";
+                    for(int j = 0; j < kolom; j++){
+                        cout << "  " << setw(3) << mat[i][j] << " |";
+                    }
+                    cout << "  <- Baris " << i << endl;
+                    cout << "   +";
+                    for(int j = 0; j < kolom; j++) cout << "------+";
+                    cout << endl;
+                }
             }
-        }
 
-        void demoArrayMultidimensi(){
+            void demoArrayMultidimensi(){
             cout << "\n==========================================" << endl;
             cout << "|         ARRAY - MODUL 8.5              |" << endl;
             cout << "|         Array Multidimensi             |" << endl;
@@ -3747,137 +3747,137 @@ using namespace std;
 
     */
     
-    // ==================[ GLOBAL ARRAY - Modul 8.10 ]==================
-    // Dideklarasikan di luar semua function -> bisa diakses function manapun
-        int skorPemain[5] = {70, 85, 60, 90, 75};   // Global array skor 5 pemain
+        // ==================[ GLOBAL ARRAY - Modul 8.10 ]==================
+        // Dideklarasikan di luar semua function -> bisa diakses function manapun
+            int skorPemain[5] = {70, 85, 60, 90, 75};   // Global array skor 5 pemain
 
-        void tampilSkorGlobal(){
-            cout << "   [ ";
-            for(int i = 0; i < 5; i++){
-                cout << "P" << i+1 << ":" << skorPemain[i];
-                if(i < 4) cout << "  ";
+            void tampilSkorGlobal(){
+                cout << "   [ ";
+                for(int i = 0; i < 5; i++){
+                    cout << "P" << i+1 << ":" << skorPemain[i];
+                    if(i < 4) cout << "  ";
+                }
+                cout << " ]" << endl;
             }
-            cout << " ]" << endl;
-        }
 
-        void tambahBonusGlobal(int bonus){
-            for(int i = 0; i < 5; i++) skorPemain[i] += bonus;
-        }
+            void tambahBonusGlobal(int bonus){
+                for(int i = 0; i < 5; i++) skorPemain[i] += bonus;
+            }
 
-        void resetSkorGlobal(){
+            void resetSkorGlobal(){
         for(int i = 0; i < 5; i++) skorPemain[i] = 0;
     }
 
-    // ==================[ HELPER FUNCTIONS - Modul 8.8 ]==================
-    // Kumpulan utility function untuk array - bisa dipakai ulang kapanpun!
+        // ==================[ HELPER FUNCTIONS - Modul 8.8 ]==================
+        // Kumpulan utility function untuk array - bisa dipakai ulang kapanpun!
 
-        // Tampil isi array (const -> tidak bisa ubah isi dari dalam function)
-        void tampilArr(const int arr[], int size, string label = ""){
-            if(label != "") cout << "   " << label << endl;
-            cout << "   [ ";
-            for(int i = 0; i < size; i++){
-                cout << arr[i];
-                if(i < size-1) cout << ", ";
+            // Tampil isi array (const -> tidak bisa ubah isi dari dalam function)
+            void tampilArr(const int arr[], int size, string label = ""){
+                if(label != "") cout << "   " << label << endl;
+                cout << "   [ ";
+                for(int i = 0; i < size; i++){
+                    cout << arr[i];
+                    if(i < size-1) cout << ", ";
+                }
+                cout << " ]" << endl;
             }
-            cout << " ]" << endl;
-        }
 
-        // Hitung total semua elemen
-        int totalArr(const int arr[], int size){
-            int total = 0;
-            for(int i = 0; i < size; i++) total += arr[i];
-            return total;
-        }
+            // Hitung total semua elemen
+            int totalArr(const int arr[], int size){
+                int total = 0;
+                for(int i = 0; i < size; i++) total += arr[i];
+                return total;
+            }
 
-        // Hitung rata-rata
-        double rataArr(const int arr[], int size){
-            return (double)totalArr(arr, size) / size;
-        }
+            // Hitung rata-rata
+            double rataArr(const int arr[], int size){
+                return (double)totalArr(arr, size) / size;
+            }
 
-        // Cari nilai maksimum
-        int maxArr(const int arr[], int size){
-            int maks = arr[0];
-            for(int i = 1; i < size; i++)
-                if(arr[i] > maks) maks = arr[i];
-            return maks;
-        }
+            // Cari nilai maksimum
+            int maxArr(const int arr[], int size){
+                int maks = arr[0];
+                for(int i = 1; i < size; i++)
+                    if(arr[i] > maks) maks = arr[i];
+                return maks;
+            }
 
-        // Cari nilai minimum
-        int minArr(const int arr[], int size){
-            int mini = arr[0];
-            for(int i = 1; i < size; i++)
-                if(arr[i] < mini) mini = arr[i];
-            return mini;
-        }
+            // Cari nilai minimum
+            int minArr(const int arr[], int size){
+                int mini = arr[0];
+                for(int i = 1; i < size; i++)
+                    if(arr[i] < mini) mini = arr[i];
+                return mini;
+            }
 
-        // Linear search -> return index, atau -1 kalau tidak ketemu
-        int cariArr(const int arr[], int size, int target){
-            for(int i = 0; i < size; i++)
-                if(arr[i] == target) return i;
-            return -1;
-        }
+            // Linear search -> return index, atau -1 kalau tidak ketemu
+            int cariArr(const int arr[], int size, int target){
+                for(int i = 0; i < size; i++)
+                    if(arr[i] == target) return i;
+                return -1;
+            }
 
-        // Bubble sort ascending (array ASLI akan berubah!)
-        void sortArr(int arr[], int size){
-            for(int i = 0; i < size-1; i++)
-                for(int j = 0; j < size-i-1; j++)
-                    if(arr[j] > arr[j+1]) swap(arr[j], arr[j+1]);
-        }
+            // Bubble sort ascending (array ASLI akan berubah!)
+            void sortArr(int arr[], int size){
+                for(int i = 0; i < size-1; i++)
+                    for(int j = 0; j < size-i-1; j++)
+                        if(arr[j] > arr[j+1]) swap(arr[j], arr[j+1]);
+            }
 
-        // Isi array dengan kelipatan (return via parameter - Modul 8.7)
-        void isiKelipatanArr(int arr[], int size, int kelipatan){
-            for(int i = 0; i < size; i++) arr[i] = (i+1) * kelipatan;
-        }
+            // Isi array dengan kelipatan (return via parameter - Modul 8.7)
+            void isiKelipatanArr(int arr[], int size, int kelipatan){
+                for(int i = 0; i < size; i++) arr[i] = (i+1) * kelipatan;
+            }
 
-        // Return pointer ke static array tabel perkalian (Modul 8.7)
-        int* tabelKali(int angka){
+            // Return pointer ke static array tabel perkalian (Modul 8.7)
+            int* tabelKali(int angka){
             static int hasil[10];
             for(int i = 0; i < 10; i++) hasil[i] = angka * (i+1);
             return hasil;
         }
 
-    // ==================[ HELPER 2D - Modul 8.9 ]==================
+        // ==================[ HELPER 2D - Modul 8.9 ]==================
 
-        // Tampil matriks 2D - kolom WAJIB dicantumkan di parameter
-        void tampilMatriks2D(const int mat[][3], int baris, int kolom, string label = ""){
-            if(label != "") cout << "   " << label << endl;
-            cout << "   +";
-            for(int j = 0; j < kolom; j++) cout << "------+";
-            cout << endl;
-            for(int i = 0; i < baris; i++){
-                cout << "   |";
-                for(int j = 0; j < kolom; j++) cout << "  " << setw(3) << mat[i][j] << " |";
-                cout << endl;
+            // Tampil matriks 2D - kolom WAJIB dicantumkan di parameter
+            void tampilMatriks2D(const int mat[][3], int baris, int kolom, string label = ""){
+                if(label != "") cout << "   " << label << endl;
                 cout << "   +";
                 for(int j = 0; j < kolom; j++) cout << "------+";
                 cout << endl;
+                for(int i = 0; i < baris; i++){
+                    cout << "   |";
+                    for(int j = 0; j < kolom; j++) cout << "  " << setw(3) << mat[i][j] << " |";
+                    cout << endl;
+                    cout << "   +";
+                    for(int j = 0; j < kolom; j++) cout << "------+";
+                    cout << endl;
+                }
             }
-        }
 
-        // Hitung total matriks 2D
-        int totalMatriks2D(const int mat[][3], int baris, int kolom){
-            int total = 0;
-            for(int i = 0; i < baris; i++)
-                for(int j = 0; j < kolom; j++)
-                    total += mat[i][j];
-            return total;
-        }
+            // Hitung total matriks 2D
+            int totalMatriks2D(const int mat[][3], int baris, int kolom){
+                int total = 0;
+                for(int i = 0; i < baris; i++)
+                    for(int j = 0; j < kolom; j++)
+                        total += mat[i][j];
+                return total;
+            }
 
-        // Cari max di matriks 2D + catat posisinya
-        int maxMatriks2D(const int mat[][3], int baris, int kolom, int &idxBaris, int &idxKolom){
-            int maks = mat[0][0];
-            idxBaris = 0; idxKolom = 0;
-            for(int i = 0; i < baris; i++)
-                for(int j = 0; j < kolom; j++)
-                    if(mat[i][j] > maks){
-                        maks = mat[i][j];
-                        idxBaris = i; idxKolom = j;
-                    }
-            return maks;
-        }
+            // Cari max di matriks 2D + catat posisinya
+            int maxMatriks2D(const int mat[][3], int baris, int kolom, int &idxBaris, int &idxKolom){
+                int maks = mat[0][0];
+                idxBaris = 0; idxKolom = 0;
+                for(int i = 0; i < baris; i++)
+                    for(int j = 0; j < kolom; j++)
+                        if(mat[i][j] > maks){
+                            maks = mat[i][j];
+                            idxBaris = i; idxKolom = j;
+                        }
+                return maks;
+            }
 
-    // ==================[ DEMO FUNCTION ]==================
-        void demoArrayFunction(){
+        // ==================[ DEMO FUNCTION ]==================
+            void demoArrayFunction(){
             cout << "\n==========================================" << endl;
             cout << "|         ARRAY - MODUL 8.6-8.10        |" << endl;
             cout << "|         Array + Function               |" << endl;
@@ -6450,6 +6450,767 @@ using namespace std;
 
             // ❌ Catch terlalu umum di tempat yang salah
             catch (exception& e) { return; }   // menelan semua error diam-diam
+    */
+
+// AC. Preprocessor
+
+    /* MODUL 16.0 - Apa itu Preprocessor?
+
+        1. Pengertian
+
+            Preprocessor adalah tahap PERTAMA yang dijalankan compiler
+            sebelum kode C++ benar-benar dikompilasi.
+
+            Preprocessor membaca source code dan melakukan TRANSFORMASI TEKS
+            berdasarkan "instruksi" yang diawali dengan tanda pagar (#).
+            Instruksi ini disebut PREPROCESSOR DIRECTIVE.
+
+            Alur kompilasi C++:
+
+                Source Code (.cpp)
+                    --> Preprocessor  (jalan duluan! transformasi teks)
+                    --> Compiler      (ubah ke object code)
+                    --> Linker        (gabungkan jadi .exe)
+
+            Yang dilakukan preprocessor:
+                - Menyalin isi file header ke dalam kode (#include)
+                - Mengganti nama macro dengan nilainya (#define)
+                - Menghapus atau menyertakan bagian kode (#ifdef, #if)
+                - Memberikan instruksi khusus ke compiler (#pragma)
+
+            PENTING: Preprocessor bekerja pada level TEKS, bukan level bahasa.
+            Ia tidak mengerti tipe data, fungsi, atau class C++.
+            Ia hanya melakukan find-and-replace pada teks.
+
+        2. Ciri-ciri Preprocessor Directive
+
+            - Selalu dimulai dengan tanda #  (hash / pound)
+            - Berdiri sendiri di satu baris
+            - TIDAK diakhiri dengan titik koma ( ; )
+            - Diproses sebelum kode apapun dikompilasi
+
+            Contoh:
+                #include <iostream>     // benar
+                #include <iostream>;    // salah — ada titik koma!
+                int x = 5;              // ini bukan directive — ini kode C++
+
+        3. Daftar Directive yang Akan Dipelajari
+
+            Direktif                Fungsi
+            ─────────────────────── ────────────────────────────────────────────
+            #include                Menyertakan isi file lain
+            #define                 Mendefinisikan macro/konstanta
+            #undef                  Menghapus definisi macro
+            #ifdef / #ifndef        Kompilasi bersyarat (if defined / not defined)
+            #if / #elif / #else     Kompilasi bersyarat (kondisi numerik)
+            #endif                  Menutup blok kompilasi bersyarat
+            #pragma                 Instruksi khusus untuk compiler
+            #error                  Paksa error saat kompilasi
+            #warning                Tampilkan peringatan saat kompilasi
+    */
+
+    /* MODUL 16.1 - #include — Menyertakan File Lain
+
+        1. Apa itu #include?
+
+            #include memberitahu preprocessor untuk mengambil isi file lain
+            dan "menempelkannya" langsung di titik directive itu berada.
+
+            Ibarat copy-paste otomatis isi file ke dalam kode kita.
+
+        2. Dua Bentuk #include
+
+            a. Angle brackets < > — untuk library standar / sistem:
+
+                #include <iostream>     // cin, cout
+                #include <string>       // std::string
+                #include <vector>       // std::vector
+                #include <algorithm>    // sort, find, dll
+                #include <cmath>        // sqrt, pow, abs, dll
+                #include <fstream>      // ifstream, ofstream
+                #include <stdexcept>    // runtime_error, dll
+
+                Preprocessor mencari di direktori sistem / compiler.
+
+            b. Double quotes " " — untuk file buatan sendiri:
+
+                #include "mathHelper.h"
+                #include "config.h"
+                #include "../utils/helper.h"    // path relatif ke atas
+
+                Preprocessor mencari di direktori yang sama dengan file saat ini,
+                lalu kalau tidak ketemu baru cari di direktori sistem.
+
+        3. Apa yang Terjadi Saat #include?
+
+            Misalnya kita punya file myHeader.h:
+
+                // myHeader.h
+                int tambah(int a, int b) {
+                    return a + b;
+                }
+
+            Dan kita tulis di main.cpp:
+
+                #include "myHeader.h"
+                int main() {
+                    cout << tambah(3, 4);
+                }
+
+            Setelah preprocessor jalan, main.cpp "seolah-olah" menjadi:
+
+                int tambah(int a, int b) {   // isi dari myHeader.h disalin ke sini
+                    return a + b;
+                }
+                int main() {
+                    cout << tambah(3, 4);
+                }
+
+        4. Header File (.h) — Konvensi
+
+            Header file biasanya berisi:
+                - Deklarasi fungsi (bukan definisi)
+                - Deklarasi class
+                - Definisi struct, enum, typedef
+                - Konstanta dan macro
+                - Template definition (harus di header!)
+
+            Kenapa deklarasi saja, bukan definisi?
+                Karena header di-include oleh banyak file .cpp.
+                Kalau definisi ada di header, akan ada banyak definisi
+                ganda saat linker bekerja → linker error!
+
+            Contoh yang benar:
+
+                // fungsi.h  (deklarasi saja)
+                int hitung(int a, int b);
+
+                // fungsi.cpp  (definisi di sini)
+                int hitung(int a, int b) { return a + b; }
+
+        5. Masalah: Multiple Inclusion
+
+            Kalau header di-include lebih dari sekali (langsung atau tidak langsung),
+            compiler mendapat definisi ganda → error!
+
+            Contoh masalah:
+                // main.cpp
+                #include "A.h"    // A.h juga #include "base.h"
+                #include "B.h"    // B.h juga #include "base.h"
+                // base.h masuk dua kali → error!
+
+            Solusi: include guards (lihat MODUL 16.3) atau #pragma once.
+    */
+
+    /* MODUL 16.2 - #define — Macro dan Konstanta
+
+        1. Apa itu #define?
+
+            #define mendefinisikan sebuah MACRO — nama yang akan digantikan
+            preprocessor dengan teks lain sebelum kompilasi.
+
+            Syntax:
+                #define NAMA_MACRO  nilai_atau_teks
+
+            KONVENSI: nama macro pakai HURUF_KAPITAL_SEMUA.
+
+        2. Object-like Macro (Konstanta Sederhana)
+
+            #define PI          3.14159265
+            #define MAX_SIZE    100
+            #define APP_NAME    "MyApp v1.0"
+            #define NEWLINE     '\n'
+
+            Cara kerja (text substitution):
+
+                area = PI * r * r;
+                // Preprocessor ubah menjadi:
+                area = 3.14159265 * r * r;
+
+            Perbandingan dengan const / constexpr:
+
+                #define MAX 100              // macro — tidak ada tipe, tidak ada scope
+                const int MAX = 100;         // ada tipe, ada scope — lebih baik
+                constexpr int MAX = 100;     // compile-time, ada tipe — paling baik
+
+            Kapan masih pakai #define?
+                - Header guard (#ifndef HEADER_H)
+                - Debug/platform flag yang dikontrol dari luar
+                - Kompatibilitas dengan kode C lama
+
+        3. Function-like Macro
+
+            Macro bisa menerima argumen seperti fungsi:
+
+                #define KUADRAT(x)      ((x) * (x))
+                #define MAKS(a, b)      ((a) > (b) ? (a) : (b))
+                #define ABS(x)          ((x) >= 0 ? (x) : -(x))
+
+            Penggunaan:
+                int h = KUADRAT(5);     // → ((5) * (5)) → 25
+                int m = MAKS(3, 7);     // → ((3) > (7) ? (3) : (7)) → 7
+
+            BAHAYA function-like macro (harus pakai kurung!):
+
+                #define KUADRAT_SALAH(x)  x * x   // tanpa kurung!
+
+                KUADRAT_SALAH(2 + 3)
+                // → 2 + 3 * 2 + 3   // operator precedence salah!
+                // Hasil: 11 (BUKAN 25!)
+
+                KUADRAT(2 + 3)
+                // → ((2 + 3) * (2 + 3))   // kurung melindungi
+                // Hasil: 25 benar
+
+            Side effect bahaya:
+
+                int a = 5;
+                int b = MAKS(a++, 3);   // a++ dievaluasi DUA KALI → bug!
+
+            Alternatif modern yang lebih aman:
+                inline int kuadrat(int x) { return x * x; }
+                template<typename T> T maks(T a, T b) { return a > b ? a : b; }
+
+        4. Macro Multiline
+
+            Gunakan backslash (\) untuk lanjut ke baris berikutnya:
+
+                #define LOG_ERROR(msg) \
+                    cerr << "[ERROR] " << __FILE__ \
+                        << ":" << __LINE__  \
+                        << " - " << msg << endl
+
+                LOG_ERROR("File tidak ditemukan");
+                // Menghasilkan: cerr << "[ERROR] main.cpp:42 - File tidak ditemukan" << endl;
+
+        5. #undef — Hapus Definisi Macro
+
+                #define TEMP 42
+                // pakai TEMP ...
+                #undef TEMP
+                // TEMP sudah tidak ada di bawah sini
+
+            Berguna untuk:
+                - Batasi scope macro agar tidak bocor
+                - Redefine macro dengan nilai baru
+                - Menghindari konflik nama
+
+        6. Predefined Macros (Sudah Ada dari Compiler)
+
+            Macro           Isi                             Contoh
+            ─────────────── ─────────────────────────────── ─────────────────────
+            __FILE__        Nama file saat ini (string)     "main.cpp"
+            __LINE__        Nomor baris saat ini (int)      42
+            __func__        Nama fungsi saat ini (string)   "main"
+            __DATE__        Tanggal kompilasi (string)      "Jan 14 2025"
+            __TIME__        Waktu kompilasi (string)        "10:30:00"
+            __cplusplus     Versi standar C++ (long)        201703L = C++17
+                                                            202002L = C++20
+
+            Penggunaan:
+                cout << "File : " << __FILE__ << endl;
+                cout << "Baris: " << __LINE__ << endl;
+                cout << "C++  : " << __cplusplus << endl;
+
+                // Debug macro yang menampilkan lokasi secara otomatis:
+                #define TRACE() \
+                    cout << "[TRACE] " << __func__ \
+                        << " (" << __FILE__ << ":" << __LINE__ << ")" << endl
+    */
+
+    /* MODUL 16.3 - Include Guards & #pragma once
+
+        1. Masalah: Double Inclusion
+
+            Header sering di-include lebih dari sekali melalui dependency:
+
+                // main.cpp
+                #include "point.h"      // include point.h langsung
+                #include "shapes.h"     // shapes.h juga include point.h
+
+                // Akibat: isi point.h masuk DUA KALI → error redefinition!
+
+        2. Solusi 1: Include Guards (Cara Klasik, Standar ISO)
+
+                // point.h
+                #ifndef POINT_H      // "Jika POINT_H belum didefinisikan..."
+                #define POINT_H      // "...definisikan POINT_H..."
+
+                struct Point {
+                    int x;
+                    int y;
+                };
+
+                #endif               // "...sampai di sini"
+
+            Cara kerjanya:
+                - Include pertama  : POINT_H belum ada → masuk ke blok → define POINT_H
+                - Include kedua    : POINT_H sudah ada → SELURUH blok dilewati
+                - Efek: isi header hanya diproses SATU KALI, tidak peduli berapa kali di-include
+
+            Konvensi nama guard:
+                POINT_H             → untuk point.h
+                UTILS_MATH_H        → untuk utils/math.h
+                MYAPP_CONFIG_H      → untuk myapp/config.h
+
+        3. Solusi 2: #pragma once (Cara Modern, Praktis)
+
+                // point.h
+                #pragma once         // satu baris ini sudah cukup!
+
+                struct Point {
+                    int x;
+                    int y;
+                };
+
+            #pragma once memberitahu compiler: "proses file ini hanya sekali".
+            Tidak perlu #ifndef, #define, dan #endif.
+
+            Kelebihan #pragma once:
+                - Lebih singkat, tidak ada risiko typo nama guard
+                - Didukung semua compiler modern (GCC, Clang, MSVC)
+                - Sedikit lebih cepat dikompilasi
+
+            Kekurangan #pragma once:
+                - Bukan standar ISO C++ (tapi de-facto standar)
+                - Bisa bermasalah jika file yang sama ada di dua path berbeda
+
+        4. Pilihan
+
+            Proyek baru / tim modern     → #pragma once
+            Butuh portabilitas maksimal  → #ifndef include guards
+            Sudah ada standar di tim     → ikuti standar yang ada
+
+        5. Contoh Header Lengkap
+
+            // mathHelper.h dengan include guard:
+            #ifndef MATH_HELPER_H
+            #define MATH_HELPER_H
+
+            #include <cmath>
+
+            const double PI = 3.14159265358979;
+
+            inline double luasLingkaran(double r) {
+                return PI * r * r;
+            }
+
+            #endif // MATH_HELPER_H   <-- komentar opsional tapi membantu
+
+            // Atau dengan #pragma once:
+            #pragma once
+            #include <cmath>
+            const double PI = 3.14159265358979;
+            inline double luasLingkaran(double r) { return PI * r * r; }
+    */
+
+    /* MODUL 16.4 - Conditional Compilation (#ifdef, #if, #elif, #else, #endif)
+
+        1. Apa itu Conditional Compilation?
+
+            Memilih bagian kode mana yang DIKOMPILASI berdasarkan kondisi
+            yang dievaluasi saat preprocessing — SEBELUM compiler berjalan.
+
+            Ibarat "if-else khusus compiler" — bagian yang tidak memenuhi
+            kondisi DIHAPUS TOTAL dari kode sebelum dikompilasi.
+
+        2. #ifdef dan #ifndef
+
+            #ifdef NAMA    → "Jika NAMA sudah didefinisikan, kompilasi blok ini"
+            #ifndef NAMA   → "Jika NAMA BELUM didefinisikan, kompilasi blok ini"
+
+                #define DEBUG_MODE      // aktifkan debug
+
+                #ifdef DEBUG_MODE
+                    cout << "Debug aktif: nilai x = " << x << endl;
+                #endif
+
+                #ifndef RELEASE
+                    cout << "Ini bukan build release" << endl;
+                #endif
+
+        3. #if, #elif, #else, #endif
+
+            Lebih powerful — bisa evaluasi ekspresi numerik:
+
+                #define VERSI 3
+
+                #if VERSI == 1
+                    cout << "Fitur versi 1";
+                #elif VERSI == 2
+                    cout << "Fitur versi 2";
+                #elif VERSI >= 3
+                    cout << "Fitur versi 3+";
+                #else
+                    cout << "Versi tidak dikenal";
+                #endif
+
+            Operator yang bisa dipakai di #if:
+                ==  !=  <  >  <=  >=   (perbandingan)
+                &&  ||  !               (logika)
+                defined(NAMA)           (cek apakah macro terdefinisi)
+
+        4. Operator defined()
+
+                #if defined(WINDOWS) && !defined(DEBUG)
+                    // Kode khusus Windows Release mode
+                #endif
+
+                #if defined(LINUX) || defined(MACOS)
+                    // Kode untuk Unix-like systems
+                #endif
+
+        5. Kegunaan Utama Conditional Compilation
+
+            a. DEBUG vs RELEASE mode:
+
+                // Kompilasi debug  : g++ -DDEBUG main.cpp
+                // Kompilasi release: g++ main.cpp  (tanpa -DDEBUG)
+
+                #ifdef DEBUG
+                    #define LOG(msg)    cout << "[DEBUG] " << msg << endl
+                    #define ASSERT(c)   if(!(c)) { cerr << "FAIL: " << #c; abort(); }
+                #else
+                    #define LOG(msg)    // kosong di release — dihapus oleh preprocessor
+                    #define ASSERT(c)   // kosong di release
+                #endif
+
+                // Penggunaan sama di debug maupun release:
+                LOG("Memulai proses");
+                ASSERT(ptr != nullptr);
+
+            b. Platform-specific code:
+
+                // Compiler mendefinisikan macro platform secara otomatis:
+                //   _WIN32 / _WIN64  → Windows
+                //   __linux__        → Linux
+                //   __APPLE__        → macOS / iOS
+
+                #ifdef _WIN32
+                    #include <windows.h>
+                    void clearScreen() { system("cls"); }
+                #elif defined(__linux__) || defined(__APPLE__)
+                    void clearScreen() { system("clear"); }
+                #else
+                    void clearScreen() { } // tidak didukung di platform ini
+                #endif
+
+            c. Feature flags berdasarkan versi C++:
+
+                #if __cplusplus >= 202002L
+                    // Fitur C++20: concepts, ranges, coroutines
+                    #define CPP_VERSION "C++20"
+                #elif __cplusplus >= 201703L
+                    // Fitur C++17: if constexpr, structured bindings, filesystem
+                    #define CPP_VERSION "C++17"
+                #elif __cplusplus >= 201402L
+                    #define CPP_VERSION "C++14"
+                #elif __cplusplus >= 201103L
+                    #define CPP_VERSION "C++11"
+                #else
+                    #error "Butuh minimal C++11!"
+                #endif
+
+            d. Konfigurasi build:
+
+                #define MAKS_USER 100
+
+                #ifdef ENTERPRISE_EDITION
+                    #undef  MAKS_USER
+                    #define MAKS_USER 10000
+                #endif
+
+        6. #error dan #warning
+
+            Paksa error atau peringatan saat kompilasi:
+
+                #ifndef MAKS_BUFFER
+                    #error "MAKS_BUFFER harus didefinisikan sebelum include file ini!"
+                #endif
+
+                #if MAKS_BUFFER > 65536
+                    #warning "MAKS_BUFFER sangat besar — bisa habis stack memory!"
+                #endif
+
+            #error  → kompilasi berhenti dengan pesan error
+            #warning → kompilasi lanjut tapi tampilkan peringatan
+    */
+
+    /* MODUL 16.5 - #pragma — Instruksi Khusus Compiler
+
+        1. Apa itu #pragma?
+
+            #pragma memberikan instruksi khusus kepada compiler yang bersifat
+            IMPLEMENTATION-DEFINED — setiap compiler boleh mengimplementasikan
+            atau mengabaikan pragma berbeda-beda.
+
+            Tapi beberapa pragma sudah didukung hampir semua compiler modern.
+
+        2. #pragma once
+
+            Sudah dibahas di MODUL 16.3 — mencegah multiple inclusion header.
+
+                #pragma once
+
+        3. #pragma pack — Kontrol Alignment Memory
+
+            Mengatur bagaimana compiler mengisi "celah" (padding) di struct:
+
+                // Default: compiler bisa tambah padding untuk alignment
+                struct Normal {
+                    char  c;    // 1 byte + 3 byte padding (alignment ke 4)
+                    int   i;    // 4 byte
+                    // sizeof: 8 byte (bukan 5!)
+                };
+
+                // Padat tanpa padding:
+                #pragma pack(1)
+                struct Packed {
+                    char  c;    // 1 byte
+                    int   i;    // 4 byte
+                    // sizeof: 5 byte persis
+                };
+                #pragma pack()   // kembalikan ke default
+
+            Kapan pakai:
+                - Baca/tulis file binary dengan format tertentu
+                - Komunikasi jaringan / protokol (byte harus presisi)
+                - Embedded systems dengan memory ketat
+
+        4. #pragma comment (MSVC/Windows)
+
+            Hubungkan library secara otomatis:
+
+                #pragma comment(lib, "opengl32.lib")
+                #pragma comment(lib, "user32.lib")
+
+            Di GCC/Clang, link manual via flag: g++ main.cpp -lopengl32
+
+        5. #pragma warning (MSVC) / #pragma GCC diagnostic (GCC)
+
+            Kontrol peringatan compiler:
+
+                // MSVC:
+                #pragma warning(disable: 4996)   // matikan warning deprecated
+                #pragma warning(push)
+                #pragma warning(disable: 4100)   // unreferenced parameter
+                // ... kode ...
+                #pragma warning(pop)             // restore state warning
+
+                // GCC / Clang:
+                #pragma GCC diagnostic push
+                #pragma GCC diagnostic ignored "-Wunused-parameter"
+                // ... kode ...
+                #pragma GCC diagnostic pop
+    */
+
+    /* MODUL 16.6 - Macro Lanjutan: Stringification & Token Pasting
+
+        1. Stringification (#) — Ubah Argumen Macro Jadi String
+
+            Operator # di dalam macro mengubah argumen menjadi string literal:
+
+                #define CETAK_VAR(x) \
+                    cout << #x << " = " << (x) << endl
+
+                int nilai = 42;
+                CETAK_VAR(nilai);
+                // Menghasilkan: cout << "nilai" << " = " << (nilai) << endl;
+                // Output: nilai = 42
+
+                double suhu = 36.5;
+                CETAK_VAR(suhu);
+                // Output: suhu = 36.5
+
+            Berguna sekali untuk debugging — print nama variabel sekaligus nilainya!
+
+        2. Token Pasting (##) — Gabungkan Dua Token
+
+            Operator ## menggabungkan dua token menjadi satu:
+
+                #define BUAT_FUNGSI(nama) \
+                    void fungsi_##nama() { cout << "Fungsi " #nama << endl; }
+
+                BUAT_FUNGSI(Hitung)
+                // Menghasilkan: void fungsi_Hitung() { cout << "Fungsi Hitung" << endl; }
+
+                BUAT_FUNGSI(Tampilkan)
+                // Menghasilkan: void fungsi_Tampilkan() { ... }
+
+            Contoh lain — generate nama variabel:
+
+                #define ITEM(n) int item_##n
+                ITEM(1);  // → int item_1;
+                ITEM(2);  // → int item_2;
+
+        3. Macro Debug Assert (Pola Umum di Proyek Besar)
+
+                #define MY_ASSERT(kondisi) \
+                    do { \
+                        if (!(kondisi)) { \
+                            cerr << "ASSERT GAGAL: " << #kondisi \
+                                << "\nFile  : " << __FILE__ \
+                                << "\nBaris : " << __LINE__ \
+                                << "\nFungsi: " << __func__ << endl; \
+                            abort(); \
+                        } \
+                    } while(0)
+
+                // Penggunaan:
+                MY_ASSERT(ptr != nullptr);
+                MY_ASSERT(index >= 0 && index < size);
+
+            Kenapa do { ... } while(0)?
+                Trik agar macro multi-statement aman dipakai dengan if tanpa kurung kurawal.
+
+        4. Variadic Macro (C++11)
+
+            Macro yang menerima jumlah argumen tidak tetap:
+
+                #define LOG(format, ...) \
+                    printf("[LOG] " format "\n", ##__VA_ARGS__)
+
+                LOG("Halo!");
+                LOG("Nilai: %d", 42);
+                LOG("Nama: %s, Umur: %d", "Budi", 20);
+    */
+
+    /* MODUL 16.7 - Preprocessor dalam Konteks Nyata & Best Practices
+
+        1. Struktur Proyek C++ Umum
+
+                myproject/
+                ├── include/
+                │   ├── config.h        konfigurasi global (define, platform)
+                │   ├── mathHelper.h    deklarasi fungsi
+                │   └── types.h         tipe data custom, enum
+                ├── src/
+                │   ├── main.cpp
+                │   ├── mathHelper.cpp  definisi fungsi
+                │   └── utils.cpp
+                └── CMakeLists.txt / Makefile
+
+            Setiap header pakai #pragma once atau include guard.
+            Setiap .cpp hanya include header yang benar-benar dibutuhkan.
+
+        2. Pola config.h yang Umum
+
+                // config.h
+                #pragma once
+
+                #define APP_NAME    "MyApplication"
+                #define APP_VERSION "2.1.0"
+
+                // Pilih salah satu saat build:
+                // #define BUILD_DEBUG
+                #define BUILD_RELEASE
+
+                #ifdef BUILD_DEBUG
+                    #define LOG_LEVEL    3      // verbose
+                    #define ENABLE_ASSERT
+                #else
+                    #define LOG_LEVEL    1      // minimal
+                #endif
+
+                // Platform detection otomatis:
+                #ifdef _WIN32
+                    #define PLATFORM "Windows"
+                #elif defined(__linux__)
+                    #define PLATFORM "Linux"
+                #elif defined(__APPLE__)
+                    #define PLATFORM "macOS"
+                #else
+                    #define PLATFORM "Unknown"
+                #endif
+
+        3. Pola Debug Logging
+
+                // debug.h
+                #pragma once
+                #include <iostream>
+
+                #ifdef DEBUG
+                    #define DBG_LOG(x) \
+                        std::cout << "[DBG] " << x << std::endl
+                    #define DBG_VAR(x) \
+                        std::cout << "[DBG] " << #x << " = " << (x) << std::endl
+                    #define DBG_FUNC() \
+                        std::cout << "[DBG] Masuk: " << __func__ << std::endl
+                #else
+                    #define DBG_LOG(x)      // kosong di release
+                    #define DBG_VAR(x)
+                    #define DBG_FUNC()
+                #endif
+
+                // Cara pakai:
+                // g++ -DDEBUG main.cpp      (build debug, semua log aktif)
+                // g++ main.cpp              (build release, semua log hilang)
+
+        4. Perbandingan Macro vs Alternatif Modern C++
+
+            Kebutuhan            Cara Lama (#define)         Cara Modern C++
+            ──────────────────── ─────────────────────────── ──────────────────────────
+            Konstanta            #define PI 3.14159           constexpr double PI = 3.14159
+            Fungsi kecil         #define KUADRAT(x) (x)*(x)  inline/template function
+            Kondisi kompilasi    #ifdef / #if                 if constexpr (C++17)
+            Include sekali       #pragma once                 Modules (C++20)
+            Tipe alias           #define INT32 int            using INT32 = int;
+
+            Tapi preprocessor TIDAK akan hilang — terlalu banyak kode bergantung,
+            dan ada kasus yang HANYA bisa diselesaikan preprocessor:
+            platform detection, header guard, debug flag dari command line.
+
+        5. Ringkasan Kapan Pakai Apa
+
+            Situasi                                 Solusi Preprocessor
+            ─────────────────────────────────────── ─────────────────────────────────
+            Cegah multiple inclusion header         #pragma once / include guard
+            Konstanta global (kompatibilitas)       #define NAMA nilai
+            Kode berbeda debug vs release           #ifdef DEBUG / #ifndef DEBUG
+            Kode berbeda antar platform             #ifdef _WIN32, __linux__, dll
+            Instruksi khusus compiler               #pragma pack, warning, dll
+            Wajibkan kondisi saat kompilasi         #error / #warning
+            Debug print variabel + lokasi           #define + #x, __FILE__, __LINE__
+            Cek versi C++ yang dipakai              #if __cplusplus >= 201703L
+
+        6. Hal yang TIDAK Boleh Dilakukan dengan Preprocessor
+
+            Jangan definisikan fungsi besar sebagai macro function
+                Pakai inline function atau template — ada type checking
+
+            Jangan pakai #define untuk konstanta bertipe
+                Pakai const atau constexpr — ada scope, ada type
+
+            Jangan buat logic kompleks dengan macro
+                Sulit debug, tidak ada type safety, side-effect berbahaya
+
+            Jangan include header yang tidak dibutuhkan
+                Memperlambat kompilasi (kadang drastis di proyek besar)
+
+            Jangan taruh definisi fungsi/variabel di header tanpa inline/static
+                Multiple definition error saat link
+
+            Jangan buat nama macro yang terlalu umum atau pendek
+                #define MAX 100 bisa clash dengan kode library lain
+
+        7. Checklist Header File yang Baik
+
+                // namafile.h
+                #pragma once                    ← (1) selalu ada di baris pertama
+
+                #include <dependensi_yang_diperlukan>   ← (2) include minimal
+
+                // Konstanta dan tipe:
+                constexpr int MAX_ITEM = 100;   ← (3) constexpr bukan #define
+                using ItemId = unsigned int;    ← (4) using bukan typedef
+
+                // Deklarasi saja — bukan definisi:
+                class MyClass;                  ← (5) forward declaration kalau cukup
+                void prosesItem(int id);        ← (6) deklarasi fungsi
+
+                // Definisi yang boleh di header:
+                inline void helper() { ... }   ← (7) inline function boleh
+                template<T> void gen(T x){}    ← (8) template harus di header
     */
 
 // MESIN UTAMA
