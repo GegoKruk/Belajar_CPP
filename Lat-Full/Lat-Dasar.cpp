@@ -1836,192 +1836,451 @@ using namespace std;
         cout << "   - Nested loops = O(n²), hati-hati dengan data besar" << endl;
     }
 
-// T. Function
-    /*
-        1. Pengertian
-            Function ibaratkan sebuah mesin 
-                - mesin itu memiliki nama, 
-                - dapat di panggil berulang2 sesuai kebutuhan, 
-                - dapat diberikan bahan baku (parameter)
-                - dapat mengolah 
-                - dan menghasilkan sesuatu (return value) 
+// T. FUNCTION
+    /* Modul T.0 — Pengertian Function
+        ╔══════════════════════════════════════════════════════════╗
+        ║                   BAB T — FUNCTION                       ║
+        ╠══════════════════════════════════════════════════════════╣
+        ║  T.0  Pengertian Function                                ║
+        ║  T.1  Dasar Function (Fruitful & Void)                   ║
+        ║  T.2  Default Parameter                                  ║
+        ║  T.3  Function Overloading                               ║
+        ║  T.4  Inline Function                                    ║
+        ║  T.5  Pass by Value vs Pass by Reference                 ║
+        ║  T.6  Multiple Return via Reference                      ║
+        ║  T.7  Recursive Function                                 ║
+        ║  T.8  Function Scope (Local vs Global)                   ║
+        ║  T.9  Function Declaration / Prototype                   ║
+        ╚══════════════════════════════════════════════════════════╝
 
-        2. Mengapa butuh function?
-            - Reusability : Dapat di gunakan berkali2
-            - Modularity  : Efisien dalam memecah program besar, sehingga tidak rumit (njlimet)
-            - Abstraksi   : Dappat menggunakan tanpa mengetahui prosesnya secara dalam...
-                            Misal dalam menggunakan function2 template yang udah ada seperti perhitungan
-                            matematika di dalam library cmath, cukup menggunakan saja
+        📚 PENGERTIAN FUNCTION
+            Function ibaratkan sebuah mesin:
+                - Punya nama yang bisa dipanggil berulang-ulang
+                - Bisa diberi bahan baku (parameter/input)
+                - Mengolah sesuatu di dalamnya (body)
+                - Bisa menghasilkan sesuatu (return value)
 
-        3. Jenis-jenis function
-            - Fruitful Function : Fungsi bernilai, menghasilkan sebuah nilai dan dikirim ke pemanggilnya (return)
-            - Void Function     : Fungsi tanpa nilai, hanya menjalankan perintah dan tidak mengembalikan nilai ke pengirim 
-            
+        🎯 MENGAPA BUTUH FUNCTION?
+            ✅ Reusability   : Bisa dipakai berkali-kali tanpa nulis ulang
+            ✅ Modularity    : Memecah program besar jadi bagian kecil yang fokus
+            ✅ Abstraksi     : Cukup tahu cara pakai, tidak perlu tahu cara kerjanya
+            ✅ Readability   : Kode lebih bersih dan mudah dibaca
+            ✅ Maintainability: Cukup ubah di 1 tempat, berlaku ke seluruh pemakai
 
-        4. Anatomi
-            ----------------------------------------
-                [A] [B]          [C]
-                int hitungTambah(int a, int b) { 
-                    
-                    [D] int hasil = a + b;
-                
-                    [E] return hasil;   
+        🏗️  ANATOMI FUNCTION
+            ─────────────────────────────────────────────────────
+                [A]  [B]            [C]
+                int  hitungTambah  (int a, int b) {
+
+                [D] int hasil = a + b;   // Body / Isi
+
+                [E] return hasil;        // Return Statement
                 }
-            ----------------------------------------
-            
-            [A] Return Type  
-                - tipe data function (nilai yang akan dikembalikan)
-                - Semua tipe data dasar (int, float, char, double, string, bool) bisa jadi parameter. 
-                - Begitu juga dengan modifier seperti long, short, unsigned, atau const.
-            [B] Nama Fungsi  
-                - Menggunakan camelCase 
-            [C] Parameter  
-                - ini adalah bahan baku mesin, yang di kirim dari pemanggil, jika tidak ada maka dikosongkan
-            [D] Body / Isi Fungsi
-                - Seluruh kode yang akan dijalankan function
-            [E] Return Statement
-                - nilai/variabel yang dikembalikan
+            ─────────────────────────────────────────────────────
+            [A] Return Type     : Tipe data nilai yang dikembalikan (int, double, string, void, dll)
+            [B] Nama Function   : Menggunakan camelCase
+            [C] Parameter       : Bahan baku dari pemanggil, boleh kosong ()
+            [D] Body            : Seluruh kode yang dijalankan
+            [E] Return          : Nilai yang dikembalikan ke pemanggil
 
-        5. Jumlah Parameter
-            Bisa lebih dari 2. Secara teori, tidak ada batasan jumlah parameter, tapi 
-            secara praktik (clean code), disarankan tidak terlalu banyak (biasanya di bawah 5) 
-            agar tidak bingung saat memanggilnya.
+        📌 JENIS FUNCTION BERDASARKAN RETURN
+            - Fruitful Function : Menghasilkan nilai → ada return
+            - Void Function     : Tidak menghasilkan nilai → tidak ada return
 
-        6. Jenis-Jenis Parameter
-            - Pass by Value (default) = mengirim salinan, variabel asalnya tidak berubah
-            - Pass by Reference       = mengirim alamat, variabel asalnya ikut berubah
-            - Default Parameter       = parameter diberi nilai default, jika misal kosong akan otomatis terisi
-                                        (Harus diletakkan PALING KANAN)
-            
+        📌 JENIS PARAMETER
+            - Pass by Value     : Mengirim salinan, variabel asal tidak berubah (default)
+            - Pass by Reference : Mengirim alamat, variabel asal ikut berubah
+            - Default Parameter : Nilai otomatis jika tidak dikirim, harus di PALING KANAN
 
-        6. TIDAK BISA NESTED FUNCTION, tapi bisa manggil function lain (normal)
+        ⚠️  ATURAN PENTING
+            - TIDAK BISA nested function (function di dalam function)
+            - Function harus dideklarasikan SEBELUM dipanggil
+            - Gunakan Function Prototype agar definisi bisa di bawah main()
+            - Hindari global variable, gunakan parameter & return value
+    */
 
-        7. Function Overloading - Nama sama tapi fungsi beda
-            - Nama function sama
-            - Parameter berbeda
-            - Bisa untuk fleksibilitas, tinggal pangil nama yang dengan parameter sesuai kebutuhan
+    /* Modul T.1 — DASAR FUNCTION (FRUITFUL & VOID)
+        📚 DASAR FUNCTION
 
-        8. Inline Function - Function kilat
-            - COCOK UNTUK FUNCTION PENDEK, SEHINGGA...
-            - Compiler tidak perlu loncat dari MAIN ke FUNCTION
-            - sistemnya langsung copy function kita di pemanggilnya
+        1. Fruitful Function (Function Bernilai)
+            - Menghasilkan nilai yang dikembalikan ke pemanggil
+            - Return type BUKAN void
+            - Wajib ada statement return
+            - Nilai return bisa disimpan ke variabel atau langsung dipakai
 
-        9. Function Declaration (Prototype)
-            - Function harus DIDEKLARASIKAN sebelum dipanggil
-            - Declaration di ATAS main()
-            - Definition bisa di BAWAH main()
-            
             Contoh:
-                // Declaration (di atas main)
+                int kuadrat(int x) {
+                    return x * x;       // mengembalikan hasil
+                }
+
+                int hasil = kuadrat(5); // hasil = 25
+
+        2. Void Function (Function Tanpa Nilai)
+            - Tidak mengembalikan nilai apapun
+            - Return type = void
+            - Biasanya untuk mencetak output, mengubah state, dsb
+            - Boleh ada return; (tanpa nilai) untuk keluar lebih awal
+
+            Contoh:
+                void sapa(string nama) {
+                    cout << "Halo, " << nama << "!" << endl;
+                    // tidak ada return
+                }
+
+        3. Cara Memanggil
+            Fruitful : int x = tambah(3, 4);     // tampung hasilnya
+                    cout << tambah(3, 4);      // langsung pakai
+            Void     : cetakGaris();              // langsung panggil, tidak ada nilai kembali
+
+        4. Naming Convention
+            ✅ camelCase          : hitungTotal, cetakHeader, ambilNilai
+            ✅ Deskriptif         : hitungRataRata(), bukan hitung()
+            ❌ Jangan pakai angka di awal : 2hitung()
+            ❌ Jangan terlalu singkat     : h(), prss()
+    */
+
+    /* Modul T.2 — DEFAULT PARAMETER
+        📚 DEFAULT PARAMETER
+
+        1. Apa itu Default Parameter?
+            Nilai otomatis yang digunakan jika pemanggil TIDAK mengirim argumen
+            untuk parameter tersebut.
+
+        2. Aturan WAJIB
+            ❗ Default parameter HARUS diletakkan di PALING KANAN
+            ❗ Tidak boleh ada non-default setelah default parameter
+
+            ✅ BENAR  : void fungsi(int a, int b = 10, string c = "ok")
+            ❌ SALAH  : void fungsi(int a = 5, int b)          ← compile error!
+            ❌ SALAH  : void fungsi(int a = 5, int b, int c = 1)← compile error!
+
+        3. Cara Kerja
+            void cetak(string nama, int usia = 17, string kota = "Jakarta") { ... }
+
+            cetak("Budi");              → nama="Budi",  usia=17,  kota="Jakarta"
+            cetak("Budi", 20);          → nama="Budi",  usia=20,  kota="Jakarta"
+            cetak("Budi", 20, "Bogor"); → nama="Budi",  usia=20,  kota="Bogor"
+
+        4. Kegunaan
+            ✅ Membuat function lebih fleksibel
+            ✅ Mengurangi overloading function yang tidak perlu
+            ✅ Nilai "umum" tidak perlu dikirim terus-terusan
+
+        5. Catatan
+            Default parameter ditentukan di DEKLARASI, bukan di DEFINISI
+            (penting kalau pakai function prototype)
+    */
+
+    /* Modul T.3 — FUNCTION OVERLOADING
+
+        📚 FUNCTION OVERLOADING
+
+        1. Apa itu Overloading?
+            Mendefinisikan beberapa function dengan NAMA SAMA tapi
+            PARAMETER BERBEDA (tipe data atau jumlah parameter).
+
+            Compiler akan otomatis memilih function yang tepat
+            berdasarkan argumen yang dikirim saat pemanggilan.
+
+        2. Yang BOLEH Berbeda
+            ✅ Tipe data parameter   : cetak(int) vs cetak(string)
+            ✅ Jumlah parameter      : tambah(int,int) vs tambah(int,int,int)
+            ✅ Urutan tipe parameter : fungsi(int,double) vs fungsi(double,int)
+
+        3. Yang TIDAK BISA membedakan overload
+            ❌ Return type saja      : int f(int) vs double f(int) → COMPILE ERROR
+            ❌ Nama parameter saja   : f(int a) vs f(int b)        → SAMA SAJA
+
+        4. Keuntungan
+            ✅ Nama function intuitif dan konsisten
+            ✅ Tidak perlu nama berbeda: tambahInt(), tambahDouble(), tambahTiga()
+            ✅ Lebih mudah diingat dan dipakai
+
+        5. Contoh Nyata di C++ Standard Library
+            - cout << (bisa terima int, double, string, dll) → overloading operator
+            - abs(int), abs(float), abs(double) → function overloading
+    */
+
+    /* Modul T.4 — INLINE FUNCTION
+        📚 INLINE FUNCTION
+
+        1. Apa itu Inline Function?
+            Function yang kodenya "di-copy" langsung ke tempat pemanggilnya
+            oleh compiler, TANPA mekanisme pemanggilan function normal.
+
+        2. Bagaimana cara kerjanya?
+
+            Cara Normal (tanpa inline):
+                ┌─── main ───┐         ┌─── kuadrat ───┐
+                │ ...         │ ──jump─▶│ int h = x*x;  │
+                │ kuadrat(5); │ ◀─ret── │ return h;     │
+                │ ...         │         └───────────────┘
+                └────────────┘
+
+            Cara Inline:
+                ┌─── main (setelah compile) ─────────────────┐
+                │ ...                                          │
+                │ int h = 5 * 5;   ← kode kuadrat di-copy sini│
+                │ ...                                          │
+                └─────────────────────────────────────────────┘
+
+        3. Kapan Pakai Inline?
+            ✅ Function SANGAT PENDEK (1-3 baris)
+            ✅ Dipanggil sangat sering (hot path)
+            ✅ Getter/Setter sederhana
+            ✅ Operasi matematika dasar
+
+            ❌ Function panjang & kompleks → boros memory (code bloat)
+            ❌ Recursive function → tidak bisa di-inline
+            ❌ Mengandung loop/banyak percabangan
+
+        4. Catatan Penting
+            - Kata kunci 'inline' adalah REQUEST ke compiler, bukan perintah
+            - Compiler bisa MENGABAIKAN inline jika dianggap tidak efisien
+            - Compiler modern (O2/O3) juga bisa inline function biasa otomatis
+            - Biasanya dipakai untuk getter/setter di class (nanti di OOP)
+    */
+
+    /* Modul T.5 — PASS BY VALUE vs PASS BY REFERENCE
+        📚 MATERI T.5 — PASS BY VALUE vs PASS BY REFERENCE
+
+        1. Pass by VALUE (default C++)
+            - Yang dikirim: SALINAN/COPY dari nilai variabel
+            - Variabel asli di pemanggil TIDAK BERUBAH
+            - Aman: tidak ada side-effect ke luar function
+            - Cocok untuk: data kecil, kalkulasi murni, data yang tidak boleh diubah
+
+            Contoh:
+                void ganda(int x) { x = x * 2; }
+
+                int a = 5;
+                ganda(a);
+                // a tetap 5! (yang diganda adalah salinan a)
+
+        2. Pass by REFERENCE (&)
+            - Yang dikirim: ALAMAT MEMORY variabel aslinya
+            - Perubahan di dalam function IKUT MENGUBAH variabel asli
+            - Pakai simbol & setelah tipe data parameter
+            - Cocok untuk: swap, multiple return, array/struct besar (hemat copy)
+
+            Contoh:
+                void ganda(int &x) { x = x * 2; }
+
+                int a = 5;
+                ganda(a);
+                // a sekarang = 10! (yang diganda adalah a asli)
+
+        3. Perbandingan
+            ─────────────────────────────────────────────────────────
+            Aspek              Pass by Value      Pass by Reference
+            ─────────────────────────────────────────────────────────
+            Yang dikirim       Salinan nilai      Alamat memori
+            Ubah variabel asal ❌ Tidak           ✅ Ya
+            Keamanan           ✅ Lebih aman      ⚠️  Perlu hati-hati
+            Performa           Lebih lambat*      Lebih cepat*
+            Simbol             Biasa              & setelah tipe
+            ─────────────────────────────────────────────────────────
+            *Signifikan untuk data besar seperti array, struct, string
+
+        4. Const Reference
+            - Kombinasi: Kirim referensi (cepat) tapi TIDAK BOLEH diubah (aman)
+            - Syntax: const int &x
+            - Best practice untuk function yang menerima data besar (string, struct)
+
+            void tampilkan(const string &nama) {
+                // nama tidak bisa diubah di sini → aman
+                cout << nama;
+            }
+    */
+
+    /* Modul T.6 — MULTIPLE RETURN via REFERENCE
+        📚 MULTIPLE RETURN VIA REFERENCE
+
+        1. Masalah: C++ Hanya Bisa Return 1 Nilai
+            Function di C++ hanya memiliki SATU slot return.
+            Tapi sering kali kita butuh menghasilkan LEBIH dari 1 nilai.
+
+        2. Solusi: Gunakan Parameter Reference
+            - Kirim parameter kosong sebagai "wadah output"
+            - Function mengisi variabel tersebut melalui reference
+            - Setelah function selesai, variabel tersebut sudah terisi
+
+            Contoh:
+                void hitungBangun(double r, double &luas, double &keliling) {
+                    luas     = 3.14 * r * r;
+                    keliling = 2 * 3.14 * r;
+                }
+
+                double l, k;
+                hitungBangun(7.0, l, k);
+                // l dan k sudah terisi!
+
+        3. Alternatif Lain (untuk referensi ke depan)
+            a. Return struct/pair  → dibahas di Bab Struct
+            b. Return array/vector → dibahas di Bab Array/STL
+
+        4. Konvensi
+            Biasanya parameter output (reference) diletakkan SETELAH
+            parameter input, dan diberi nama yang jelas:
+                void hitung(int input, int &outHasil, int &outSisa)
+    */
+
+    /* Modul T.7 — RECURSIVE FUNCTION
+
+        📚 RECURSIVE FUNCTION
+
+        1. Apa itu Recursive Function?
+            Function yang MEMANGGIL DIRINYA SENDIRI dari dalam tubuhnya.
+
+        2. Struktur WAJIB Recursive
+            Setiap recursive function HARUS punya 2 bagian:
+
+            a. BASE CASE  → kondisi berhenti. TANPA INI = INFINITE LOOP = CRASH!
+            b. RECURSIVE CASE → pemanggilan diri sendiri dengan input yang LEBIH KECIL
+
+            int faktorial(int n) {
+                if (n <= 1) return 1;       ← BASE CASE
+                return n * faktorial(n-1);  ← RECURSIVE CASE
+            }
+
+        3. Cara Kerja (Stack)
+            faktorial(4):
+                4 * faktorial(3)
+                    3 * faktorial(2)
+                        2 * faktorial(1)
+                            return 1        ← base case tercapai
+                        return 2 * 1 = 2
+                    return 3 * 2 = 6
+                return 4 * 6 = 24
+
+        4. Rekursi vs Iterasi
+            ─────────────────────────────────────────────────────────
+            Aspek          Rekursi              Iterasi (loop)
+            ─────────────────────────────────────────────────────────
+            Keterbacaan    ✅ Lebih elegan      Lebih verbose
+            Performa       ⚠️  Lebih lambat     ✅ Lebih cepat
+            Memori         ⚠️  Stack bisa penuh ✅ Lebih hemat
+            Cocok untuk    Tree, Graph, Divide  Operasi berulang
+                        and Conquer          sederhana
+            ─────────────────────────────────────────────────────────
+
+        5. Bahaya
+            ❗ Stack Overflow: Rekursi terlalu dalam (ribuan level) → crash
+            ❗ Selalu pastikan BASE CASE bisa tercapai!
+            ❗ Hindari rekursi untuk n yang sangat besar
+    */
+
+    /* Modul T.8 — FUNCTION SCOPE (LOCAL vs GLOBAL)
+
+        📚 FUNCTION SCOPE
+
+        1. Apa itu Scope?
+            Scope = Area berlakunya sebuah variabel.
+            Di mana variabel bisa diakses dan digunakan.
+
+        2. Local Variable
+            - Dideklarasikan di DALAM function atau blok {}
+            - Hanya bisa diakses di dalam function/blok tersebut
+            - Dibuat saat function dipanggil, DIHAPUS saat function selesai
+            - Parameter function = local variable
+
+        3. Global Variable
+            - Dideklarasikan di LUAR semua function (biasanya di atas main)
+            - Bisa diakses dari SEMUA function
+            - Hidup sepanjang program berjalan
+            - ⚠️ HINDARI penggunaan berlebihan!
+
+        4. Mengapa Hindari Global Variable?
+            ❌ Sulit di-debug: siapa yang mengubah nilainya?
+            ❌ Sulit di-test: function bergantung pada "state" luar
+            ❌ Sulit dipahami: banyak bagian yang bisa mempengaruhi
+            ❌ Tidak aman: data bisa diubah dari mana saja
+
+        5. Variable Shadowing
+            Jika ada local variable dengan nama SAMA dengan global,
+            local variable akan "menutupi" (shadow) global variable.
+
+            int x = 100;    // global
+
+            void fungsi() {
+                int x = 5;  // local — "shadow" global x
+                cout << x;  // mencetak 5, bukan 100!
+            }
+
+        6. Best Practice
+            ✅ Gunakan local variable sebisa mungkin
+            ✅ Kirim data via parameter
+            ✅ Kembalikan data via return value
+            ✅ Global hanya untuk konstanta (const/constexpr)
+    */
+
+    /* Modul T.9 — FUNCTION DECLARATION / PROTOTYPE
+        
+        📚 FUNCTION DECLARATION (PROTOTYPE)
+
+        1. Masalah: Urutan Definisi
+            Secara default, C++ harus tahu fungsi SEBELUM dipanggil.
+            Jika definisi fungsi di BAWAH pemanggilnya → COMPILE ERROR!
+
+            void panggilB() {
+                fungsiB(); ← ERROR! fungsiB belum dikenal di titik ini
+            }
+            void fungsiB() { ... }
+
+        2. Solusi: Function Prototype (Deklarasi)
+            Deklarasikan "bentuk" function di ATAS (sebelum main atau pemanggil),
+            tapi boleh definisikan implementasinya di BAWAH.
+
+            // DEKLARASI (prototype) — di atas
+            void fungsiB();
+
+            void panggilB() {
+                fungsiB(); ← OK! Compiler sudah tahu bentuknya
+            }
+
+            // DEFINISI — boleh di bawah
+            void fungsiB() { cout << "B!"; }
+
+        3. Syntax Prototype
+            return_type namaFungsi(tipe_param1, tipe_param2);
+                                    ↑ Nama parameter BOLEH diisi atau dikosongkan
+            Contoh:
+                int tambah(int, int);          ← tanpa nama param (OK)
+                int tambah(int a, int b);      ← dengan nama param (lebih mudah dibaca)
+
+        4. Mengapa Prototype Penting?
+            ✅ Membolehkan definisi function di bawah main
+            ✅ Membolehkan dua function saling memanggil (mutual recursion)
+            ✅ Memisahkan deklarasi (header) dari implementasi (.cpp)
+            ✅ Standar dalam proyek besar multi-file
+
+        5. Header File
+            Pada proyek besar, prototype ditaruh di file .h (header):
+                // math_utils.h
                 int tambah(int a, int b);
-                
-                int main() {
-                    int x = tambah(5, 3);  // Bisa dipanggil
-                }
-                
-                // Definition (di bawah main)
-                int tambah(int a, int b) {
-                    return a + b;
-                }
+                double rataRata(double arr[], int n);
 
-        10. Function Scope
-            - Local Variable: Hanya ada di dalam function
-            - Global Variable: Bisa diakses semua function
-            - Parameter = Local Variable
-            
-            Best Practice:
-                ✅ Hindari global variables
-                ✅ Gunakan parameters & return values
-                ✅ Keep function self-contained
+                // math_utils.cpp
+                #include "math_utils.h"
+                int tambah(int a, int b) { return a + b; }
 
-        11. Recursive Function (Advanced)
-            - Function yang MEMANGGIL DIRINYA SENDIRI
-            - Harus ada BASE CASE (kondisi berhenti)
-            - Kalau ga ada base case = INFINITE LOOP!
+        6. Mutual Recursion (butuh prototype)
+            Function A memanggil B, dan B memanggil A.
+            Ini HANYA bisa dilakukan jika ada prototype salah satunya.
 
-        12. "Multiple" Return Values
-            C++ tidak bisa return multiple values directly.
-            Tapi bisa pakai trick:
-                a. Pass by reference (ubah parameter)
-                b. Return struct/pair (nanti di modul struct)
-                c. Return array/vector (advanced)12. "Multiple" Return Values
-            C++ tidak bisa return multiple values directly.
-            Tapi bisa pakai trick:
-                a. Pass by reference (ubah parameter)
-                b. Return struct/pair (nanti di modul struct)
-                c. Return array/vector (advanced)
-    */ 
-    
-    // -------------------[FUNCTION NORMAL]----------------------------
-        // Fruitful Function 
-        int fruitfulFunction(int parameter){
-            int hasil = parameter * 2;
-            return hasil;
-        }
-
-        // Void Function
-        void voidFunction(string parameter){
-            cout << "\nIni Function Void, dan ini parameternya : " << parameter << endl;
-        }
-
-    // -------------------[FUNCTION DEFAULT PARAMETER]----------------------------
-        void functionDefaultParameter(int parameter, string nama = "User"){
-            cout << "\nIni Function Default parameter" << endl;
-            cout << "Parameter 1 : " << parameter << endl;
-            cout << "Parameter 2 : " << nama << endl;
-        }
-
-    // -------------------[FUNCTION OVERLOADING]----------------------------
-        void voidOverloadingCetak(int angka){
-            cout << "\nHasilnya Angka : " << angka << endl;
-        }
-        void voidOverloadingCetak(string text){
-            cout << "\nHasilnya Text : " << text << endl;
-        }
-
-    // -------------------[FUNCTION INLINE]----------------------------
-        inline int inlineFunctionPerkalian100(int angka){
-            int hasil = angka * 100;
-            return hasil;
-        }
-        
-    // -------------------[FUNCTION BY VALUE]----------------------------
-        void passByValue(int x){
-            x = x * 2;
-            cout << "Isi Variabel dalam function passByValue X : " << x << endl;
-        }
-
-    // -------------------[FUNCTION BY REFERENCE]----------------------------
-        void passByReference(int &x){
-            x = x * 2;
-            cout << "Isi Variabel dalam function passByReference X : " << x << endl;
-        }
-        
-        void demoPassByReferencerValue(){
-            int x = 10;
-
-            passByValue(x);
-            cout << "Isi Variabel X : " << x << "---> Akan tetap 10" << endl;
-            
-            passByReference(x);
-            cout << "Isi Variabel X : " << x << "---> Berubah Menjadi 20, karena pass by refernece, asalnya ikut berubah" << endl;
-        }
-
-    // -------------------[FUNCTION MULTIPLE RETURN - LEWAT REFERNCE]----------------------------
-        void multipleReturn(int p, int l, int &kel, int &luas){
-            kel = 2 * (p * l);
-            luas = p * l;
-        }
-
-        void demoMultipleReturn(){
-            int k, l;
-            multipleReturn(10,5,k,l);
-            cout << "Keliling : " << k << endl;
-            cout << "Luas : " << l << endl;
-        }
+            bool isGanjil(int n);   ← prototype
+            bool isGenap(int n) {
+                if (n == 0) return true;
+                return isGanjil(n - 1);  ← bisa panggil isGanjil karena ada prototype
+            }
+            bool isGanjil(int n) {
+                if (n == 0) return false;
+                return isGenap(n - 1);
+            }
+    */
 
 // U. Array
-    /* 1. Modul 8.1-8.2 - Fundamental & Basic
+    /* Modul 8.1-8.2 - Fundamental & Basic
             1. Apa itu Array?
                 Array adalah kumpulan data dengan tipe data yang sama yang di simpan berurutan dalam memory 
                 menggunakan index, dapat diisi, diubah, dipanggil, dan di operasikan lainnya
@@ -2245,7 +2504,7 @@ using namespace std;
             traversingArrayLoop();
         }
 
-    /* 2. Modul 8.3 - Array Algorithm
+    /* Modul 8.3 - Array Algorithm
         
         Apa itu algoritma array?
             algoritma array adlaah teknik untuk memanipulasi/memproses data dalam array
@@ -2842,7 +3101,7 @@ using namespace std;
             manipulationArray();
         }
 
-    /* 3. Modul 8.4 - Charcter Array
+    /* Modul 8.4 - Charcter Array
 
         1. Apa itu character Array?
                 Adalah tempat untuk menyimpan kumpulan karakter (char)
@@ -3213,7 +3472,7 @@ using namespace std;
             }
         }
 
-    /* 4. Modul 8.5 - Array Multidimensi
+    /* Modul 8.5 - Array Multidimensi
 
         1. Apa itu array multidimensi?
             adalah array yang memiliki lebih dari satu dimensi/index
@@ -3653,7 +3912,7 @@ using namespace std;
             }
         }
 
-    /* 5. Modul 8.6-8.10 - Array + Function = Advance
+    /* Modul 8.6-8.10 - Array + Function = Advance
 
         ===================[ MODUL 8.6 - PASS ARRAY KE FUNCTION ] =====================
             1. Konsep Dasar
@@ -7248,21 +7507,7 @@ using namespace std;
             // nestedLoopsPattern();
 
         // -------------[FUNCTION]----------------
-            // // Void Normal
-            //     fruitfulFunction(80); 
-            //     voidFunction("Halo");
-            // // Default Parameter
-            //     functionDefaultParameter(10,"Halo");
-            //     functionDefaultParameter(10);
-            // // Void Overloading - Otomatis manggil sesuai tipe parameternya
-            //     voidOverloadingCetak(80); 
-            //     voidOverloadingCetak("Halo");
-            // // Inline Function
-            //     inlineFunctionPerkalian100(2);
-            // // Pass By Value Function & Pass By Reference Function
-            //     demoPassByReferencerValue();
-            // // Pass By Value Function & Pass By Reference Function
-            //     demoMultipleReturn();
+            
 
         // -------------[Array]----------------
             // // 8.1-8.2  Fundamental & Dasar
@@ -7274,6 +7519,6 @@ using namespace std;
             // // 8.5      Array Multidimensi
             //     demoArrayMultidimensi();
             // // 8.6-8.10 Array + Function
-                demoArrayFunction();
+            //     demoArrayFunction();
         return 0;
 }
