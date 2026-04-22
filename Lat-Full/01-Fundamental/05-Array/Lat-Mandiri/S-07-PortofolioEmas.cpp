@@ -52,9 +52,6 @@ using namespace std;
     void hariProduktif();
     void pencarian();
 
-// Login
-    bool loginStatus = false;
-
 // User Management
     const int MAX_USER = 5;
     const int JML_HARI = 7;
@@ -63,12 +60,18 @@ using namespace std;
     int pinUser[MAX_USER] {};
     int indexUserNow;
 
-    double rankingTabunganUser[MAX_USER];
-
 // Management Emas
+    double rataRataSeminggu[MAX_USER];
     double tabunganEmas[MAX_USER][JML_HARI] {};
-    double totalTabunganUser;
-    double tempTotalTabunganRank;
+    double totalTabunganUser[MAX_USER] {};
+    double tempTotalTabunganUser;
+
+// Ranking Tabungan
+    double rankingTabunganUser[MAX_USER]{};
+    string rankingNamaUser[MAX_USER]{};
+
+    double rankingHariProduktif[JML_HARI];
+    string rankingNamaHari[JML_HARI] {"[Senin]  ", "[Selasa] ", "[Rabu]   ", "[Kamis]  ", "[Jumat]  ", "[Sabtu]  ", "[Minggu] "};
 
 void garis(){
     system("CLS");
@@ -78,17 +81,14 @@ void garis(){
 void cekDataJikaKosong(){
     garis();
 
-    totalTabunganUser = 0;
     for (int i = 0; i < JML_HARI; i++){
-        totalTabunganUser += tabunganEmas[indexUserNow][i];
-    }
-    
-    if(totalTabunganUser == 0){
-        cout << "\n[!] Data masih kosong. Silakan input terlebih dahulu, pilih (1) di Menu Utama." << endl;
-        cout << "\n\tTekan [Enter] untuk kembali ke menu : " << endl;
-        cin.get();
-        if(cin.get()){
-            menuUtama();
+        if(totalTabunganUser[indexUserNow] == 0){
+            cout << "\n[!] Data masih kosong. Silakan input terlebih dahulu, pilih (1) di Menu Utama." << endl;
+            cout << "\n\tTekan [Enter] untuk kembali ke menu : " << endl;
+            cin.get();
+            if(cin.get()){
+                menuUtama();
+            }
         }
     }
 }
@@ -96,17 +96,13 @@ void cekDataJikaKosong(){
 void kembaliKeMenuUtama(){
     cout << "\n\tTekan [Enter] untuk ke menu utama : " << endl;
     cin.get();
-    if(cin.get()){
         menuUtama();
-    }
 }
 
 void kembaliKeMenuAwal(){
     cout << "\n\tTekan [Enter] untuk kembali : " << endl;
     cin.get();
-    if(cin.get()){
         menuAwal();
-    }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -120,13 +116,10 @@ void menuReg(){
     cin >> namaUserInput;
     cin.ignore();
 
-    if (JML_USER_NOW > MAX_USER){
+    if (JML_USER_NOW >= MAX_USER){
         cout << "\n[!] Total User terdaftar telah mencapai batas maksimal. Silakan coba lagi nanti." << endl;
-        cout << "\n\tTekan [Enter] untuk kembali ke menu : " << endl;
         cin.get();
-        if(cin.get()){
-            menuAwal();
-        }
+        kembaliKeMenuAwal();
     }
 
     for (int i = 0; i < MAX_USER; i++){
@@ -171,13 +164,13 @@ void menuLogin(){
     cin.ignore();
 
     for (int i = 0; i < JML_USER_NOW; i++){
-        if (namaUser[i] == namaUserInput){
+        if (namaUserInput == namaUser[i]){
             cout << "2. Masukkan PIN Akun Anda (6 Digit Angka) : ";
             int pin;
             cin >> pin;
             cin.ignore();
 
-            if(pinUser[i] == pin){
+            if(pin == pinUser[i]){
                 indexUserNow = i;
                 ketemu = true;
                 break;
@@ -191,7 +184,6 @@ void menuLogin(){
     }
 
     if(ketemu){
-        loginStatus = true;
         cout << "\n[LOGIN BERHASIL] Data Akun ditemukan." << endl;
         cout << "Selamat Datang \""  << namaUserInput << "\" di Program Portofolio Emas Digital" << endl;
         kembaliKeMenuUtama();
@@ -209,8 +201,6 @@ void logout(){
     char pilihan;
     cin >> pilihan;
     if (pilihan == 'y' || pilihan == 'Y'){
-        loginStatus = false;
-
         cout << "\n[LOGOUT BERHASIL]";
         kembaliKeMenuAwal();
     } else {
@@ -233,12 +223,14 @@ void inputPembelian(){
         cin.ignore();
     }
 
-    totalTabunganUser = 0;
+    tempTotalTabunganUser = 0;
     for (int i = 0; i < JML_HARI; i++){
-        totalTabunganUser += tabunganEmas[indexUserNow][i];
+        tempTotalTabunganUser += tabunganEmas[indexUserNow][i];
     }
 
-    cout << "\n3. Total pembelian Anda selama 1 Minggu : " << totalTabunganUser << endl;
+    totalTabunganUser[indexUserNow] = tempTotalTabunganUser;
+
+    cout << "\n3. Total pembelian Anda selama 1 Minggu : " << totalTabunganUser[indexUserNow] << endl;
     
     kembaliKeMenuUtama();
 };
@@ -280,21 +272,14 @@ void statistik(){
     cout << "\n4. Hari dengan pembelian terendah : " << endl;
     cout << "\tHari ke-" << hariKe + 1 << " dengan jumlah " << hariBeliTerendah << " gram" << endl;
 
-    double rataRataSeminggu = totalTabunganUser / JML_HARI;
+    rataRataSeminggu[indexUserNow] = totalTabunganUser[indexUserNow] / JML_HARI;
 
-    cout << "\n5. Rata-rata pembelian Anda per-hari : " << totalTabunganUser << " gram / " << JML_HARI << " Hari"<< endl;
-    cout << "                                     : " << rataRataSeminggu << " gram / hari" << endl;
+    cout << "\n5. Rata-rata pembelian Anda per-hari : " << totalTabunganUser[indexUserNow] << " gram / " << JML_HARI << " Hari"<< endl;
+    cout << "                                     : " << rataRataSeminggu[indexUserNow] << " gram / hari" << endl;
 
     kembaliKeMenuUtama();
 };
 
-double hitungTabunganUser(int indexUserNow, double totalTabunganUser){
-    for (int i = 0; i < JML_HARI; i++){
-        totalTabunganUser += tabunganEmas[indexUserNow][i];
-    }
-    
-    return totalTabunganUser;
-}
 
 void ranking(){
     garis();
@@ -307,39 +292,49 @@ void ranking(){
 
     cout << "\n2. Ranking Seluruh Investor : " << endl;
     if (JML_USER_NOW > 1){
+        
+        double totalTabunganSeluruhUser = 0;
         for (int i = 0; i < JML_USER_NOW; i++){
-            tempTotalTabunganRank = 0;
-            rankingTabunganUser[i] = hitungTabunganUser(indexUserNow, tempTotalTabunganRank);
+            if (i == indexUserNow){
+                continue;
+            } else {
+                totalTabunganSeluruhUser += totalTabunganUser[i];
+            }
         }
 
         for (int i = 0; i < JML_USER_NOW; i++){
-            for (int j = 0; j < JML_USER_NOW - 1 - i; j++){
-                if (rankingTabunganUser[j] > rankingTabunganUser[j+1]){
-                    int temp = rankingTabunganUser[j+1];
-                    rankingTabunganUser[j+1] = rankingTabunganUser[j];
-                    rankingTabunganUser[j] = temp;
+            rankingTabunganUser[i] = totalTabunganUser[i];
+
+            rankingNamaUser[i] = namaUser[i];
+        }
+
+        if (totalTabunganSeluruhUser != 0){
+            for (int i = 0; i < JML_USER_NOW; i++){
+                for (int j = 0; j < JML_USER_NOW - 1 - i; j++){
+                    if (rankingTabunganUser[j] < rankingTabunganUser[j+1]){
+
+                        double tempTabungan = rankingTabunganUser[j+1];
+                        rankingTabunganUser[j+1] = rankingTabunganUser[j];
+                        rankingTabunganUser[j] = tempTabungan;
+
+                        string tempUsername = rankingNamaUser[j+1];
+                        rankingNamaUser[j+1] = rankingNamaUser[j];
+                        rankingNamaUser[j] = tempUsername;
+                    }
                 }
             }
-        }
-
-        for (int i = 0; i < JML_USER_NOW; i++){
-            tempTotalTabunganRank = 0;
-            
-            for (int j = 0; j < JML_HARI; j++){
-                tempTotalTabunganRank += tabunganEmas[i][j];
-            }
-
             for (int k = 0; k < JML_USER_NOW; k++){
-                if (tempTotalTabunganRank == rankingTabunganUser[k]){
-                    cout << "\n\t- Rank ke-" << k+1 << "                  : " << namaUser[k] << endl;
-                    cout << "\t  Total tabungan emas (gram) : " << tempTotalTabunganRank << endl;
-                }
+                cout << "\n\t- Rank ke-" << k+1 << "                  : " << rankingNamaUser[k] << endl;
+                cout << "\t  Total tabungan emas (gram) : " << rankingTabunganUser[k] << endl;
             }
+        } else {
+            cout << "\n\t- Rank ke-1                  : " << namaUser[indexUserNow] << endl;
+            cout << "\t  Total tabungan emas (gram) : " << totalTabunganUser[indexUserNow] << endl;
         }
-    } else {
-        cout << "\n[!] Jumlah Investor hanya ada 1, Anda berada di rank 1" << endl;
-    }
 
+    } else {
+        cout << "\n\t[!] Jumlah Investor hanya ada 1, Anda berada di rank 1" << endl;
+    }
     kembaliKeMenuUtama();
 };
 
@@ -348,8 +343,38 @@ void hariProduktif(){
     garis();
     cekDataJikaKosong();
 
+    cout << "\n[Data Hari Pembelian Emas]_________________" << endl;
 
+    for (int i = 0; i < JML_HARI; i++){
+        double tempJmlPerhari = 0;
+        for (int j = 0; j < JML_USER_NOW; j++){
+            tempJmlPerhari += tabunganEmas[j][i];
+        }
+        rankingHariProduktif[i] = tempJmlPerhari;
+    }
 
+    for (int i = 0; i < JML_HARI; i++){
+        for (int j = 0; j < JML_HARI - 1 - i; j++){
+            if(rankingHariProduktif[j] < rankingHariProduktif[j+1]){
+                double temp = rankingHariProduktif[j+1];
+                rankingHariProduktif[j+1] = rankingHariProduktif[j];
+                rankingHariProduktif[j] = temp;
+                
+                string tempNamaHari = rankingNamaHari[j+1];
+                rankingNamaHari[j+1] = rankingNamaHari[j];
+                rankingNamaHari[j] = tempNamaHari;
+            }
+        }
+    }
+
+    cout << "1. Data Lengkap Ranking Hari Terproduktif : ";
+    for (int i = 0; i < JML_HARI; i++){
+        cout << "\n\t- Hari ke-" << i+1 << " " << rankingNamaHari[i] << " : " << rankingHariProduktif[i] << " gram" << endl;
+        
+        double rataRata = 0;
+        rataRata = rankingHariProduktif[i] / JML_USER_NOW;
+        cout << "\t  Rata-rata pembelian : " << rataRata << " gram" << endl;
+    }
     kembaliKeMenuUtama();
 };
 
@@ -358,9 +383,62 @@ void pencarian(){
     garis();
     cekDataJikaKosong();
 
+    cout << "\n[Pencarian Pembelian Emas]_________________" << endl;
+    cout << "| 1. Cari dengan hari                     |" << endl;
+    cout << "| 2. Cari nominal pembelian               |" << endl;
+    cout << "| 3. Kembali                              |" << endl;
+    cout << "|_________________________________________|" << endl;
+    cout << "Pilih : ";
 
+    int pilihan;
+    cin >> pilihan;
+    switch(pilihan){
+        case 1 : {
+                cout << "\n[Pencarian Pembelian Emas]_________________" << endl;
+                cout << "1. Masukkan hari (1-7) : ";
+                int hariDicari;
+                cin >> hariDicari;
+                cin.ignore();
 
-    kembaliKeMenuUtama();
+                bool ketemu = false;
+                for (int i = 1; i <= JML_HARI; i++){
+                    if (i == hariDicari){
+                        ketemu = true;
+                        cout << "\n[PENCARIAN BERHASIL] Data Ditemukan" << endl; 
+                        cout << "[Hari ke-"<<i<<"] Anda membeli emas sebanyak : " << tabunganEmas[indexUserNow][i-1] << " gram" << endl;
+                    }
+                }
+                if(!ketemu){
+                    cout << "\n[PENCARIAN GAGAL] Data Tidak Ditemukan" << endl; 
+                }
+            }
+            kembaliKeMenuUtama();
+            break;
+        case 2 : {
+                cout << "\n[Pencarian Pembelian Emas]_________________" << endl;
+                cout << "1. Masukkan Nominal Pembelian (gram) : ";
+                double nominalDicari;
+                cin >> nominalDicari;
+                cin.ignore();
+
+                bool ketemu = false;
+                for (int i = 0; i < JML_HARI; i++){
+                    if (tabunganEmas[indexUserNow][i] == nominalDicari){
+                        ketemu = true;
+                        cout << "\n[PENCARIAN BERHASIL] Data Ditemukan" << endl; 
+                        cout << "[Hari ke-"<<i+1<<"] Anda membeli emas sebanyak : " << tabunganEmas[indexUserNow][i] << " gram" << endl;
+                    }
+                }
+
+                if(!ketemu){
+                    cout << "\n[PENCARIAN GAGAL] Data Tidak Ditemukan" << endl; 
+                }
+            }
+            kembaliKeMenuUtama();
+            break;
+        default : kembaliKeMenuUtama();
+            break;
+    }
 };
 
 
@@ -375,9 +453,9 @@ void menuUtama(){
     cout << "| 5. Percarian Pembelian                  |" << endl;
     cout << "| 6. Logout                               |" << endl;
     cout << "|_________________________________________|" << endl;
+    cout << "Pilih : ";
 
     int pilihanMenuUtama;
-    cout << "Pilih : ";
     cin >> pilihanMenuUtama;
     cin.ignore();
 
@@ -394,36 +472,41 @@ void menuUtama(){
             break;
         case 6 : logout();
             break;
+        default: 
+                cout << "\n\t[!] Pilihan tidak valid! Silakan masukkan angka 1-6." << endl;
+                kembaliKeMenuUtama();
+            break;
     }
 };
 
 
 void menuAwal(){;
+    garis();
+    cout << "\n[PROGRAM PORTOFOLIO EMAS]_________________" << endl;
+    cout << "| 1. Login                                |" << endl;
+    cout << "| 2. Registration                         |" << endl;
+    cout << "| 3. Exit                                 |" << endl;
+    cout << "|_________________________________________|" << endl;
 
-    while(loginStatus == false){
-        garis();
-        cout << "\n[PROGRAM PORTOFOLIO EMAS]_________________" << endl;
-        cout << "| 1. Login                                |" << endl;
-        cout << "| 2. Registration                         |" << endl;
-        cout << "| 3. Exit                                 |" << endl;
-        cout << "|_________________________________________|" << endl;
-    
-        int pilihanMenuAwal;
-        cout << "Pilih : ";
-        cin >> pilihanMenuAwal;
-        cin.ignore();
-    
-        switch(pilihanMenuAwal){
-            case 1 : menuLogin();
-                break;
-            case 2 : menuReg();
-                break;
-            case 3 : {
+    int pilihanMenuAwal;
+    cout << "Pilih : ";
+    cin >> pilihanMenuAwal;
+    cin.ignore();
+
+    switch(pilihanMenuAwal){
+        case 1 : menuLogin();
+            break;
+        case 2 : menuReg();
+            break;
+        case 3 : {
                 cout << "\n---> [Program Selesai] - Sampai Jumpa Lagi!" << endl;
                 exit(0);
             }
-                break;
-        }
+            break;
+        default : 
+                cout << "\n\t[!] Pilihan tidak valid! Silakan masukkan angka 1-3." << endl;
+                kembaliKeMenuAwal();
+            break;
     }
 };
 
