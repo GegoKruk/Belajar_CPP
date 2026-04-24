@@ -68,7 +68,170 @@ using namespace std;
             Coba ulik sendiri cara hitung durasi menitnya. Itu bagian paling seru!
 */
 
-int main(){
+//[Function Prototype]------------------------------------------------------------------------------------
+
+void menuUtama();
+void inisialisasiPC();
+void daftarPC(); 
+void checkIn();
+void checkOut();
+void hitungHarga();
+void laporanPendapatan();
+void riwayat();
+
+//[Helper Function]------------------------------------------------------------------------------------
+
+void garis(){
+    system("CLS");
+    cout << "\n==========[SOAL 1 - SISTEM MANAJEMEN GAMING CENTER]==========" << endl;
+}
+
+void kembaliMenuUtama(){
+    garis();
+    cout << "\n\tTekan [Enter] untuk kembali ke menu : ";
+    cin.get();
+    menuUtama();
+}
+
+//[Function2 Utama]------------------------------------------------------------------------------------
+
+void inisialisasiPC(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "|   Menu - Admin   |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+};
+
+
+void daftarPC(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "| Menu - Daftar PC |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+}; 
+
+
+void checkIn(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "|  Menu - Check In |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+};
+
+
+void checkOut(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "| Menu - Check Out |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+};
+
+
+void hitungHarga(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "|   Menu - Harga   |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+};
+
+
+void laporanPendapatan(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "| Menu - Financial |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+};
+
+
+void riwayat(){
+    garis();
+    cout << "[ GG GAMING CENTER ]" << endl;
+    cout << "|  Menu - History  |____________________" << endl;
+
+
+
+    kembaliMenuUtama();
+};
+
+
+//[Main Function - MENU]------------------------------------------------------------------------------------
+
+
+void menuUtama(){
+    garis();
+
+    cout << "[ SELAMAT DATANG ]" << endl;
+    cout << "|   MENU UTAMA   |____________________" << endl;
+    cout << "| 1. Inisialisasi PC (Admin Only)    |" << endl;
+    cout << "| 2. Daftar PC Tersedia              |" << endl;
+    cout << "| 3. Booking PC (Check in)           |" << endl;
+    cout << "| 4. Selesai (Check out)             |" << endl;
+    cout << "| 5. Hitung Harga Sewa               |" << endl;
+    cout << "| 6. Laporan Pendapatan              |" << endl;
+    cout << "| 7. Riwayat Transaksi               |" << endl;
+    cout << "| 8. Exit                            |" << endl;
+    cout << "|____________________________________|" << endl;
+    cout << "Pilih (1-8) : ";
     
+    int pilihanMenuUtama;
+    cin >> pilihanMenuUtama;
+    cin.ignore();
+
+    switch(pilihanMenuUtama){
+        case 1 : 
+            inisialisasiPC();
+        break;
+        case 2 : 
+            daftarPC();
+        break;
+        case 3 : 
+            checkIn();
+        break;
+        case 4 : 
+            checkOut();
+        break;
+        case 5 : 
+            hitungHarga();
+        break;
+        case 6 : 
+            laporanPendapatan();
+        break;
+        case 7 : 
+            riwayat();
+        break;
+        case 8 : 
+            garis();
+            cout << "\n\t[!] PROGRAM SELESAI - TERIMA KASIH" << endl;
+            exit(0);
+        break;
+        default : 
+            cin.ignore();
+            cout << "" << endl;
+        break;
+    }
+}
+
+int main(){
+
+    menuUtama();
+
     return 0;
 }
