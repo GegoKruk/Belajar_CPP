@@ -68,8 +68,7 @@ using namespace std;
             Coba ulik sendiri cara hitung durasi menitnya. Itu bagian paling seru!
 */
 
-//[Function Prototype]------------------------------------------------------------------------------------
-
+//[Function Prototype]==================================================================================
 void menuUtama();
 void inisialisasiPC();
 void daftarPC(); 
@@ -79,11 +78,58 @@ void hitungHarga();
 void laporanPendapatan();
 void riwayat();
 
-//[Helper Function]------------------------------------------------------------------------------------
+//[Global Variable]==================================================================================
 
+// menu
+int pilihanMenu;
+
+// const
+const int MAX_JML_PC = 10;
+
+struct Waktu {
+    int jam[MAX_JML_PC];
+    int menut[MAX_JML_PC];
+};
+
+struct DaftarPC {
+    int idPC[MAX_JML_PC];
+    string tipePC[MAX_JML_PC];
+    double hargaPC[MAX_JML_PC];
+    bool statusPC[MAX_JML_PC];
+};
+
+struct Transaksi {
+    string userName[MAX_JML_PC];
+    DaftarPC pcDipilih;
+    Waktu waktuMulaiSelesai;
+    double tagianUser[MAX_JML_PC];
+    int kodeTransaksi[MAX_JML_PC];
+};
+
+// Struct Waktu: 
+//             - Jam, Menit (untuk mencatat durasi main).
+
+//         Struct PC:
+//             - ID PC (int)
+//             - Tipe PC ("Reguler", "VIP", "VVIP")
+//             - Harga per jam (double)
+//             - Status ("Tersedia" atau "Dipakai")
+
+//         Struct Transaksi:
+//             - Nama Penyewa (string)
+//             - PC yang disewa (Struct PC)
+//             - Waktu Mulai & Waktu Selesai (Struct Waktu)
+//             - Total Biaya (double)
+
+//[Helper Function]==================================================================================
 void garis(){
     system("CLS");
     cout << "\n==========[SOAL 1 - SISTEM MANAJEMEN GAMING CENTER]==========" << endl;
+}
+
+void invalidInput(){
+    cout << "\n\t[!] Invalid input - Silakan ulangi " << endl;
+    cin.get();
 }
 
 void kembaliMenuUtama(){
@@ -93,18 +139,48 @@ void kembaliMenuUtama(){
     menuUtama();
 }
 
-//[Function2 Utama]------------------------------------------------------------------------------------
+        //[Function2 Utama]==================================================================================
+//[Blok Inisialisasi PC & Edit Data PC]---------------------------------------------------------------------------------
+
+void tambahkanPc(){
+
+}
+
+void editDataPc(){
+    
+}
 
 void inisialisasiPC(){
     garis();
     cout << "[ GG GAMING CENTER ]" << endl;
     cout << "|   Menu - Admin   |____________________" << endl;
+    cout << "| 1. Tambahkan PC                      |" << endl;
+    cout << "| 2. Edit Data PC                      |" << endl;
+    cout << "| 3. Back                              |" << endl;
+    cout << "|______________________________________|" << endl;
+    cout << "Pilih (1-3) : ";
 
+    cin >> pilihanMenu;
+    cin.ignore();
 
-
+    switch (pilihanMenu){
+    case 1:
+        tambahkanPc();
+        break;
+    case 2:
+        editDataPc();
+        break;
+    case 3:
+        break;
+    default:
+        invalidInput();
+        inisialisasiPC();
+        break;
+    }
     kembaliMenuUtama();
 };
 
+//[Function2 Utama]---------------------------------------------------------------------------------
 
 void daftarPC(){
     garis();
@@ -172,14 +248,15 @@ void riwayat(){
 };
 
 
-//[Main Function - MENU]------------------------------------------------------------------------------------
+//[Main Function - MENU]==================================================================================
 
 
 void menuUtama(){
     garis();
 
-    cout << "[ SELAMAT DATANG ]" << endl;
-    cout << "|   MENU UTAMA   |____________________" << endl;
+    cout << "\n[ SELAMAT DATANG ]" << endl;
+    cout << "|   MENU UTAMA   |___________________" << endl;
+    cout << "|                                    |" << endl;
     cout << "| 1. Inisialisasi PC (Admin Only)    |" << endl;
     cout << "| 2. Daftar PC Tersedia              |" << endl;
     cout << "| 3. Booking PC (Check in)           |" << endl;
@@ -191,11 +268,10 @@ void menuUtama(){
     cout << "|____________________________________|" << endl;
     cout << "Pilih (1-8) : ";
     
-    int pilihanMenuUtama;
-    cin >> pilihanMenuUtama;
+    cin >> pilihanMenu;
     cin.ignore();
 
-    switch(pilihanMenuUtama){
+    switch(pilihanMenu){
         case 1 : 
             inisialisasiPC();
         break;
