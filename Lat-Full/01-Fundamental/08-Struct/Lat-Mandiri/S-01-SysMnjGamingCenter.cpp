@@ -72,6 +72,7 @@ using namespace std;
     void menuUtama();
 
     void tambahkanPC();
+    void daftarDataPC();
     void editDataPC();
     void inisialisasiPC();
 
@@ -93,29 +94,32 @@ using namespace std;
     int pilihanMenu;
 
     // const
-    const int MAX_JML_PC = 10;
+    const int MAX_JML_PC_USER = 10;
+
     static int IDXPC = 0;
-    int JML_USER_NOW;
+    int JML_PC_NOW = 0;
+
     int IDXUSER;
+    int JML_USER_NOW = 0;
 
     struct Waktu {
-        int jam[MAX_JML_PC];
-        int menut[MAX_JML_PC];
+        int jam[MAX_JML_PC_USER];
+        int menut[MAX_JML_PC_USER];
     };
 
     struct DaftarPC {
-        int idPC[MAX_JML_PC];
-        int tipePC[MAX_JML_PC] {};
-        double hargaPC[MAX_JML_PC];
-        bool statusPC[MAX_JML_PC];
+        int idPC[MAX_JML_PC_USER];
+        double hargaPC[MAX_JML_PC_USER];
+        string tipePC[MAX_JML_PC_USER] {};
+        string statusPC[MAX_JML_PC_USER];
     };
 
     struct Transaksi {
-        string userName[MAX_JML_PC];
+        string userName[MAX_JML_PC_USER];
         DaftarPC pcDipilih;
         Waktu waktuMulaiSelesai;
-        double tagianUser[MAX_JML_PC];
-        int kodeTransaksi[MAX_JML_PC];
+        double tagianUser[MAX_JML_PC_USER];
+        int kodeTransaksi[MAX_JML_PC_USER];
     };
 
 //[Helper Function]==================================================================================
@@ -125,60 +129,139 @@ using namespace std;
     }
 
     void invalidInput(){
+        garis();
         cout << "\n\t[!] Invalid input - Silakan ulangi " << endl;
         cin.get();
     }
 
     void kembaliMenuUtama(){
-        garis();
         cout << "\n\tTekan [Enter] untuk kembali ke menu : ";
         cin.get();
         menuUtama();
     }
 
+    void cekJikaMasihKosong(){
+        garis();
+        if (JML_PC_NOW == 0){
+            cout << "\n\t[!] Belum ada PC yang terdaftar" << endl;\
+            kembaliMenuUtama();
+        } 
+    }
+
+    void cekJikaSudahPenuh(){
+        garis();
+        if (JML_PC_NOW == MAX_JML_PC_USER){
+            cout << "\n\t[!] Jumlah PC terdaftar telah mencapai batas maksimal" << endl;\
+            kembaliMenuUtama();
+        } 
+    }
+
 //[Function2 Utama]==================================================================================
     //[Blok Inisialisasi PC & Edit Data PC]---------------------------------------------------------------------------------
 
-    void tambahkanPC(){
+    DaftarPC blokInisialisasi;
 
-        
-        DaftarPC tambahDaftarPC;
-
-        garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
-        cout << "|   Tambahkan PC   |____________________\n" << endl;
-        cout << " - ID PC : " << IDXPC << endl; 
-            tambahDaftarPC.idPC[IDXPC] = IDXPC;
-        cout << " _____________________________" << endl;
-        cout << " | 1. Regular   (Rp10.000)   |" << endl;
-        cout << " | 2. VIP       (Rp15.000)   |" << endl;
-        cout << " | 3. VVIP      (Rp20.000)   |" << endl;
-        cout << " |___________________________|" << endl;
-        cout << " - Pilih Tipe PC (1-3) : "; 
-            cin >> tambahDaftarPC.tipePC[IDXPC];
-        cout << " - Harga Per-Jam : ";
-            cin >> tambahDaftarPC.hargaPC[IDXPC];
-        
-        cin.ignore();
+    void kembaliMenuInisialisasi(){
+        cout << "\n\tTekan [Enter] untuk kembali ke menu : ";
         cin.get();
+        inisialisasiPC();
+    }
+
+    void listDataPC(int index){
+        cout << "   a. ID PC      : " << blokInisialisasi.idPC[index] << endl;
+        cout << "   b. Tipe PC    : " << blokInisialisasi.tipePC[index] << endl;
+        cout << "   c. Harga PC   : " << blokInisialisasi.hargaPC[index] << endl;
+        cout << "   d. Status PC  : " << blokInisialisasi.statusPC[index] << endl;
+    }
+
+    void tambahkanPC(){
+        cekJikaSudahPenuh();
+        garis();
+        cout << "\n[ GG GAMING CENTER ]" << endl;
+        cout << "|   Tambahkan PC   |____________________\n" << endl;
+        cout << " 1. ID PC         : " << IDXPC << endl; 
+            blokInisialisasi.idPC[IDXPC] = IDXPC;
+        cout << "\n 2. Pilih Tipe PC : " << endl;
+        cout << "    [a] Regular   -> Rp10.000/Jam" << endl; 
+        cout << "    [b] VIP       -> Rp15.000/Jam" << endl; 
+        cout << "    [c] VVIP      -> Rp20.000/Jam" << endl; 
+        cout << "    Pilih [a-c]   : ";
+            char pilihanTipe;
+            cin >> pilihanTipe;
+            cin.ignore();
+        cout << "\n 3. Harga Per-Jam : ";
+            if(pilihanTipe == 'a'){
+                blokInisialisasi.tipePC[IDXPC] = "REGULAR";
+                blokInisialisasi.hargaPC[IDXPC] = 10000;
+                cout << "Rp10.000/Jam" << endl;
+            } else if(pilihanTipe == 'b'){
+                blokInisialisasi.tipePC[IDXPC] = "VIP";
+                blokInisialisasi.hargaPC[IDXPC] = 15000;
+                cout << "Rp15.000/Jam" << endl;
+            } else if(pilihanTipe == 'c'){
+                blokInisialisasi.tipePC[IDXPC] = "VVIP";
+                blokInisialisasi.hargaPC[IDXPC] = 20000;
+                cout << "Rp20.000/Jam" << endl;
+            }
+        blokInisialisasi.statusPC[IDXPC] = "[Avaliable]";
+        
+        cout << "\n--------------------------------------------------------------" << endl;
+        cout << "\n [Hasil Input Data PC-" << IDXPC + 1 << "]" << endl;
+        listDataPC(IDXPC);
+
+        cout << "\n\t[Input Data Selesai]\n";
 
         IDXPC++;
+        JML_PC_NOW++;
+        kembaliMenuInisialisasi();
+    }
+
+    void daftarDataPC(){
+        cekJikaMasihKosong();
+        garis();
+        cout << "\n[ GG GAMING CENTER ]" << endl;
+        cout << "|  Daftar Data PC  |____________________\n" << endl;
+        cout << "\n 1. Jumlah PC Terdaftar : " << JML_PC_NOW << endl;
+        for (int i = 0; i < JML_PC_NOW; i++){
+            cout << "\n [DATA PC " << i+1 << "]------------------------------------------------" << endl;
+            listDataPC(i);
+        }
+        
+        cout << "\n\t[!] Telah Menampilkan Semua Data" << endl;
+        kembaliMenuInisialisasi();
     }
 
     void editDataPC(){
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|     Edit PC      |____________________" << endl;
+        cout << "\n 1. Jumlah PC Terdaftar : " << JML_PC_NOW << endl;
+        cout << "\n 2. Masukan ID PC       : ";
+        int indexDipilih;
+        cin >> indexDipilih;
+        cout << "\n [Data PC " << indexDipilih << "]" << endl;
+        listDataPC(indexDipilih);
+        
+        cout << "\n3. Edit Data PC          " << endl;
+        cout << "   a. ID PC      : "; cin >> blokInisialisasi.idPC[indexDipilih];
+        cout << "   b. Tipe PC    : "; cin >> blokInisialisasi.tipePC[indexDipilih];
+        cout << "   c. Harga PC   : "; cin >> blokInisialisasi.hargaPC[indexDipilih];
+        cout << "   d. Status PC  : "; cin >> blokInisialisasi.statusPC[indexDipilih];
+
+        cout << "\n\t[Edit Data Selesai]\n";
+        kembaliMenuInisialisasi();
     }
 
     void inisialisasiPC(){
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|   Menu - Admin   |____________________" << endl;
         cout << "|                                      |" << endl;
         cout << "| 1. Tambahkan PC                      |" << endl;
-        cout << "| 2. Edit Data PC                      |" << endl;
-        cout << "| 3. Back                              |" << endl;
+        cout << "| 2. Data PC                           |" << endl;
+        cout << "| 3. Edit Data PC                      |" << endl;
+        cout << "| 4. Back                              |" << endl;
         cout << "|______________________________________|" << endl;
         cout << "Pilih (1-3) : ";
 
@@ -190,9 +273,11 @@ using namespace std;
             tambahkanPC();
             break;
         case 2:
+            daftarDataPC();
+        case 3:
             editDataPC();
             break;
-        case 3:
+        case 4:
             menuUtama();
             break;
         default:
@@ -203,11 +288,13 @@ using namespace std;
         kembaliMenuUtama();
     };
 
-    //[Function2 Utama]---------------------------------------------------------------------------------
+    //[Blok Daftar Seluruh PC beserta Status Penggunanya]---------------------------------------------------------------------------------
 
     void daftarPC(){
+
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "| Menu - Daftar PC |____________________" << endl;
 
 
@@ -218,8 +305,10 @@ using namespace std;
     //[Blok Check In]---------------------------------------------------------------------------------
 
     void checkIn(){
+
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|  Menu - Check In |____________________" << endl;
 
         // cout << "|                                       " << endl;
@@ -242,8 +331,10 @@ using namespace std;
     //[Blok Check Out]---------------------------------------------------------------------------------
 
     void checkOut(){
+
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "| Menu - Check Out |____________________" << endl;
 
 
@@ -253,8 +344,10 @@ using namespace std;
 
     //[Blok Perhitungan Harga Sewa]---------------------------------------------------------------------------------
     void hitungHarga(){
+
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|   Menu - Harga   |____________________" << endl;
 
 
@@ -264,8 +357,10 @@ using namespace std;
 
     //[Blok Laporan Pendapatan]---------------------------------------------------------------------------------
     void laporanPendapatan(){
+
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "| Menu - Financial |____________________" << endl;
 
 
@@ -275,8 +370,10 @@ using namespace std;
 
     //[Blok Riwayat Transaksi]---------------------------------------------------------------------------------
     void riwayat(){
+
+        cekJikaMasihKosong();
         garis();
-        cout << "[ GG GAMING CENTER ]" << endl;
+        cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|  Menu - History  |____________________" << endl;
 
 
@@ -333,9 +430,8 @@ using namespace std;
                 cout << "\n\t[!] PROGRAM SELESAI - TERIMA KASIH" << endl;
                 exit(0);
             break;
-            default : 
-                cin.ignore();
-                cout << "" << endl;
+            default :
+                invalidInput();
             break;
         }
     }
