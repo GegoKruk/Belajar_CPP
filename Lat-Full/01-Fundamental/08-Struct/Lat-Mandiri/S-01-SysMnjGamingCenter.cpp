@@ -99,18 +99,18 @@ using namespace std;
     const int MAX_JML_PC_USER = 10;
     double totalSaldo;
 
-    static int IDXPC = 0;
+    int IDXPC = 0;
     int JML_PC_NOW = 0;
 
     int IDXUSER = 0;
     int JML_USER_NOW = 0;
 
-    static int IDXTRANSAKSI = 0;
+    int IDXTRANSAKSI = 0;
     int JML_TRANSAKSI_NOW = 0;
 
     struct Waktu {
-        int jam[MAX_JML_PC_USER];
-        int menit[MAX_JML_PC_USER];
+        float jam[MAX_JML_PC_USER];
+        float menit[MAX_JML_PC_USER];
     };
 
     struct DaftarPC {
@@ -405,7 +405,7 @@ using namespace std;
             blokTransaksi.waktuMulaiSelesai.jam[i] = 1;
         }else if(menit > 60){
             int jam = menit / 60;
-            float sisa = (menit % 60) / 60;
+            int sisa = menit % 60;
 
             blokTransaksi.waktuMulaiSelesai.jam[i] = jam;
             blokTransaksi.waktuMulaiSelesai.menit[i] = sisa;
@@ -413,23 +413,25 @@ using namespace std;
     }
 
     double perhitunganHarga(char pilihanTipe, int i){
-        double harga;
+        double hasilHitungHarga;
+        double jam = blokTransaksi.waktuMulaiSelesai.jam[i];
+        double menit = blokTransaksi.waktuMulaiSelesai.menit[i];
 
         if (pilihanTipe = 'a'){
-            harga = (blokTransaksi.waktuMulaiSelesai.jam[i] * 10000) + (blokTransaksi.waktuMulaiSelesai.menit[i] * 10000);
+            hasilHitungHarga = (jam * 10000) + ((menit/60) * 10000);
         } else if(pilihanTipe = 'b'){
-            harga = (blokTransaksi.waktuMulaiSelesai.jam[i] * 15000) + (blokTransaksi.waktuMulaiSelesai.menit[i] * 15000);
+            hasilHitungHarga = (jam * 15000) + ((menit/60) * 15000);
         } else if(pilihanTipe = 'c'){
-            harga = (blokTransaksi.waktuMulaiSelesai.jam[i] * 20000) + (blokTransaksi.waktuMulaiSelesai.menit[i] * 20000);
+            hasilHitungHarga = (jam * 20000) + ((menit/60) * 20000);
         }
 
-        return harga;
+        return hasilHitungHarga;
     }
 
     void checkIn(){
-        double harga;
-        int menit;
-        int jam;
+        double harga = 0;
+        int menit = 0;
+        int jam = 0;
 
         cekPCJikaMasihKosong();
         garis();
@@ -449,12 +451,13 @@ using namespace std;
         cout << "\n [2] Index Unit PC yang [READY] : ";
         for (int i = 0; i < JML_PC_NOW; i++){
             if(blokDaftarPC.kodeTipePC[i] == pilihanTipe && blokDaftarPC.readyOrNo[i] == true){
+                cout << "[" << i << "] ";
             } else {
                 continue;
             }
         }
 
-        cout << "\n [3] Pilih Index PC             : ";
+        cout << "\n\n [3] Pilih Index PC             : ";
         cin >> indexDipilih;
         cin.ignore();
 
@@ -464,15 +467,18 @@ using namespace std;
 
         cout << "\n [5] Masukkan User Name         : ";
         cin >> blokTransaksi.userName[indexDipilih];
+        cin.ignore();
 
         cout << "\n [6] Total Waktu Bermain (Menit): ";
         cin >> menit;
+        cin.ignore();
+
         perhitunganJam(menit,indexDipilih);
         harga = perhitunganHarga(pilihanTipe, indexDipilih);
+        blokTransaksi.pendataanAlurUang[IDXTRANSAKSI] = harga;
         
         cout << "\n [7] Total Tagihan User         : ";
         cout << harga << endl;
-
 
         IDXTRANSAKSI++;
         JML_TRANSAKSI_NOW++;
@@ -528,7 +534,7 @@ using namespace std;
         garis();
         cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|  Menu - History  |____________________" << endl;
-
+        
 
 
         kembaliMenuUtama();
