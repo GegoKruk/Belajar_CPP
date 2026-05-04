@@ -96,6 +96,7 @@ using namespace std;
     char pilihanTipe;
 
     // const
+    const int MAX_JML_HISTORY = 100;
     const int MAX_JML_PC_USER = 10;
     double totalSaldo;
 
@@ -109,8 +110,8 @@ using namespace std;
     int JML_TRANSAKSI_NOW = 0;
 
     struct Waktu {
-        float jam[MAX_JML_PC_USER];
-        float menit[MAX_JML_PC_USER];
+        float jam[MAX_JML_HISTORY];
+        float menit[MAX_JML_HISTORY];
     };
 
     struct DaftarPC {
@@ -123,17 +124,17 @@ using namespace std;
     };
 
     struct Transaksi {
-        int idUser[MAX_JML_PC_USER];
-        string userName[MAX_JML_PC_USER];
+        int idUser[MAX_JML_HISTORY];
+        string userName[MAX_JML_HISTORY];
         
-        int idTransaksi[MAX_JML_PC_USER];
-        double tagianUser[MAX_JML_PC_USER];
-        double pendataanAlurUang[MAX_JML_PC_USER];
+        int idTransaksi[MAX_JML_HISTORY];
+        double tagianUser[MAX_JML_HISTORY];
+        double pendataanAlurUang[MAX_JML_HISTORY];
         
         DaftarPC pcDipilih;
         Waktu waktuMulaiSelesai;
         
-        string catatan[MAX_JML_PC_USER];
+        string catatan[MAX_JML_HISTORY];
     };
 
     DaftarPC blokDaftarPC;
@@ -385,7 +386,7 @@ using namespace std;
             listDataPC(i);
             
             if(blokDaftarPC.readyOrNo[i] == true){
-                cout << "     PC STATUS [READY] " << endl;
+                cout << "\n     PC STATUS [READY] " << endl;
             } else if (blokDaftarPC.readyOrNo[i] == false && JML_USER_NOW != 0){
                 cout << "\n     [!] USED " << endl;
                 cout << "\n     Rincian Transaksi:" << endl;
@@ -475,7 +476,9 @@ using namespace std;
 
         perhitunganJam(menit,indexDipilih);
         harga = perhitunganHarga(pilihanTipe, indexDipilih);
+        blokTransaksi.tagianUser[IDXTRANSAKSI] = harga;
         blokTransaksi.pendataanAlurUang[IDXTRANSAKSI] = harga;
+        updateStatusPC('b',indexDipilih);
         
         cout << "\n [7] Total Tagihan User         : ";
         cout << harga << endl;
@@ -496,7 +499,17 @@ using namespace std;
         cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "| Menu - Check Out |____________________" << endl;
 
+        cout << "\n [1] Pilih Index PC             : ";
+        cin >> indexDipilih;
+        cin.ignore();
 
+        for (int i = 0; i < JML_PC_NOW; i++){
+            if(blokDaftarPC.idPC[i] == indexDipilih){
+                updateStatusPC('a',indexDipilih);
+            } else {
+                continue;
+            }
+        }
 
         kembaliMenuUtama();
     };
