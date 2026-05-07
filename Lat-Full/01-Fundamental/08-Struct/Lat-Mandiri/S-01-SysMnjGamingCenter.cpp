@@ -505,12 +505,17 @@ using namespace std;
 
         for (int i = 0; i < JML_PC_NOW; i++){
             if(blokDaftarPC.idPC[i] == indexDipilih){
+                cout << " [!] Rincian Unit:" << endl;
+                listDataPC(i);
+                
+                cout << "\n     Rincian Transaksi:" << endl;
+                listDataTransaksi(i);
+                cout << " ------------------------------------------------------------" << endl;
                 updateStatusPC('a',indexDipilih);
             } else {
                 continue;
             }
         }
-
         kembaliMenuUtama();
     };
 
