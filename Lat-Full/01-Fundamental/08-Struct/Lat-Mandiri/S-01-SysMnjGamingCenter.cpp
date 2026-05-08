@@ -93,7 +93,6 @@ using namespace std;
     // menu
     int indexDipilih;
     int pilihanMenu;
-    char pilihanTipe;
 
     // const
     const int MAX_JML_HISTORY = 100;
@@ -289,6 +288,7 @@ using namespace std;
     }
 
     void editDataPC(){
+        char pilihanTipe;
 
         cekPCJikaMasihKosong();
         garis();
@@ -430,6 +430,7 @@ using namespace std;
     }
 
     void checkIn(){
+        char pilihanTipe;
         double harga = 0;
         int menit = 0;
         int jam = 0;
