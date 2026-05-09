@@ -30,4 +30,22 @@ int main() {
             cout << "Isi file:" << endl;
             while (getline(cek1, baris)) cout << "  " << baris << endl;
             cek1.close();
+
+        ofstream f2("02_CobaBos.txt");
+        if (!f2.is_open()) {
+            cerr << "Gagal membuat file!" << endl;
+            return 1;
+        }
+
+        f2 << "Halo kang" << endl;
+        f2 << R"(
+                    Selamat malam
+                                cek apakah ini bisa juga di file
+
+                        1. Halo
+                        2. Namaku
+                        3. Gega
+                        4. Terima kasih
+        )" << endl;
+        f2.close();
     }
