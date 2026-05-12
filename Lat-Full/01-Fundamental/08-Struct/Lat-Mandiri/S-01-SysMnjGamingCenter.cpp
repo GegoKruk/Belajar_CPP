@@ -522,13 +522,49 @@ using namespace std;
 
     //[Blok Perhitungan Harga Sewa]---------------------------------------------------------------------------------
     void hitungHarga(){
+        char pilihanTipe;
+        int jam;
+        int menit;
+        int sisa;
+        double hasilHitungHarga;
 
         cekPCJikaMasihKosong();
         garis();
         cout << "\n[ GG GAMING CENTER ]" << endl;
         cout << "|   Menu - Harga   |____________________" << endl;
+        cout << "\n [1] Pilih Kategori Tipe PC" << endl;
+        cout << "     +--------------------------+" << endl;
+        cout << "     | [a] Regular : Rp10.000   |" << endl; 
+        cout << "     | [b] VIP     : Rp15.000   |" << endl; 
+        cout << "     | [c] VVIP    : Rp20.000   |" << endl; 
+        cout << "     +--------------------------+" << endl;
+        cout << "     Pilih Kode [a/b/c]       : ";
 
+        cin >> pilihanTipe;
+        cin.ignore();
 
+        cout << "\n [2] Konfirmasi Harga       : Rp" << blokDaftarPC.hargaPC[IDXPC] << "/Jam"<< endl;
+        
+        cout << "\n [3] Masukkan Waktu (Menit) :";
+        cin >> menit;
+        cin.ignore();
+
+        if(menit == 60){
+            jam = 1;
+        }else if(menit > 60){
+            jam = menit / 60;
+            sisa = menit % 60;
+        }
+
+        if (pilihanTipe = 'a'){
+            hasilHitungHarga = (jam * 10000) + ((menit/60) * 10000);
+        } else if(pilihanTipe = 'b'){
+            hasilHitungHarga = (jam * 15000) + ((menit/60) * 15000);
+        } else if(pilihanTipe = 'c'){
+            hasilHitungHarga = (jam * 20000) + ((menit/60) * 20000);
+        }
+
+        cout << "\n [4] Hasil Perhitungan Harga : Rp" << hasilHitungHarga;
 
         kembaliMenuUtama();
     };
