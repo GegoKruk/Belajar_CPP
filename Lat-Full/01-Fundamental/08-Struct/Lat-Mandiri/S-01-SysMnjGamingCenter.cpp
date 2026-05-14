@@ -522,11 +522,10 @@ using namespace std;
 
     //[Blok Perhitungan Harga Sewa]---------------------------------------------------------------------------------
     void hitungHarga(){
-        char pilihanTipe;
-        int jam;
-        int menit;
-        int sisa;
-        double hasilHitungHarga;
+        char pilihanTipe = ' ';
+        int menitInput = 0;
+        double hargaPerJam = 0;
+        double hasilHitungHarga = 0;
 
         cekPCJikaMasihKosong();
         garis();
@@ -539,32 +538,34 @@ using namespace std;
         cout << "     | [c] VVIP    : Rp20.000   |" << endl; 
         cout << "     +--------------------------+" << endl;
         cout << "     Pilih Kode [a/b/c]       : ";
-
         cin >> pilihanTipe;
         cin.ignore();
 
-        cout << "\n [2] Konfirmasi Harga       : Rp" << blokDaftarPC.hargaPC[IDXPC] << "/Jam"<< endl;
+        if (pilihanTipe == 'a'){
+            hargaPerJam = 10000;
+        } else if(pilihanTipe == 'b'){
+            hargaPerJam = 15000;
+        } else if(pilihanTipe == 'c'){
+            hargaPerJam = 20000;
+        } else {
+            cout << "\n [!] Tipe tidak valid!" << endl;
+            kembaliMenuUtama();
+            return;
+        }
+
+        cout << "\n [2] Konfirmasi Harga       : Rp" << hargaPerJam << "/Jam"<< endl;
         
-        cout << "\n [3] Masukkan Waktu (Menit) :";
-        cin >> menit;
+        cout << "\n [3] Masukkan Waktu (Menit) : ";
+        cin >> menitInput;
         cin.ignore();
 
-        if(menit == 60){
-            jam = 1;
-        }else if(menit > 60){
-            jam = menit / 60;
-            sisa = menit % 60;
-        }
+        hasilHitungHarga = (menitInput / 60.0) * hargaPerJam;
 
-        if (pilihanTipe = 'a'){
-            hasilHitungHarga = (jam * 10000) + ((menit/60) * 10000);
-        } else if(pilihanTipe = 'b'){
-            hasilHitungHarga = (jam * 15000) + ((menit/60) * 15000);
-        } else if(pilihanTipe = 'c'){
-            hasilHitungHarga = (jam * 20000) + ((menit/60) * 20000);
-        }
+        int jamTampil = menitInput / 60;
+        int menitTampil = menitInput % 60;
 
-        cout << "\n [4] Hasil Perhitungan Harga : Rp" << hasilHitungHarga;
+        cout << "\n [4] Durasi                 : " << jamTampil << " Jam " << menitTampil << " Menit";
+        cout << "\n [5] Hasil Perhitungan Harga : Rp" << hasilHitungHarga << endl;
 
         kembaliMenuUtama();
     };
