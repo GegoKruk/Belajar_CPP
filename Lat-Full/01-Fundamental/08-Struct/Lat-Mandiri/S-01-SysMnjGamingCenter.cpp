@@ -357,6 +357,7 @@ using namespace std;
             break;
         case 2:
             daftarDataPC();
+            break;
         case 3:
             editDataPC();
             break;
@@ -418,11 +419,11 @@ using namespace std;
         double jam = blokTransaksi.waktuMulaiSelesai.jam[i];
         double menit = blokTransaksi.waktuMulaiSelesai.menit[i];
 
-        if (pilihanTipe = 'a'){
+        if (pilihanTipe == 'a'){
             hasilHitungHarga = (jam * 10000) + ((menit/60) * 10000);
-        } else if(pilihanTipe = 'b'){
+        } else if(pilihanTipe == 'b'){
             hasilHitungHarga = (jam * 15000) + ((menit/60) * 15000);
-        } else if(pilihanTipe = 'c'){
+        } else if(pilihanTipe == 'c'){
             hasilHitungHarga = (jam * 20000) + ((menit/60) * 20000);
         }
 
