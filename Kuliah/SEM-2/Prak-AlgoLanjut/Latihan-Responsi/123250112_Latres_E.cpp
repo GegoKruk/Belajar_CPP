@@ -136,7 +136,7 @@ void initData() {
 
         string tempAsrama = "";
         while(bacaFile.get(karakter) && karakter != ','){
-            tempNama += karakter;
+            tempAsrama += karakter;
         }
         arraySiswa[jumlah_siswa].Asrama = tempAsrama;
 
@@ -190,25 +190,26 @@ void swapData(Siswa *a, Siswa *b){
 }
 
 int partition(Siswa arr[], int low, int high){
-    int pivot = arraySiswa[high].ID;
+    int pivot = arr[high].ID;
     int i = (low - 1);
 
     for (int j = low; j < high; j++){
-        if(arraySiswa[j].ID <= pivot){
+        if(arr[j].ID <= pivot){
             i++;
-            swapData(&arraySiswa[i], &arraySiswa[j]);
+            swapData(&arr[i], &arr[j]);
         }
     }
     
-    return 0;
+    swapData(&arr[i+1], &arr[high]);
+    return (i+1);
 }
 
 void quickSort(Siswa arr[], int low, int high){
     if (low < high){
-        int pi = partition(arraySiswa, low, high);
+        int pi = partition(arr, low, high);
 
-        quickSort(arraySiswa, low, pi - 1);
-        quickSort(arraySiswa, pi + 1, high);
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
     }
 }
 
@@ -232,7 +233,6 @@ void tambahData(){
 
     cout << " [2] Nama        : ";
     getline(cin, arraySiswa[jumlah_siswa].Nama);
-    cin.ignore();
 
     cout << " [3] Asrama      : ";
     cin >> arraySiswa[jumlah_siswa].Asrama;
