@@ -66,7 +66,6 @@ using namespace std;
         cout << "--------------------------------------------------" << endl;
     }
 
-    
     void jeda() {
         cout << "\n\t    Tekan Enter untuk lanjut...";
         cin.get();
@@ -105,10 +104,10 @@ int main() {
             cetakLaporan(); 
             break;
         case 0: 
-            cout << "\t    Program Selesai - Sampai Jumpa Lagi"; 
+            cout << "\n\t    Program Selesai - Sampai Jumpa Lagi"; 
             break;
         default: 
-            cout << "\t[!] Pilihan tidak valid - Silakan coba lagi...";
+            cout << "\n\t[!] Pilihan tidak valid - Silakan coba lagi...";
         }
     } while (pilihan != 0);
         
@@ -184,25 +183,41 @@ int binarySearch(Siswa arr[], int kiri, int kanan, int id_cari) {
 }
 
 // Function Sorting
-void swapData(Siswa *a, Siswa *b) {
-
+void swapData(Siswa *a, Siswa *b){
+    Siswa temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-int partition(Siswa arr[], int low, int high) {
+int partition(Siswa arr[], int low, int high){
+    int pivot = arraySiswa[high].ID;
+    int i = (low - 1);
 
+    for (int j = low; j < high; j++){
+        if(arraySiswa[j].ID <= pivot){
+            i++;
+            swapData(&arraySiswa[i], &arraySiswa[j]);
+        }
+    }
+    
     return 0;
 }
 
-void quickSort(Siswa arr[], int low, int high) {
+void quickSort(Siswa arr[], int low, int high){
+    if (low < high){
+        int pi = partition(arraySiswa, low, high);
 
+        quickSort(arraySiswa, low, pi - 1);
+        quickSort(arraySiswa, pi + 1, high);
+    }
 }
 
 // Function Sub-Menu
-void tambahData() {
+void tambahData(){
     
     headerMenu("TAMBAH DATA SISWA");
 
-    // Validasi Slot Data Dulu
+    // Validasi Kapaasitas Dulu
     if(jumlah_siswa > MAX_SISWA){
         cout << "\n\t[!] JUMLAH DATA SISWA MENCAPAI BATAS MAKSIMAL";
         jeda();
@@ -235,15 +250,16 @@ void tambahData() {
     cin >> arraySiswa[jumlah_siswa].Statistik.Level_Fokus;
     cin.ignore();
 
+    // Panggil Function Save ke File
     saveAppendData();
 
-    cout << "\n\tDATA BERHASIL DITAMBAHKAN" << endl;
+    cout << "\n\t    [DATA BERHASIL DITAMBAHKAN]" << endl;
 
     jumlah_siswa++;
     jeda();
 }
 
-void lihatData() {
+void lihatData(){
     headerMenu("TAMPILKAN DATA SISWA");
     if (jumlah_siswa == 0){
         cout << "\n\t[!] DATA MASIH KOSONG - Input dulu datanya...";
@@ -251,7 +267,8 @@ void lihatData() {
         return;
     }
 
-
+    // Manggil Quick Sort
+    quickSort(arraySiswa, 0, jumlah_siswa-1);
 
     jeda();
 }
