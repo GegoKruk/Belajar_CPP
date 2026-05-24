@@ -24,3 +24,7 @@ CV-Gega.html
 Lat-Dasar-CobaLagi.cpp
 catatan.cpp
 catatan2.cpp
+
+*.docx
+*.png
+*.jpg
