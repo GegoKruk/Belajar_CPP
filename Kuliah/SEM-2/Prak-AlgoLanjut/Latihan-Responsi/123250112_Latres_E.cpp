@@ -26,9 +26,9 @@ using namespace std;
 
 // Function Prototype 
     // Function FILE
-        void initData();          // Dijalankan HANYA DI AWAL saat program pertama kali dibuka
-        void saveAppendData();    // Digunakan khusus untuk menu Tambah Data (ios::app)
-        void saveOverwriteData(); // Digunakan khusus untuk menu Hapus Data (overwrite)
+        void initData();          
+        void saveAppendData();    
+        void saveOverwriteData(); 
 
     // Function Searching 
         int Hitung_Bonus(int fokus);
@@ -249,6 +249,33 @@ void quickSort(Siswa arr[], int low, int high){
     }
 }
 
+// Function Validasi Input ID, Nama, Nilai
+int cekIDdanNama(Siswa arr[], int jml_siswa, int id, string nama){
+    for (int i = 0; i < jml_siswa; i++){
+        if (arr[i].ID == id){
+            cout << "\n\t[!] ID Telah Terdaftar" << endl;
+            return 1;
+        } else if (arr[i].Nama == nama){
+            cout << "\n\t[!] Nama Telah Terdaftar dengan ID : " << arr[i].ID << endl;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int validasiNilai(int nilai = 0, int fokus = 0){
+    if (nilai < 0 || nilai > 100){
+        cout << "\n\t[!] Nilai Harus Sebesar 1-100" << endl;
+        return 1;
+    } else if (fokus < 0 || fokus > 5){
+        cout << "\n\t[!] Nilai Harus Sebesar 1-5" << endl;
+        return 1;
+    }
+
+    return 0;
+}
+
 // Function Sub-Menu
 void tambahData(){
     
@@ -260,31 +287,64 @@ void tambahData(){
         jeda();
         return;
     }
+    
+    int id;
+    string nama;
+    string asrama;
+    int nilaiTeori;
+    int nilaiPraktek;
+    int levelFokus;
 
-    // Input Ke Array & Struct
+    // Input Ke variabel + cek apakah valid
     cout << "\n Masukkan Data Siswa" << endl;
     cout << " [1] ID          : ";
-    cin >> arraySiswa[jumlah_siswa].ID;
+    cin >> id;
     cin.ignore();
 
     cout << " [2] Nama        : ";
-    getline(cin, arraySiswa[jumlah_siswa].Nama);
+    getline(cin, nama);
+
+    // Panggil Funtion Validasi nama dan id
+    if(cekIDdanNama(arraySiswa, jumlah_siswa, id, nama) == 1){
+        jeda();
+        return;
+    }
 
     cout << " [3] Asrama      : ";
-    cin >> arraySiswa[jumlah_siswa].Asrama;
+    cin >> asrama;
     cin.ignore();
 
     cout << " [4] Teori       : ";
-    cin >> arraySiswa[jumlah_siswa].Statistik.Teori;
+    cin >> nilaiTeori;
     cin.ignore();
-
+    if (validasiNilai(nilaiTeori) == 1){
+        jeda();
+        return;
+    } 
+    
     cout << " [5] Praktek     : ";
-    cin >> arraySiswa[jumlah_siswa].Statistik.Praktek;
+    cin >> nilaiPraktek;
     cin.ignore();
-
+    if (validasiNilai(nilaiPraktek) == 1){
+        jeda();
+        return;
+    } 
+    
     cout << " [6] Level Fokus : ";
-    cin >> arraySiswa[jumlah_siswa].Statistik.Level_Fokus;
+    cin >> levelFokus;
     cin.ignore();
+    if (validasiNilai(0,levelFokus) == 1){
+        jeda();
+        return;
+    } 
+    
+    // Input ke array
+    arraySiswa[jumlah_siswa].ID = id;
+    arraySiswa[jumlah_siswa].Nama = nama;
+    arraySiswa[jumlah_siswa].Asrama = asrama;
+    arraySiswa[jumlah_siswa].Statistik.Teori = nilaiTeori;
+    arraySiswa[jumlah_siswa].Statistik.Praktek = nilaiPraktek;
+    arraySiswa[jumlah_siswa].Statistik.Level_Fokus = levelFokus;
 
     // Panggil Function Save ke File
     saveAppendData();
@@ -351,17 +411,17 @@ void hapusData() {
         int posisiKetemu = binarySearch(arraySiswa, 0, jumlah_siswa - 1, idDicari);
     
         if(posisiKetemu != -1){
-            for (int i = posisiKetemu; i < jumlah_siswa; i++){
+            for (int i = posisiKetemu; i < jumlah_siswa - 1; i++){
                 arraySiswa[i] = arraySiswa[i+1];
             }
 
             jumlah_siswa--;
+            saveOverwriteData();
+            cout << "\n\t[SUKSES] DATA ID \""<< idDicari <<"\" TELAH DIHAPUS" << endl;
         }
     
-        saveOverwriteData();
     
         // Menampilkan Pilihan
-        cout << "\n\t[SUKSES] DATA ID \""<< idDicari <<"\" TELAH DIHAPUS" << endl;
         cout << "\n Hapus Data Lainnya? [Y/N] : ";
         cin >> pilihan;
         cin.ignore();
