@@ -379,7 +379,34 @@ void cetakLaporan() {
         return;
     }
 
+    ofstream fileLaporan("kelas_remidial.txt");
+    if(!fileLaporan.is_open()){
+        cout << "\n\t[!] File Gagal Dibuat/Ditulis" << endl;
+        return;
+    }
 
 
+    // Panggil Quick Sort
+    quickSort(arraySiswa, 0, jumlah_siswa - 1);
+
+    // Perulangan untuk menhitung mana sekaligus menulis yang dibawah 150/remedial
+    for (int i = 0; i < jumlah_siswa; i++){
+        int hasilHitungFokus = Hitung_Bonus(arraySiswa[i].Statistik.Level_Fokus);
+        int totalMana = arraySiswa[i].Statistik.Teori + arraySiswa[i].Statistik.Praktek + hasilHitungFokus;
+
+        if (totalMana < 150){
+            fileLaporan << arraySiswa[i].ID << ","
+                        << arraySiswa[i].Nama << ","
+                        << arraySiswa[i].Asrama << ","
+                        << arraySiswa[i].Statistik.Teori << ","
+                        << arraySiswa[i].Statistik.Praktek << ","
+                        << arraySiswa[i].Statistik.Level_Fokus << ","
+                        << totalMana << endl;
+        }
+    }
+
+    fileLaporan.close();
+
+    cout << "\n\t[SUKSES] File kelas_remidial.txt Berhasil Dicetak!" << endl;
     jeda();
 }
