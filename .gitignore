@@ -1,3 +1,4 @@
+
 # Text
 *.txt
 
@@ -12,9 +13,11 @@
 .vscode/
 
 *.log
-
+*PDF
+*md
 
 #Lain2
+.gitignore
 .workspace/
 cpp_curriculum_master.md
 
@@ -28,3 +31,7 @@ catatan2.cpp
 *.docx
 *.png
 *.jpg
+
+#Git Praktikum
+Kuliah/SEM-3/Prak-Struktur-Data/Pertemuan-1/
+**/Lat-Praktikum/
