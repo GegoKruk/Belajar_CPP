@@ -14,7 +14,6 @@
 
 *.log
 *PDF
-*md
 
 #Lain2
 .gitignore
@@ -22,7 +21,6 @@
 cpp_curriculum_master.md
 
 coba.cpp
-CV-Gega.html
 
 Lat-Dasar-CobaLagi.cpp
 catatan.cpp
@@ -33,5 +31,4 @@ catatan2.cpp
 *.jpg
 
 #Git Praktikum
-Kuliah/SEM-3/Prak-Struktur-Data/Pertemuan-1/
 **/Lat-Praktikum/
