@@ -119,20 +119,60 @@ using namespace std;
     } 
     
     bool tambahMahasiswa(DataMahasiswa &daftar, const Mahasiswa &mhs) { 
+        if (daftar.jumlah == KAPASITAS){
+            return false;
+        }
+        
+        for (int i = 0; i < daftar.jumlah; i++){
+            if (daftar.data[i].nim == mhs.nim){
+                return false;
+            }
+        }
+        
+        daftar.data[daftar.jumlah] = mhs;
+        daftar.jumlah++;
         return true; 
     } 
     
     void tampilkan(const DataMahasiswa &daftar) { 
+        for (int i = 0; i < daftar.jumlah; i++){
+            cout << "\n [Data Mahasiswa Ke-" << i+1 << "]------------------------" << endl;
+            cout << " [1] Nama : " << daftar.data[i].nama << endl;
+            cout << " [2] NIM  : " << daftar.data[i].nim << endl;
+            cout << " [3] IPK  : " << daftar.data[i].ipk << endl;
+        }
     }
 
     void tampilkanSatuan(const DataMahasiswa &daftar, int index) { 
+        cout << "\n [Data Mahasiswa Ke-" << index+1 << "]------------------------" << endl;
+        cout << " [1] Nama : " << daftar.data[index].nama << endl;
+        cout << " [2] NIM  : " << daftar.data[index].nim << endl;
+        cout << " [3] IPK  : " << daftar.data[index].ipk << endl;
     }
 
     int cariNim(const DataMahasiswa &daftar, const string &nim) { 
+        
+        for (int i = 0; i < daftar.jumlah; i++){
+            if (daftar.data[i].nim == nim){
+                return i;
+            }
+        }
+
         return -1; 
     } 
     
     bool ubahIpk(DataMahasiswa &daftar, const string &nim, double ipkBaru) { 
+        if (ipkBaru < 0.0 || ipkBaru > 4.0) {
+            return false;
+        }
+
+        int indeks = cariNim(daftar, nim);
+        if (indeks == -1) {
+            return false;
+        }
+
+        daftar.data[indeks].ipk = ipkBaru;
+        
         return true; 
     }
     
@@ -149,6 +189,26 @@ using namespace std;
                 jeda();
                 return;
             }
+            
+
+            cout << "\n [Data Mahasiswa Ke-" << daftar.jumlah+1 << "]------------------------" << endl;
+            cout << " [1] Masukkan Nama : ";
+            getline(cin, tempMhsBaru.nama);
+            cout << " [2] Masukkan NIM  : ";
+            cin >> tempMhsBaru.nim;
+            cin.ignore();
+            cout << " [3] Masukkan IPK  : ";
+            cin >> tempMhsBaru.ipk;
+            cin.ignore();
+            cout << " ---------------------------------------------" << endl;
+            
+            bool status = tambahMahasiswa(daftar, tempMhsBaru);
+            
+            if (status == true) {
+                cout << "\n\t [SUKSES] Data berhasil ditambahkan" << endl;
+            } else {
+                cout << "\n\t [GAGAL] Data penuh atau NIM sudah terdaftar" << endl;
+            }
 
             cout << "\n Tambah Data Lainnya? [Y/N] : ";
             cin >> ulang;
@@ -163,7 +223,11 @@ using namespace std;
             jeda();
             return;
         }
-
+        
+        tampilkan(daftar);
+        
+        cout << "\n ---------------------------------------------" << endl;
+        cout << "\n\t [SUKSES] Semua data berhasil ditampilkan" << endl;
         jeda();
     }
 
@@ -176,7 +240,22 @@ using namespace std;
                 jeda();
                 return;
             }
+
+            string target;
+            cout << "\n [>] Masukkan NIM : "; 
+            cin >> target; 
+            cin.ignore();
+
+            int indeks = cariNim(daftar, target);
+
+            if (indeks != -1) { 
+                cout << "\n\t [SUKSES] Data Ditemukan" << endl;
+                tampilkanSatuan(daftar, indeks);
+            } else {
+                cout << "\n\t [GAGAL] Data Tidak Ditemukan" << endl;
+            }
             
+            cout << "\n ---------------------------------------------" << endl;
             cout << "\n Cari Data Lainnya? [Y/N] : ";
             cin >> ulang;
             cin.ignore();  
@@ -191,6 +270,29 @@ using namespace std;
                 cout << "\n\t [KESALAHAN] Data Mahasiswa Masih Kosong" << endl;
                 jeda();
                 return;
+            }
+
+            string target;
+            double ipkBaru;
+
+            cout << "\n [>] Masukkan NIM      : "; 
+            cin >> target; 
+            cin.ignore();
+
+            cout << " [>] Masukkan IPK Baru : "; 
+            cin >> ipkBaru; 
+            cin.ignore();
+
+            bool sukses = ubahIpk(daftar, target, ipkBaru);
+
+            cout << "\n ---------------------------------------------" << endl;
+            if (sukses) {
+                cout << "\n\t [SUKSES] IPK berhasil diubah!" << endl;
+                
+                int indeks = cariNim(daftar, target);
+                tampilkanSatuan(daftar, indeks);
+            } else {
+                cout << "\n\t [GAGAL] NIM tidak ditemukan atau IPK tidak valid (0.0 - 4.0)!" << endl;
             }
             
             cout << "\n Ubah Data IPK Lainnya? [Y/N] : ";
@@ -207,5 +309,6 @@ using namespace std;
             return;
         }
 
+        cout << "\n Jumlah Data yang Tercatat : " << daftar.jumlah << " Mahasiswa" << endl;
         jeda();
     }
