@@ -19,12 +19,11 @@ using namespace std;
     }
 
     void judulMenu(string judul){
-        judulNama();
-        cout << "==========[" << judul <<"]==========" << endl;
+        cout << "\n==========[" << judul <<"]==========" << endl;
     }
 
     void garis(){
-        cout << "--------------------------------------------------" << endl;
+        cout << "\n -----------------------------------------" << endl;
     }
 
     void jeda() {
@@ -33,95 +32,87 @@ using namespace std;
     }
 
 // Global Variable  &Deklarasi 
+struct Mahasiswa { 
+    string nim; 
+    string nama; 
+    double ipk; 
+}; 
 
 // Function Prototype
     // Function Logic
-
-    // Function Display
-    void menu1();
-    void menu2();
-    void menu3();
-    void menu4();
-    void menu5();
+    void inputData(Mahasiswa* data, int jumlah); 
+    void tampilkanData(const Mahasiswa* data, int jumlah); 
+    int cariNim(const Mahasiswa* data, int jumlah, const string& nim); 
 
 // Main Function
     int main() { 
-        int pilihanMenu; 
-        do {
-            judulNama();
-            cout << "=================[ Menu Utama ]================" << endl;
-            cout << "|                                             |" << endl;
-            cout << "| [1] Menu-1                                  |" << endl;
-            cout << "| [2] Menu-2                                  |" << endl;
-            cout << "| [3] Menu-3                                  |" << endl;
-            cout << "| [4] Menu-4                                  |" << endl;
-            cout << "| [5] Jumlah Mahasiswa                        |" << endl;
-            cout << "| [6] Keluar                                  |" << endl;
-            cout << "|                                             |" << endl;
-            cout << "===============================================" << endl;
-            cout << "\n > Pilih [1-5] : ";
-            cin >> pilihanMenu; 
-            cin.ignore();
-                
-                switch (pilihanMenu){
-                    case 1:
-                        void menu1();
-                        break;
-                    case 2:
-                        void menu2();
-                        break;
-                    case 3:
-                        void menu3();
-                        break;
-                    case 4:
-                        void menu4();
-                        break;
-                    case 5:
-                        void menu5();
-                        break;
-                    case 6:
-                        judulNama();
-                        cout << "\n\t    [Program Selesai] - Terima Kasih" << endl;
-                        exit(0);
-                        break;
-                    default:
-                        cout << "\n\t    [ERROR] - Input Tidak Valid" << endl;
-                        jeda();
-                        break;
-                }
-        } while (pilihanMenu != 6); 
-        return 0; 
-    }
+        judulNama();
 
+        judulMenu("Input Max Mahasiswa");
+        cout << " [>] Masukkan Jumlah Max Mahasiswa : ";
+        int jumlah; 
+        cin >> jumlah;
+        cin.ignore(); 
+        if (jumlah <= 0) {
+            return 0;
+        } 
+        
+        judulMenu("Input Data Mahasiswa");
+        Mahasiswa *data = new Mahasiswa[jumlah]; 
+        inputData(data, jumlah); 
+        
+        judulMenu("Tampilkan Data Mahasiswa");
+        tampilkanData(data, jumlah); 
+        
+        judulMenu("Cari Data NIM Mahasiswa");
+        cout << "\n [>] Masukkan NIM :";
+        string nim; 
+        cin >> nim; 
+        cin.ignore();
+        int posisi = cariNim(data, jumlah, nim); 
+        cout << posisi << '\n'; 
+    
+        delete[] data; 
+        data = nullptr; 
+    } 
 // Function Helper Logic
-
-// Function Display
-    void menu1(){
-        judulMenu("Menu-1");
-        
-        jeda();
+    void inputData(Mahasiswa *data, int jumlah) {
+        for (int i = 0; i < jumlah; i++){
+            cout << "\n [Data Mahasiswa Ke-" << i+1 << "]--------------------" << endl;
+            cout << "   [1] Masukkan Nama : ";
+            getline(cin, data[i].nama);
+            cout << "   [2] Masukkan NIM  : ";
+            cin >> data[i].nim;
+            cin.ignore();
+            cout << "   [3] Masukkan IPK  : ";
+            cin >> data[i].ipk;
+            cin.ignore();
+        }
+        garis();
+    }
+    
+    void tampilkanData(const Mahasiswa *data, int jumlah) { 
+        for (int i = 0; i < jumlah; i++){
+            cout << "\n [Data Mahasiswa Ke-" << i+1 << "]--------------------" << endl;
+            cout << "   [1] Masukkan Nama : " << data[i].nama << endl;
+            cout << "   [2] Masukkan NIM  : " << data[i].nim << endl; 
+            cout << "   [3] Masukkan IPK  : " << data[i].ipk << endl; 
+        }
+        garis();
+    }
+    
+    int cariNim(const Mahasiswa *data, int jumlah, const string& nim) {
+        for (int i = 0; i < jumlah; i++){
+            if (data[i].nim == nim){  
+                cout << "\n\t [SUKSES] Data Ditemukan" << endl;
+                cout << "\n [Data Mahasiswa Ke-" << i+1 << "]--------------------" << endl;
+                cout << "   [1] Nama : " << data[i].nama << endl;
+                cout << "   [2] NIM  : " << data[i].nim << endl;
+                cout << "   [3] IPK  : " << data[i].ipk << endl;
+                garis();
+                return i; 
+            }
+        }
+        return -1; 
     }
 
-    void menu2(){
-        judulMenu("Menu-2");
-        
-        jeda();
-    }
-
-    void menu3(){
-        judulMenu("Menu-3");
-        
-        jeda();
-    }
-
-    void menu4(){
-        judulMenu("Menu-4");
-        
-        jeda();
-    }
-
-    void menu5(){
-        judulMenu("Menu-5");
-        
-        jeda();
-    }
