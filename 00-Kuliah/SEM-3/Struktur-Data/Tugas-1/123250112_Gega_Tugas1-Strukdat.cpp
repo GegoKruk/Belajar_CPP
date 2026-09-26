@@ -149,7 +149,7 @@ using namespace std;
 
 // Function2 Menu
     void tambahPerserta(){
-        char keluar;
+        char ulang;
         Mahasiswa mhsBaru;
         do{
             judulMenu("Tambah Peserta");
@@ -197,9 +197,9 @@ using namespace std;
                 cout << "\n\t Catatan - Data Akan Masuk Ke Ruang Tunggu" << endl;
             }
             cout << "\n Tambah Data Lainnya? [Y/N] : ";
-            cin >> keluar;
+            cin >> ulang;
             cin.ignore();            
-        } while (keluar == 'y' || keluar == 'Y');
+        } while (ulang == 'y' || ulang == 'Y');
     }
 
     void tampilkanPersertaUtama(){
@@ -242,7 +242,7 @@ using namespace std;
     }
 
     void cariPeserta(){
-        char keluar;
+        char ulang;
         string target;
 
         do {
@@ -290,13 +290,13 @@ using namespace std;
             }
 
             cout << "\n Cari Data Lainnya? [Y/N] : ";
-            cin >> keluar;
+            cin >> ulang;
             cin.ignore();
-        } while (keluar == 'y' || keluar == 'Y');
+        } while (ulang == 'y' || ulang == 'Y');
     }
 
     void hapusPesertaUtama(){
-        char keluar;
+        char ulang;
         string target;
         do {
             judulMenu("Hapus/Batalkan Peserta Utama");
@@ -333,15 +333,21 @@ using namespace std;
             }
 
             cout << "\n Hapus Data Lainnya? [Y/N] : ";
-            cin >> keluar;
+            cin >> ulang;
             cin.ignore();
-        } while (keluar == 'y' || keluar == 'Y');
+        } while (ulang == 'y' || ulang == 'Y');
     }
 
     void pindahPesertaTunggu(){
         judulMenu("Pindah Peserta Pertama di Daftar Tunggu");
-        if (jumlahPesertaTunggu == 0 || jumlahPesertaUtama == 5){
-            cout << "\n\t    [KESALAHAN] Data Masih Kosong atau Slot Peserta Utama Penuh" << endl;
+        
+        if (jumlahPesertaUtama >= MAX_UTAMA){
+            cout << "\n\t    [KESALAHAN] Slot Peserta Utama Sudah Penuh" << endl;
+            jeda();
+            return;
+        }
+        if (listKosong()){
+            cout << "\n\t    [KESALAHAN] Daftar Tunggu Masih Kosong" << endl;
             jeda();
             return;
         } 
@@ -368,7 +374,7 @@ using namespace std;
 
     void hapusPesertaTunggu(){
         
-        char keluar;
+        char ulang;
         string target;
         do {
             judulMenu("Hapus Peserta Dari Daftar Tunggu");
@@ -433,9 +439,9 @@ using namespace std;
             }
             
             cout << "\n Hapus Data Lainnya? [Y/N] : ";
-            cin >> keluar;
+            cin >> ulang;
             cin.ignore();
-        } while (keluar == 'y' || keluar == 'Y');
+        } while (ulang == 'y' || ulang == 'Y');
 
 
         jeda();
