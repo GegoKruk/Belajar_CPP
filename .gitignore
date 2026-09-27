@@ -1,3 +1,6 @@
+# Chore
+.vscode/
+.workspace/
 
 # Text
 *.txt
@@ -9,26 +12,23 @@
 *.o
 *.obj
 
-# Folder setting editor
-.vscode/
-
+# Dokumen
 *.log
-*PDF
+*.PDF
+*.pdf
+*.docx
+*.png
+*.jpg
+*.rar
+*.zip
 
-#Lain2
-.gitignore
-.workspace/
+# Lain2
 cpp_curriculum_master.md
-
 coba.cpp
-
 Lat-Dasar-CobaLagi.cpp
 catatan.cpp
 catatan2.cpp
 
-*.docx
-*.png
-*.jpg
 
 #Git Praktikum
 **/Lat-Praktikum/
