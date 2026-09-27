@@ -80,7 +80,7 @@ using namespace std;
             cout << "| [6] Keluar                                  |" << endl;
             cout << "|                                             |" << endl;
             cout << "===============================================" << endl;
-            cout << "\n > Pilih [1-5] : ";
+            cout << "\n > Pilih [1-6] : ";
             cin >> pilihanMenu; 
             cin.ignore();
                 
